@@ -1,6 +1,9 @@
-/* Базові стилі для секції */
+:root {
+    --color-scheme-4-background: #F1F8EE;
+}
+
 .unique-style-section {
-    background-color: var(--color-scheme-4-background);
+    background-color: #F1F8EE;
     padding: 48px 64px;
     margin-bottom: 48px;
     border-radius: 2px;
@@ -58,3 +61,4 @@
         flex-direction: column;
     }
 }
+
