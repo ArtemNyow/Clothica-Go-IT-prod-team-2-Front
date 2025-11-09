@@ -1,0 +1,60 @@
+/* Базові стилі для секції */
+.unique-style-section {
+    background-color: var(--color-scheme-4-background);
+    padding: 48px 64px;
+    margin-bottom: 48px;
+    border-radius: 2px;
+    max-width: 1312px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.unique-style-section h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.features-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.feature-item {
+    flex: 1;
+    text-align: center;
+    padding: 20px 15px;
+}
+
+.icon-placeholder {
+    font-size: 36px;
+    color: #388E3C;
+    margin-bottom: 15px;
+}
+
+.feature-item h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.feature-item p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+}
+
+/* Медіа-запит для мобільних пристроїв (елементи стають вертикальними) */
+@media (max-width: 768px) {
+    .unique-style-section {
+        padding: 30px 20px;
+    }
+
+    .features-container {
+        flex-direction: column;
+    }
+}
