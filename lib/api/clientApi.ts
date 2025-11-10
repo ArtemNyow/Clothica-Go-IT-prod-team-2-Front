@@ -58,3 +58,4 @@ export const checkSession = async (): Promise<{ accessToken?: string }> => {
     throw new Error(error.response?.data?.error || "Session check failed");
   }
 };
+
