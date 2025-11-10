@@ -1,10 +1,8 @@
+'use client';
 
 import Image from "next/image";
 import styles from "./page.module.css";
 import Hero from "@/components/Hero/Hero";
-
-'use client';
-
 
 import PopularCategories from '@/components/CategoriesSection/PopularCategories';
 import Link from 'next/link';

@@ -2,9 +2,11 @@
     width: 100%;
     margin: 0 auto;
     background-color: #fff;
+    padding: 64px 20px 64px 20px;
 }
 
 .heroTitle {
+    font-family: "Nunito Sans", sans-serif;
     font-weight: 400;
     font-size: 40px;
     line-height: 120%;
@@ -14,6 +16,7 @@
 }
 
 .heroDesc {
+    font-family: "Inter", sans-serif;
     font-weight: 400;
     font-size: 18px;
     line-height: 150%;
@@ -70,6 +73,7 @@
 .heroSection {
     width: 768px;
     display: flex;
+    padding: 64px 32px 64px 32px;
 }
 
 .heroLinkPoducts {
@@ -84,5 +88,23 @@
 
 .heroList {
     display: flex;
+    gap: 16px;
+}
+}
+
+@media screen and (min-width: 1440px) {
+.heroSection {
+    width: 1440px;
+    padding: 112px 64px 112px 64px;
+}
+
+.heroImg {
+    width: 640px;
+    height: 394px;
+    border-radius: 16px;
+}
+
+.heroTitle {
+    font-size: 56px;
 }
 }
