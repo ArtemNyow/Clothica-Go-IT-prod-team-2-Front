@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": []
   },
   "include": [
     "next-env.d.ts",
@@ -29,6 +30,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "app/(auth routes)/auth/login/page.tsx", "app/(auth routes)/auth/register/page.tsx", "app/page.jsx"  ],
   "exclude": ["node_modules"]
 }
