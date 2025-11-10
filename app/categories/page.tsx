@@ -15,16 +15,19 @@ const CategoriesList = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleCount, setVisibleCount] = useState(4);
-  const [more, setMore] = useState(true);
-  const [page, setPage] = useState(1);
-  const perPage = 10;
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({
     minWidth: 768,
     maxWidth: 1439,
   });
   const isDesktop = useMediaQuery({ minWidth: 1440 });
+  const defaultVisibleCount = isDesktop ? 6 : 4;
+  const [visibleCount, setVisibleCount] = useState(
+    defaultVisibleCount
+  );
+  const [page, setPage] = useState(1);
+  const [more, setMore] = useState(true);
+  const perPage = 10;
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -43,11 +46,8 @@ const CategoriesList = () => {
   }, [page]);
 
   useEffect(() => {
-    if (categories.length === 0) return;
-    if (isMobile) setVisibleCount(4);
-    else if (isTablet) setVisibleCount(4);
-    else if (isDesktop) setVisibleCount(6);
-  }, [isMobile, isTablet, isDesktop, categories]);
+    setVisibleCount(isDesktop ? 6 : 4);
+  }, [isDesktop, isTablet, isMobile]);
 
   const handleLoadMore = () => {
     if (isMobile) setVisibleCount(prev => prev + 1);
@@ -92,7 +92,6 @@ const CategoriesList = () => {
                     alt={category.name}
                     width={416}
                     height={277}
-                    loading="eager"
                     className={css.categoriesIMG}
                   />
                 </div>

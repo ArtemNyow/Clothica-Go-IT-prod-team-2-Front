@@ -104,20 +104,20 @@
 }
 
 @media (min-width: 768px) {
-  .categories {
-    max-width: 768px;
-  }
   .categoriesSection {
     width: 768px;
     max-width: 768px;
     padding-left: 32px;
     padding-right: 32px;
   }
-
+  .categories {
+    max-width: 768px;
+  }
   .CategoriesList {
     flex-wrap: wrap;
     flex-direction: row;
   }
+
   .CategoriesItem {
     width: calc((100% - 32px) / 2);
   }
@@ -135,9 +135,6 @@
 }
 
 @media (min-width: 1440px) {
-  .categories {
-    max-width: 1440px;
-  }
   .categoriesSection {
     width: 1440px;
     max-width: 1440px;
@@ -146,9 +143,12 @@
     padding-top: 112px;
     padding-bottom: 112px;
   }
+  .categories {
+    max-width: 1440px;
+  }
 
   .CategoriesItem {
-    width: calc((100% - 64) / 3);
+    width: calc((100% - 64px) / 3);
   }
 
   .imageWrapper {
