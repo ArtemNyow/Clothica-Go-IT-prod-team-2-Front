@@ -15,6 +15,9 @@ const geistSans = Inter({
 export const metadata: Metadata = {
   title: "Clothica",
   description: "Clothing store",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
