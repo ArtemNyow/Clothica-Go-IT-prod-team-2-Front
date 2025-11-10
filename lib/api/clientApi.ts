@@ -97,14 +97,10 @@ export const checkSession = async (): Promise<{
   }
 };
 
-export const getCategories = async (): Promise<
-  Category[]
-> => {
   try {
     const { data } = await nextServer.get<{
       data: Category[];
     }>('/categories', {
-      params: { page: 1, perPage: 10 },
     });
     return data.data || [];
   } catch (err) {
