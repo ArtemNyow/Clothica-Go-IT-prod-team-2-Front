@@ -3,8 +3,8 @@ import type {
   User,
   RegisterRequest,
   Category,
-  Subscription,
 } from '@/types/user';
+
 
 export const login = async (
   phone: string,
@@ -118,12 +118,14 @@ export const getCategories = async (
   }
 };
 
-export const postSubscription = async (email: string): Promise<Subscription[]> => {
+export const sendSubscription = async (email: string) => {
   try {
-    const { data } = await nextServer.post<Subscription[]>('/subscriptions', { email });
-    return data;
-  } catch (error) {
-    console.error('Failed to post subscription:', error);
-    return [];
+    const res = await nextServer.post('/subscriptions', { email })
+    return res.data.message 
+  } catch (err: any) {
+    if (err.response?.status === 409) {
+      throw new Error('Цей email вже підписаний')
+    }
+    throw new Error('Сталася помилка, спробуйте пізніше')
   }
 }

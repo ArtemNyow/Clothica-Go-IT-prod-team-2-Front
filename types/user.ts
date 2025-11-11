@@ -28,7 +28,3 @@ export type Category = {
   goodsCount?: number;
 };
 
-export type Subscription = {
-  _id: string;
-  email: string;
-}
