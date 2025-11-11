@@ -1,14 +1,17 @@
 import { Review } from "@/types/review";
-import { nextServer, ApiError } from "./api";
+import { nextServer, localApi, ApiError } from "./api"; // ← Імпортуйте localApi
 import type { User, RegisterRequest, Category } from "@/types/user";
 
-
-
+// AUTH (через Next.js API routes) - використовуємо localApi
 export const login = async (phone: string, password: string): Promise<User> => {
   const cleanPhone = phone.replaceAll(/[\s()\-+]/g, "");
+  
   try {
-    const res = await nextServer.post("/auth/login", { phone: cleanPhone, password });
-    return res.data.user;
+    const res = await localApi.post("/auth/login", { // ← localApi!
+      phone: cleanPhone, 
+      password 
+    });
+    return res.data; // ← Змінили з res.data.user на res.data
   } catch (err: any) {
     const serverMessage = err.response?.data?.error || err.response?.data?.message;
     
@@ -22,33 +25,28 @@ export const login = async (phone: string, password: string): Promise<User> => {
   }
 };
 
-
 export const register = async (payload: RegisterRequest): Promise<User> => {
   const cleanPayload = {
     firstName: payload.firstName.trim(),
-    phone: payload.phone
-      .trim()
-      .replaceAll(/[\s()\-+]/g, ''),
+    phone: payload.phone.trim().replaceAll(/[\s()\-+]/g, ''),
     password: payload.password,
   };
+  
   try {
-    const res = await nextServer.post(
-      '/auth/register',
-      cleanPayload
-    );
-    return res.data.user;
+    const res = await localApi.post('/auth/register', cleanPayload); // ← localApi!
+    return res.data; // ← Змінили з res.data.user на res.data
   } catch (err: any) {
     throw new Error(
       err.response?.data?.error ||
-        err.message ||
-        'Помилка реєстрації'
+      err.message ||
+      'Помилка реєстрації'
     );
   }
 };
 
 export const logout = async (): Promise<void> => {
   try {
-    await nextServer.post('/auth/logout');
+    await localApi.post('/auth/logout'); // ← localApi!
   } catch (err) {
     const error = err as ApiError;
     throw new Error(
@@ -59,21 +57,18 @@ export const logout = async (): Promise<void> => {
 
 export const fetchUserProfile = async (): Promise<User> => {
   try {
-    const res = await nextServer.get("/user/me");
+    const res = await localApi.get("/user/me"); // ← localApi!
     return res.data;
   } catch (err) {
     throw new Error("Unauthorized");
-  };
-}
+  }
+};
 
 export const updateUserProfile = async (
   payload: Partial<User>
 ): Promise<User> => {
   try {
-    const { data } = await nextServer.patch<User>(
-      '/users/me',
-      payload
-    );
+    const { data } = await localApi.patch<User>('/user/me', payload); // ← localApi!
     return data;
   } catch (err) {
     const error = err as ApiError;
@@ -83,11 +78,9 @@ export const updateUserProfile = async (
   }
 };
 
-export const checkSession = async (): Promise<{
-  accessToken?: string;
-}> => {
+export const checkSession = async (): Promise<{ accessToken?: string }> => {
   try {
-    const res = await nextServer.get('/auth/session');
+    const res = await localApi.get('/auth/session'); // ← localApi!
     return res.data;
   } catch (err) {
     const error = err as ApiError;
@@ -97,37 +90,36 @@ export const checkSession = async (): Promise<{
   }
 };
 
+// ПУБЛІЧНІ ДАНІ (напряму на backend) - використовуємо nextServer
 export const getCategories = async (
   page: number = 1,
   perPage: number = 10
 ): Promise<Category[]> => {
   try {
-    const { data } = await nextServer.get<{
-      data: Category[];
-    }>('/categories', {
+    const { data } = await nextServer.get<{ data: Category[] }>('/categories', {
       params: { page, perPage },
     });
     return data.data || [];
   } catch (err) {
     const error = err as ApiError;
     throw new Error(
-      error.response?.data?.error ||
-        'Не вдалося отримати категорії'
+      error.response?.data?.error || 'Не вдалося отримати категорії'
     );
   }
 };
 
 export const sendSubscription = async (email: string) => {
   try {
-    const res = await nextServer.post('/subscriptions', { email })
-    return res.data.message 
+    const res = await nextServer.post('/subscriptions', { email });
+    return res.data.message;
   } catch (err: any) {
     if (err.response?.status === 409) {
-      throw new Error('Цей email вже підписаний')
+      throw new Error('Цей email вже підписаний');
     }
-    throw new Error('Сталася помилка, спробуйте пізніше')
+    throw new Error('Сталася помилка, спробуйте пізніше');
   }
-}
+};
+
 interface fetchReviewsResponse {
   page: number;
   perPage: number;
@@ -137,11 +129,11 @@ interface fetchReviewsResponse {
 }
 
 export const fetchReviews = async (): Promise<Review[]> => {
-    try {
-        const response = await nextServer.get<fetchReviewsResponse>("/feedbacks?perPage=10");
-        return response.data.feedbacks || [];
-    }catch (error) {
-        console.error('Error fetching reviews:', error);
-        throw error; 
-    }
+  try {
+    const response = await nextServer.get<fetchReviewsResponse>("/feedbacks?perPage=10");
+    return response.data.feedbacks || [];
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    throw error;
+  }
 };
