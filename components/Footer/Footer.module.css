@@ -1,0 +1,375 @@
+.footer {
+  background: #c5e1a5;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  padding: 48px 20px;
+  margin: 0 auto;
+}
+
+.containerFooter {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+}
+
+/* containerFooterFirst */
+
+.containerFooterFirst {
+  display: flex;
+  flex-direction: column;
+  /* gap: 77px; */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding-bottom: 32px;
+}
+
+/* footerFirstPartFirst */
+
+.footerFirstPartFirst {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoFooter {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.footerItemsNavList {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerItemsTitle {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 14px;
+}
+
+.footerNavList {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  list-style: none;
+  margin-bottom: 32px;
+}
+
+.footerNavItem {
+  padding: 8px 0px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.footerNavItem:hover {
+  color: #9db484;
+}
+
+.footerNavItem:active {
+  color: #9db484;
+}
+
+/* footerFirstPartSecond */
+
+.footerFirstPartSecond {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footerFormikForm {
+  display: flex;
+  flex-direction: column;
+  width: 335px;
+}
+
+.footerPartThirdTitle {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 16px;
+}
+
+.footerPartThirdText {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 24px;
+}
+
+.inputBtnWrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 14px;
+}
+
+.fieldInput {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 8px;
+  width: 193px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0);
+}
+
+.fieldInput::placeholder {
+  color: rgba(11, 5, 0, 0.6);
+}
+
+.fieldInput:focus {
+  border: 1px solid rgba(11, 5, 0, 0.6);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.btnFooter {
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 124px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.btnFooter:hover {
+  background: #9db484;
+  color: #000;
+  border: 1px solid #4e5a42;
+}
+
+.btnFooter:focus {
+  background: rgba(0, 0, 0, 0.15);
+  color: #000;
+  border: 1px solid #4e5a42;
+}
+
+.btnFooter:active {
+  background: #3b4331;
+  color: #fff;
+}
+
+/* containerFooterSecond */
+
+.footerRights {
+  margin-bottom: 16px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+}
+
+.socialListFooter {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 26.67px;
+  list-style: none;
+}
+
+.socialFooter a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  background-color: transparent;
+  transition:
+    background-color 0.3s ease,
+    border 0.3s ease,
+    transform 0.3s ease;
+}
+
+.socialFooter a img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.socialFooter a:hover {
+  border: 1px solid #4e5a42;
+  background: #9db484;
+  transform: scale(1.1);
+}
+
+.socialFooter a:hover img {
+  transform: scale(0.9);
+}
+
+.socialFooter a:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.15);
+  outline: none; /* прибирає синє обведення браузера */
+}
+
+@media (max-width: 374px) {
+  .container {
+    min-width: 320px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    margin: 0px auto;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .containerFooterFirst {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .footerFirstPartFirst {
+    flex-direction: row;
+  }
+
+  .logoFooter {
+    margin-right: 40px;
+  }
+
+  .footerItemsTitle {
+    text-align: start;
+    font-size: 14px;
+  }
+
+  .containerFooterFirst {
+    gap: 125px;
+  }
+
+  .footerNavList {
+    align-items: flex-start;
+  }
+
+  .inputBtnWrap {
+    justify-content: start;
+    gap: 16px;
+  }
+
+  .fieldInput {
+    width: 100%;
+    height: 37px;
+    font-size: 14px;
+  }
+
+  .footerFormikForm {
+    width: 400px;
+  }
+
+  .btnFooter {
+    height: 33px;
+    font-size: 14px;
+  }
+
+  .footerNavList {
+    margin-bottom: 0px;
+  }
+
+  .containerFooterSecond {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footerRights {
+    font-size: 12px;
+    text-align: start;
+    margin-bottom: 0px;
+    margin-right: 308px;
+  }
+
+  .socialListFooter {
+    gap: 17px;
+  }
+
+  .footerNavItem {
+    font-size: 12px;
+  }
+
+  .footerPartThirdTitle {
+    font-size: 14px;
+  }
+
+  .footerPartThirdText {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    padding: 80px 64px;
+    margin: 0 auto;
+  }
+
+  .logoFooter {
+    margin-right: 328px;
+  }
+
+  .containerFooterFirst {
+    gap: 386px;
+  }
+
+  .footerRights {
+    margin-right: 800px;
+  }
+
+  .footerItemsTitle {
+    font-size: 16px;
+  }
+
+  .footerNavItem {
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .footerPartThirdTitle {
+    font-size: 16px;
+  }
+
+  .footerPartThirdText {
+    font-size: 14px;
+  }
+
+  .fieldInput {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .btnFooter {
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .footerRights {
+    font-size: 14px;
+  }
+}

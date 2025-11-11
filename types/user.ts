@@ -4,7 +4,7 @@ export interface User {
   lastName?: string;
   phone: string;
   email: string;
-  avatar?: string;   
+  avatar?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -12,11 +12,19 @@ export interface User {
 // ---------- AUTH ----------
 export interface RegisterRequest {
   firstName: string;
-  phone: string;       
+  phone: string;
   password: string;
 }
 
 export interface LoginRequest {
-  phone: string;       
+  phone: string;
   password: string;
 }
+
+export type Category = {
+  _id: string;
+  name: string;
+  image: string;
+  goodsCount?: number;
+};
+
