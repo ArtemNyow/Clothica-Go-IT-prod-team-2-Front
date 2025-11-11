@@ -3,7 +3,10 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import 'modern-normalize';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
-import ToastProvider from '@/components/ToastProvider';
+import ToastProvider from '@/components/ToastProvider/ToastProvider';
+import Footer from '@/components/Footer/Footer';
+import Header from '@/components/Header/Header';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 const geistSans = Inter({
   variable: '--font-geist-sans',
@@ -12,8 +15,8 @@ const geistSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Clothica',
-  description: 'Clothing store',
+  title: 'Clothica - Інтернет магазин одягу',
+  description: 'Ваш стиль з Clothica',
   icons: {
     icon: '/favicon.ico',
   },
@@ -28,11 +31,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable}`}>
+      <body className={geistSans.variable}>
         <TanStackProvider>
-          {children}
           <ToastProvider />
-          {modal}
+          <AuthProvider>
+            <Header />
+            {children}
+            {modal}
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>

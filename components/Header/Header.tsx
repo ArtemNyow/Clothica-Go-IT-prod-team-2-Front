@@ -3,12 +3,9 @@
 import { useEffect, useState } from 'react';
 import css from './Header.module.css';
 import Link from 'next/link';
-import { useAuthStore } from '@/lib/store/authStore';
-// import AuthNavigation from '@/components/auth/AuthNavigation/AuthNavigation';
+import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 
 export default function Header() {
-  const { isAuthenticated } = useAuthStore();
-
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   useEffect(() => {
@@ -85,55 +82,25 @@ export default function Header() {
           <nav className={css.nav}>
             <ul className={css.listNav}>
               <li>
-                <Link className={css.linkNav} href="/">
+                <Link className={css.link} href="/">
                   Головна
                 </Link>
               </li>
               <li>
-                <Link className={css.linkNav} href="/goods">
+                <Link className={css.link} href="/goods">
                   Товари
                 </Link>
               </li>
               <li>
                 <Link
-                  className={css.linkNav}
+                  className={css.link}
                   href="/categories"
                 >
                   Категорії
                 </Link>
               </li>
             </ul>
-            <ul className={css.listAuth}>
-              {isAuthenticated ? (
-                <li>
-                  <Link
-                    className={css.navLinkLogin}
-                    href="/order"
-                  >
-                    Кабінет
-                  </Link>
-                </li>
-              ) : (
-                <>
-                  <li>
-                    <Link
-                      className={css.navLinkLogin}
-                      href="/auth/login"
-                    >
-                      Вхід
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className={css.navLinkRegister}
-                      href="/auth/register"
-                    >
-                      Реєстрація
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
+            <AuthNavigation />
           </nav>
         </div>
         <div className={css.toggle}>
@@ -187,7 +154,7 @@ export default function Header() {
           <li>
             <Link
               onClick={closeMenu}
-              className={css.linkNav}
+              className={css.link}
               href="/"
             >
               Головна
@@ -196,7 +163,7 @@ export default function Header() {
           <li>
             <Link
               onClick={closeMenu}
-              className={css.linkNav}
+              className={css.link}
               href="/goods"
             >
               Товари
@@ -205,47 +172,14 @@ export default function Header() {
           <li>
             <Link
               onClick={closeMenu}
-              className={css.linkNav}
+              className={css.link}
               href="/categories"
             >
               Категорії
             </Link>
           </li>
         </ul>
-        <ul className={css.listNavAuth}>
-          {isAuthenticated ? (
-            <li>
-              <Link
-                onClick={closeMenu}
-                className={css.navLinkRegister}
-                href="/order"
-              >
-                Кабінет
-              </Link>
-            </li>
-          ) : (
-            <>
-              <li>
-                <Link
-                  onClick={closeMenu}
-                  className={css.navLinkLogin}
-                  href="/auth/login"
-                >
-                  Вхід
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={closeMenu}
-                  className={css.navLinkRegister}
-                  href="/auth/register"
-                >
-                  Реєстрація
-                </Link>
-              </li>
-            </>
-          )}
-        </ul>
+        <AuthNavigation />
       </nav>
       {/* )} */}
     </header>

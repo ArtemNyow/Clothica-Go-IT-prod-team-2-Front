@@ -27,3 +27,4 @@ export type Category = {
   image: string;
   goodsCount?: number;
 };
+

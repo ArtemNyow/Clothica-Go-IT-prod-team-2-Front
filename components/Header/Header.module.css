@@ -34,6 +34,17 @@
   fill: #000;
 } */
 
+/* .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+} */
+
+.logo:hover {
+  color: #c5e1a5;
+}
+
 .toggle {
   display: flex;
   gap: 16px;
@@ -141,26 +152,31 @@
   padding-bottom: 64px;
 }
 
-.linkNav {
+.link {
   font-weight: 400;
   font-size: 14px;
   line-height: 1.5;
   color: #000;
+  transition: color 0.2s;
 }
 
-.listNavAuth {
+.link:hover {
+  color: #c5e1a5;
+}
+
+/* .listNavAuth {
   list-style-type: none;
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: center;
-}
+} */
 
-.listNavAuth li {
+/* .listNavAuth li {
   width: 100%;
-}
+} */
 
-.navLinkLogin {
+/* .navLinkLogin {
   display: block;
   width: 100%;
   max-width: 375px;
@@ -174,9 +190,9 @@
   padding: 4px 10px;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 100px;
-}
+} */
 
-.navLinkRegister {
+/* .navLinkRegister {
   display: block;
   width: 100%;
   max-width: 375px;
@@ -190,12 +206,77 @@
   padding: 4px 10px;
   background-color: #c5e1a5;
   border-radius: 100px;
-}
+} */
 
 .noScroll {
   overflow: hidden;
   height: 100vh;
   position: fixed;
+}
+
+.userName {
+  color: #000;
+  font-size: 14px;
+  padding: 8px 16px;
+  background-color: rgba(197, 225, 165, 0.2);
+  border-radius: 20px;
+}
+
+.logoutBtn {
+  padding: 8px 20px;
+  background-color: #c5e1a5;
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background-color: #b5d095;
+  transform: translateY(-1px);
+}
+
+.logoutBtn:active {
+  transform: translateY(0);
+}
+
+.debug {
+  font-size: 12px;
+  color: #666;
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.skeleton {
+  display: flex;
+  gap: 16px;
+}
+
+.skeletonBox {
+  width: 80px;
+  height: 36px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.12) 50%,
+    rgba(0, 0, 0, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 20px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -236,7 +317,7 @@
     gap: 32px;
   }
 
-  .linkNav {
+  .link {
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;

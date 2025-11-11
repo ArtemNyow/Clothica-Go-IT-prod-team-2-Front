@@ -33,12 +33,12 @@
 }
 
 .tab {
-  flex: 1; /* ← Однакова ширина */
+  flex: 1;
   padding: 12px 0;
   font-size: 16px;
   color: #666;
   text-decoration: none;
-  text-align: center; /* ← По центру */
+  text-align: center;
   border-bottom: 2px solid transparent;
   transition: all 0.2s ease;
 }
@@ -134,7 +134,7 @@
 
 .submitButton:disabled {
   background-color: #E0E0E0;
-  color: #999;
+  color: var(--opacity-neutral-darkest-5);
   cursor: not-allowed;
 }
 
