@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { fetchUserProfile } from "@/lib/api/clientApi";
+import css from "./AuthProvider.module.css";
 
-export default function AuthProvider({ children }: { children: React.ReactNode }) {
+export default function AuthProvider({ 
+  children 
+}: { 
+  children: React.ReactNode 
+}) {
   const { setUser, clearAuth } = useAuthStore();
   const [ready, setReady] = useState(false);
 
@@ -26,6 +31,14 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     return () => { mounted = false; };
   }, [setUser, clearAuth]);
 
-  if (!ready) return <p>Завантаження...</p>;
+  if (!ready) {
+    return (
+      <div className={css.loading}>
+        <div className={css.spinner}></div>
+        <p>Перевірка сесії...</p>
+      </div>
+    );
+  }
+
   return <>{children}</>;
 }

@@ -14,9 +14,10 @@ export function middleware(request: NextRequest) {
     
     if (!accessToken) {
       // Немає токену → редірект на логін
-      const loginUrl = new URL('/auth/login', request.url);
-      loginUrl.searchParams.set('redirect', pathname); // Зберігаємо куди хотів піти
-      return NextResponse.redirect(loginUrl);
+        const loginUrl = new URL('/auth/login', request.url);
+        loginUrl.searchParams.set('redirect', pathname);
+        loginUrl.searchParams.set('needsAuth', 'true');  // Зберігаємо куди хотів піти
+        return NextResponse.redirect(loginUrl);
     }
   }
   
