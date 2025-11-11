@@ -16,18 +16,24 @@ const schema = Yup.object({
   firstName: Yup.string()
     .max(32, "Ім'я не повинно перевищувати 32 символи")
     .required("Введіть ім'я"),
-  phone: Yup.string().required("Введіть номер телефону"),
+  phone: Yup.string()
+    .required("Введіть номер телефону")
+    .matches(/^\d+$/, "Номер телефону повинен містити тільки цифри")
+    .min(9, "Номер телефону занадто короткий")
+    .max(15, "Номер телефону занадто довгий"),
   password: Yup.string()
     .min(8, "Пароль повинен містити мінімум 8 символів")
     .max(128, "Пароль не повинен перевищувати 128 символів")
     .required("Введіть пароль"),
 });
 
+
+
 export default function RegistrationForm() {
   const router = useRouter();
   const setUser = useAuthStore((s) => s.setUser);
 
-  const handleSubmit = async (
+const handleSubmit = async (
   values: { firstName: string; phone: string; password: string },
   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
 ) => {
@@ -37,26 +43,33 @@ export default function RegistrationForm() {
       phone: values.phone,
       password: values.password,
     });
-    
+
     setUser(user);
-    
+
     try {
       const freshUser = await fetchUserProfile();
       setUser(freshUser);
-    } catch (error) {
+    } catch {
       console.log("Could not fetch fresh user");
     }
-    
+
     toast.success("Реєстрація успішна! Вітаємо в Clothica!");
     router.push("/");
-  } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : "Помилка реєстрації";
+  } catch (err: any) {
+    let errorMessage = "Помилка реєстрації";
+
+    if (err?.response?.data?.message) {
+      errorMessage = err.response.data.message;
+    } else if (err?.message) {
+      errorMessage = err.message;
+    }
+
     toast.error(errorMessage);
   } finally {
     setSubmitting(false);
   }
-  };
-  
+};
+
   return (
     <div className={css.container}>
       

@@ -6,16 +6,24 @@ const localApi = axios.create({
   baseURL: "/api",
   withCredentials: true,
 });
-
 export const login = async (phone: string, password: string): Promise<User> => {
   const cleanPhone = phone.replaceAll(/[\s()\-+]/g, "");
   try {
     const res = await localApi.post("/auth/login", { phone: cleanPhone, password });
     return res.data.user;
   } catch (err: any) {
-    throw new Error(err.response?.data?.error || err.message || "Помилка авторизації");
+    const serverMessage = err.response?.data?.error || err.response?.data?.message;
+    
+    if (err.response?.status === 401) {
+      throw new Error("Невірний номер телефону або пароль");
+    } else if (serverMessage) {
+      throw new Error(serverMessage);
+    } else {
+      throw new Error(err.message || "Помилка авторизації");
+    }
   }
 };
+
 
 export const register = async (payload: RegisterRequest): Promise<User> => {
   const cleanPayload = {

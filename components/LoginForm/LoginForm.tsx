@@ -12,7 +12,11 @@ import css from "./LoginForm.module.css";
 import { fetchUserProfile } from "@/lib/api/clientApi";
 
 const schema = Yup.object({
-  phone: Yup.string().required("Введіть номер телефону"),
+  phone: Yup.string()
+    .required("Введіть номер телефону")
+    .matches(/^\d+$/, "Номер телефону повинен містити тільки цифри")
+    .min(9, "Номер телефону занадто короткий")
+    .max(15, "Номер телефону занадто довгий"),
   password: Yup.string().required("Введіть пароль"),
 });
 
@@ -33,19 +37,39 @@ const handleSubmit = async (
     try {
       const freshUser = await fetchUserProfile();
       setUser(freshUser);
-    } catch (error) {
+    } catch {
       console.log("Could not fetch fresh user");
     }
-    
+
     toast.success("Вітаємо, вхід успішно виконано!");
     router.push(redirect);
-  } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : "Помилка входу";
+  } catch (err: any) {
+    let errorMessage = "Помилка входу";
+
+    if (err?.response) {
+      switch (err.response.status) {
+        case 401:
+          errorMessage = "Невірний номер телефону або пароль";
+          break;
+        case 400:
+          errorMessage = "Неправильний запит. Перевірте дані";
+          break;
+        case 500:
+          errorMessage = "Помилка на сервері. Спробуйте пізніше";
+          break;
+        default:
+          errorMessage = err.response.data?.message || errorMessage;
+      }
+    } else if (err?.message) {
+      errorMessage = err.message;
+    }
+
     toast.error(errorMessage);
   } finally {
     setSubmitting(false);
   }
 };
+
 
   return (
     <div className={css.container}>
