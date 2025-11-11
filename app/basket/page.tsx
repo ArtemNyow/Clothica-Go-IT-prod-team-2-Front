@@ -1,10 +1,7 @@
-const Basket = () => {
-  return (
-    <div>
-      <h1> Basket</h1>
-      {/* Форма редагування */}
-    </div>
-  );
-};
+'use client';
 
-export default Basket;
+import BasketModal from '@/components/BasketModal/BasketModal';
+
+export default function BasketPage() {
+  return <BasketModal />;
+}
