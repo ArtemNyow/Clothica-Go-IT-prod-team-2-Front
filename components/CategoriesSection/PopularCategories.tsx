@@ -35,7 +35,10 @@ const PopularCategories = () => {
   if (error) return <p className={css.error}>{error}</p>;
 
   return (
-    <section className={css.categoriesSection}>
+    <section
+      className={css.categoriesSection}
+      id="PopularCategories"
+    >
       <div className={css.categories}>
         <h2 className={css.title}>Популярні категорії</h2>
         <div className={css.buttonLink}>
