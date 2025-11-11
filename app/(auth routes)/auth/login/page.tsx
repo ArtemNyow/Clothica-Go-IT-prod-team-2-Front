@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import LoginForm from "@/components/auth/LoginForm";
+import LoginForm from "@/components/LoginForm/LoginForm";
 
 export default function LoginPage() {
   const searchParams = useSearchParams();
