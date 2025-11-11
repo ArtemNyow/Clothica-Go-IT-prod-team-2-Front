@@ -1,0 +1,55 @@
+.authNav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.link {
+  color: #000;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: #C5E1A5;
+}
+
+.userName {
+  color: #000;
+  font-size: 14px;
+  padding: 8px 16px;
+  background-color: rgba(197, 225, 165, 0.2);
+  border-radius: 20px;
+}
+
+.logoutBtn {
+  padding: 8px 20px;
+  background-color: #C5E1A5;
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background-color: #B5D095;
+  transform: translateY(-1px);
+}
+
+.logoutBtn:active {
+  transform: translateY(0);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .authNav {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+}

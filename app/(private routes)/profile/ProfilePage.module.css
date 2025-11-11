@@ -1,0 +1,152 @@
+.main {
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+  background-color: #FFE5E5;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.section {
+  background-color: #FFF;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 24px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.emptyState p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.shopButton {
+  padding: 12px 32px;
+  background-color: #C5E1A5;
+  color: #000;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.shopButton:hover {
+  background-color: #B5D095;
+  transform: translateY(-1px);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.value {
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+}
+
+.logoutButton {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 40px auto 0;
+  padding: 14px 32px;
+  background-color: #EF4444;
+  color: #FFF;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #DC2626;
+  transform: translateY(-1px);
+}
+
+.loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .section {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .infoRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 375px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .section {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}

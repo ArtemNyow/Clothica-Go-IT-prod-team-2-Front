@@ -9,47 +9,69 @@ import { register } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import type { User } from "@/types/user";
 import css from "./RegistrationForm.module.css";
+import { fetchUserProfile } from "@/lib/api/clientApi";
 
-// Схема валідації
+
 const schema = Yup.object({
   firstName: Yup.string()
     .max(32, "Ім'я не повинно перевищувати 32 символи")
     .required("Введіть ім'я"),
-  phone: Yup.string().required("Введіть номер телефону"),
+  phone: Yup.string()
+    .required("Введіть номер телефону")
+    .matches(/^\d+$/, "Номер телефону повинен містити тільки цифри")
+    .min(9, "Номер телефону занадто короткий")
+    .max(15, "Номер телефону занадто довгий"),
   password: Yup.string()
     .min(8, "Пароль повинен містити мінімум 8 символів")
     .max(128, "Пароль не повинен перевищувати 128 символів")
     .required("Введіть пароль"),
 });
 
+
+
 export default function RegistrationForm() {
   const router = useRouter();
   const setUser = useAuthStore((s) => s.setUser);
 
-  const handleSubmit = async (
-    values: { firstName: string; phone: string; password: string },
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
+const handleSubmit = async (
+  values: { firstName: string; phone: string; password: string },
+  { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+) => {
+  try {
+    const user: User = await register({
+      firstName: values.firstName,
+      phone: values.phone,
+      password: values.password,
+    });
+
+    setUser(user);
+
     try {
-      const user: User = await register({
-        firstName: values.firstName,
-        phone: values.phone,
-        password: values.password,
-      });
-      setUser(user);
-      toast.success("Реєстрація успішна! Вітаємо в Clothica!");
-      router.push("/");
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Помилка реєстрації";
-      toast.error(errorMessage);
-    } finally {
-      setSubmitting(false);
+      const freshUser = await fetchUserProfile();
+      setUser(freshUser);
+    } catch {
+      console.log("Could not fetch fresh user");
     }
-  };
+
+    toast.success("Реєстрація успішна! Вітаємо в Clothica!");
+    router.push("/");
+  } catch (err: any) {
+    let errorMessage = "Помилка реєстрації";
+
+    if (err?.response?.data?.message) {
+      errorMessage = err.response.data.message;
+    } else if (err?.message) {
+      errorMessage = err.message;
+    }
+
+    toast.error(errorMessage);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className={css.container}>
-      <div className={css.logo}>Clothica</div>
       
       <div className={css.formWrapper}>
         <div className={css.tabs}>
@@ -72,7 +94,7 @@ export default function RegistrationForm() {
         >
           {({ isSubmitting }) => (
             <Form className={css.form}>
-              {/* Name */}
+
               <div className={css.formGroup}>
                 <label htmlFor="firstName" className={css.label}>
                   Ім'я*
@@ -88,7 +110,6 @@ export default function RegistrationForm() {
                 <ErrorMessage name="firstName" component="span" className={css.errorText} />
               </div>
 
-              {/* Phone */}
               <div className={css.formGroup}>
                 <label htmlFor="phone" className={css.label}>
                   Номер телефону*
@@ -103,7 +124,6 @@ export default function RegistrationForm() {
                 <ErrorMessage name="phone" component="span" className={css.errorText} />
               </div>
 
-              {/* Password */}
               <div className={css.formGroup}>
                 <label htmlFor="password" className={css.label}>
                   Пароль*
@@ -119,7 +139,6 @@ export default function RegistrationForm() {
                 <ErrorMessage name="password" component="span" className={css.errorText} />
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 className={css.submitButton}

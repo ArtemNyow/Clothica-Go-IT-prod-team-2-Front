@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  readonly children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export default function PublicLayout({ children }: Props) {
