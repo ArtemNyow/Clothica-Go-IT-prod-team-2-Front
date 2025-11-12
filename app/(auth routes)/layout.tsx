@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -8,14 +8,9 @@ type Props = {
 };
 
 export default function PublicLayout({ children }: Props) {
-  const [loading, setLoading] = useState(true);
-
   const router = useRouter();
-
   useEffect(() => {
     router.refresh();
-    setLoading(false);
   }, [router]);
-
-  return <>{loading ? <div>Loading...</div> : children}</>;
+  return <div>{children}</div>;
 }
