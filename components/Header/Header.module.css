@@ -104,14 +104,12 @@
   left: 0;
 
   width: 100vw;
-  height: 100vh;
-  max-width: 375px;
+  height: calc(100vh - 72px);
   background-color: #d6eac0;
-  border-bottom: 1px solid #9db484;
   z-index: 999;
 
   opacity: 0;
-  transform: translateY(-10%);
+  transform: translateY(-10px);
   pointer-events: none;
   transition:
     opacity 300ms ease-out,
@@ -213,6 +211,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }

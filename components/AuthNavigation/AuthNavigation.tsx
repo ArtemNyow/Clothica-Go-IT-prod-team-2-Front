@@ -7,7 +7,13 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import css from './AuthNavigation.module.css';
 
-export default function AuthNavigation() {
+type AuthNavigationProps = {
+  onLinkClick?: () => void;
+};
+
+export default function AuthNavigation({
+  onLinkClick,
+}: AuthNavigationProps) {
   const { user, isAuthenticated, clearAuth } =
     useAuthStore();
   const router = useRouter();
@@ -18,6 +24,7 @@ export default function AuthNavigation() {
       clearAuth();
       toast.success('Ви вийшли з системи');
       router.push('/');
+      if (onLinkClick) onLinkClick();
     } catch (error) {
       console.error('Logout error:', error);
       toast.error('Помилка виходу');
@@ -28,7 +35,11 @@ export default function AuthNavigation() {
     <div className={css.authNav}>
       {isAuthenticated && user ? (
         <>
-          <Link href="/profile" className={css.link}>
+          <Link
+            href="/profile"
+            className={css.link}
+            onClick={onLinkClick}
+          >
             Кабінет
           </Link>
           <span className={css.userName}>
@@ -45,11 +56,16 @@ export default function AuthNavigation() {
         <>
           <Link
             href="/auth/login"
-            className={css.linklogin}
+            className={css.link}
+            onClick={onLinkClick}
           >
             Вхід
           </Link>
-          <Link href="/auth/register" className={css.link}>
+          <Link
+            href="/auth/register"
+            className={css.link}
+            onClick={onLinkClick}
+          >
             Реєстрація
           </Link>
         </>
