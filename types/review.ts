@@ -9,3 +9,10 @@ export interface Review {
     createdAt: string;
     updatedAt: string;
 }
+export interface fetchReviewsResponse {
+  page: number;
+  perPage: number;
+  totalFeedbacks: number;
+  totalPages: number;
+  feedbacks: Review[];
+}
