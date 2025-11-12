@@ -1,7 +1,5 @@
 .header {
   font-family: 'Inter', sans-serif;
-  background-color: #d6eac0;
-  border-bottom: 1px solid #9db484;
   position: relative;
 }
 
@@ -11,6 +9,8 @@
   align-items: center;
   width: 100%;
   max-width: 375px;
+  background-color: #d6eac0;
+  border-bottom: 1px solid #9db484;
   padding: 18px 20px;
   margin: 0 auto;
 }
@@ -20,26 +20,6 @@
   align-items: center;
   gap: 86.5px;
 }
-
-/* .logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 84px;
-  height: 36px;
-}
-
-.iconlogo {
-  display: block;
-  fill: #000;
-} */
-
-/* .logo {
-  font-size: 24px;
-  font-weight: 700;
-  color: #000;
-  text-decoration: none;
-} */
 
 .logo:hover {
   color: #c5e1a5;
@@ -122,8 +102,10 @@
   position: absolute;
   top: 72px;
   left: 0;
+
   width: 100vw;
   height: 100vh;
+  max-width: 375px;
   background-color: #d6eac0;
   border-bottom: 1px solid #9db484;
   z-index: 999;
@@ -160,53 +142,10 @@
   transition: color 0.2s;
 }
 
-.link:hover {
+.link:hover,
+.link:focus {
   color: #c5e1a5;
 }
-
-/* .listNavAuth {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
-} */
-
-/* .listNavAuth li {
-  width: 100%;
-} */
-
-/* .navLinkLogin {
-  display: block;
-  width: 100%;
-  max-width: 375px;
-  height: 29px;
-  margin: 0 auto;
-  text-align: center;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #000;
-  padding: 4px 10px;
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 100px;
-} */
-
-/* .navLinkRegister {
-  display: block;
-  width: 100%;
-  max-width: 375px;
-  height: 29px;
-  margin: 0 auto;
-  text-align: center;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #000;
-  padding: 4px 10px;
-  background-color: #c5e1a5;
-  border-radius: 100px;
-} */
 
 .noScroll {
   overflow: hidden;

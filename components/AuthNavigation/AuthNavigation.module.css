@@ -9,11 +9,45 @@
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
+  line-height: 1.5;
   transition: color 0.2s;
+  padding: 6px 12px;
+  background-color: #c5e1a5;
+  border-radius: 100px;
 }
 
-.link:hover {
-  color: #C5E1A5;
+.link:hover,
+.link:focus {
+  border: 1px solid #4e5a42;
+  background: #9db484;
+}
+
+.link:active {
+  color: #fff;
+  border: 1px solid #c5e1a5;
+  background: #3b4331;
+}
+
+.linklogin {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 100px;
+  padding: 6px 12px;
+}
+
+.linklogin:hover,
+.linklogin:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.linklogin:active {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .userName {
@@ -26,7 +60,7 @@
 
 .logoutBtn {
   padding: 8px 20px;
-  background-color: #C5E1A5;
+  background-color: #c5e1a5;
   color: #000;
   border: none;
   border-radius: 20px;
@@ -37,7 +71,7 @@
 }
 
 .logoutBtn:hover {
-  background-color: #B5D095;
+  background-color: #b5d095;
   transform: translateY(-1px);
 }
 

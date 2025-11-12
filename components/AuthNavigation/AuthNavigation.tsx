@@ -1,25 +1,26 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useAuthStore } from "@/lib/store/authStore";
-import { logout as apiLogout } from "@/lib/api/clientApi";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import css from "./AuthNavigation.module.css";
+import Link from 'next/link';
+import { useAuthStore } from '@/lib/store/authStore';
+import { logout as apiLogout } from '@/lib/api/clientApi';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import css from './AuthNavigation.module.css';
 
 export default function AuthNavigation() {
-  const { user, isAuthenticated, clearAuth } = useAuthStore();
+  const { user, isAuthenticated, clearAuth } =
+    useAuthStore();
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await apiLogout();
       clearAuth();
-      toast.success("Ви вийшли з системи");
-      router.push("/");
+      toast.success('Ви вийшли з системи');
+      router.push('/');
     } catch (error) {
-      console.error("Logout error:", error);
-      toast.error("Помилка виходу");
+      console.error('Logout error:', error);
+      toast.error('Помилка виходу');
     }
   };
 
@@ -33,13 +34,19 @@ export default function AuthNavigation() {
           <span className={css.userName}>
             Привіт, {user.firstName}!
           </span>
-          <button onClick={handleLogout} className={css.logoutBtn}>
+          <button
+            onClick={handleLogout}
+            className={css.logoutBtn}
+          >
             Вийти
           </button>
         </>
       ) : (
         <>
-          <Link href="/auth/login" className={css.link}>
+          <Link
+            href="/auth/login"
+            className={css.linklogin}
+          >
             Вхід
           </Link>
           <Link href="/auth/register" className={css.link}>

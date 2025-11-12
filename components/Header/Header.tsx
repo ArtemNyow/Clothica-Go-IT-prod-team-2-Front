@@ -10,13 +10,13 @@ export default function Header() {
 
   useEffect(() => {
     if (isOpenMenu) {
-      document.body.classList.add('noScroll');
+      document.body.classList.add(css.noScroll);
     } else {
-      document.body.classList.remove('noScroll');
+      document.body.classList.remove(css.noScroll);
     }
 
     return () => {
-      document.body.classList.remove('noScroll');
+      document.body.classList.remove(css.noScroll);
     };
   }, [isOpenMenu]);
 
@@ -31,13 +31,6 @@ export default function Header() {
       <div className={css.container}>
         <div className={css.group}>
           <Link href="/" className={css.logo}>
-            {/* <svg
-            className={css.iconlogo}
-            width="81"
-            height="17"
-          >
-            <use href="/logo.svg"></use>
-          </svg> */}
             <svg
               width="81"
               height="17"
@@ -82,17 +75,26 @@ export default function Header() {
           <nav className={css.nav}>
             <ul className={css.listNav}>
               <li>
-                <Link className={css.link} href="/">
+                <Link
+                  onClick={closeMenu}
+                  className={css.link}
+                  href="/"
+                >
                   Головна
                 </Link>
               </li>
               <li>
-                <Link className={css.link} href="/goods">
+                <Link
+                  onClick={closeMenu}
+                  className={css.link}
+                  href="/goods"
+                >
                   Товари
                 </Link>
               </li>
               <li>
                 <Link
+                  onClick={closeMenu}
                   className={css.link}
                   href="/categories"
                 >
@@ -148,7 +150,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* {isOpenMenu && ( */}
       <nav className={navClass}>
         <ul className={css.listNavMobile}>
           <li>
@@ -181,7 +182,6 @@ export default function Header() {
         </ul>
         <AuthNavigation />
       </nav>
-      {/* )} */}
     </header>
   );
 }
