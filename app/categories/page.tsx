@@ -7,6 +7,7 @@ import css from './CategoriesPage.module.css';
 import { Category } from '@/types/category';
 import Link from 'next/link';
 import { useMediaQuery } from 'react-responsive';
+import Loader from '@/components/Loader/Loader';
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState<Category[]>(
@@ -61,12 +62,7 @@ const CategoriesList = () => {
     else if (isDesktop) setVisibleCount(prev => prev + 3);
   };
 
-  if (loading)
-    return (
-      <p className={css.loading}>
-        Завантаження категорій...
-      </p>
-    );
+  if (loading) return <Loader />;
 
   if (error) return <p className={css.error}>{error}</p>;
 
