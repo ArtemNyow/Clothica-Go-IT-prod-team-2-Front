@@ -31,10 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={geistSans.variable}
-        suppressHydrationWarning
-      >
+      <body className={geistSans.variable}>
         <TanStackProvider>
           <ToastProvider />
           <AuthProvider>
