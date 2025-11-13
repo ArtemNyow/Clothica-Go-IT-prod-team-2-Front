@@ -1,4 +1,6 @@
 'use client';
+import { Good } from '@/types/goods';
+import { getGoodsByFeedback } from '@/lib/api/clientApi';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
@@ -10,36 +12,19 @@ import styles from './PopularGoods.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import { getGoodsbyFeedback } from '@/lib/api/clientApi';
-import { Good } from '@/types/goods';
 
-const PopularGoods = () => {
+async function PopularGoods() {
   const {
-    data: goods,
+    data = [],
+    error,
     isLoading,
     isError,
   } = useQuery<Good[]>({
-    queryKey: ['popularGoods'],
-    queryFn: () =>
-      getGoodsbyFeedback({ page: 1, perPage: 10 }),
+    queryKey: ['goods'],
+    queryFn: () => getGoodsByFeedback(),
   });
 
-  if (isLoading) {
-    return (
-      <section className={styles.wrapper}>
-        <div className={styles.header}>
-          <span className={styles.categoryLabel}>
-            Популярні товари
-          </span>
-          <div className={styles.viewAll}>Всі товари</div>
-        </div>
-        <div className={styles.slider}>Loading...</div>
-      </section>
-    );
-  }
-
-  if (isError || !goods || goods.length === 0) return null;
-
+  const goods = Array.isArray(data) ? data : [];
   return (
     <section className={styles.wrapper}>
       <div className={styles.header}>
@@ -115,6 +100,6 @@ const PopularGoods = () => {
       </Swiper>
     </section>
   );
-};
+}
 
 export default PopularGoods;

@@ -1,4 +1,5 @@
 'use client';
+import { getCategories } from '@/lib/api/clientApi';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,27 +9,25 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Keyboard, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-
-import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '@/lib/api/clientApi';
 import { Category } from '@/types/category';
+import { useQuery } from '@tanstack/react-query';
 
-const PopularCategories = () => {
+interface Props {
+  categories: Category[];
+}
+
+async function PopularCategories() {
   const {
-    data: categories,
+    data = [],
     error,
     isLoading,
-  } = useQuery<Category[], Error>({
-    queryKey: ['categories'],
+    isError,
+  } = useQuery<Category[]>({
+    queryKey: ['category'],
     queryFn: () => getCategories(1, 10),
-    staleTime: 1000 * 60 * 5,
   });
 
-  if (isLoading)
-    return <p className={css.loading}>Завантаження...</p>;
-  if (error)
-    return <p className={css.error}>{error.message}</p>;
-
+  const categories = Array.isArray(data) ? data : [];
   return (
     <section
       className={css.categoriesSection}
@@ -57,11 +56,14 @@ const PopularCategories = () => {
             keyboard={{ enabled: true }}
             breakpoints={{
               768: { slidesPerView: 2, spaceBetween: 32 },
-              1440: { slidesPerView: 3, spaceBetween: 32 },
+              1440: {
+                slidesPerView: 3,
+                spaceBetween: 32,
+              },
             }}
             className={css.categoriesSwiper}
           >
-            {categories?.map(category => (
+            {categories.map(category => (
               <SwiperSlide key={category._id}>
                 <Link
                   href={`/categories/${category._id}`}
@@ -100,6 +102,6 @@ const PopularCategories = () => {
       </div>
     </section>
   );
-};
+}
 
 export default PopularCategories;

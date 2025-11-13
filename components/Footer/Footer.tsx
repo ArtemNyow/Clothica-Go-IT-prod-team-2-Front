@@ -4,6 +4,13 @@ import { sendSubscription } from '@/lib/api/clientApi';
 import css from './Footer.module.css';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-hot-toast';
+import * as Yup from 'yup';
+
+const subscriptionSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Невірний формат email')
+    .required('Email обов’язковий'),
+});
 
 export default function Footer() {
   const handleSubmit = async (
@@ -29,7 +36,7 @@ export default function Footer() {
               <a className={css.logoFooter} href="/">
                 <img
                   className={css.imgLogoFooter}
-                  src="/CompanyLogoFooter.svg"
+                  src="/logo.svg"
                   alt="logo"
                 />
               </a>
@@ -52,6 +59,7 @@ export default function Footer() {
             <div className={css.footerFirstPartSecond}>
               <Formik
                 initialValues={{ email: '' }}
+                validationSchema={subscriptionSchema}
                 onSubmit={handleSubmit}
               >
                 <Form className={css.footerForm}>
@@ -93,28 +101,30 @@ export default function Footer() {
               <ul className={css.socialListFooter}>
                 <li className={css.socialFooter}>
                   <a href="https://www.facebook.com/">
-                    <img
-                      src="/facebook.svg"
-                      alt="Facebook"
-                    />
+                    <svg width={50} height={50}>
+                      <use href="/sprite.svg#icon-facebook" />
+                    </svg>
                   </a>
                 </li>
                 <li className={css.socialFooter}>
                   <a href="https://www.instagram.com/">
-                    <img
-                      src="/instagram.svg"
-                      alt="Instagram"
-                    />
+                    <svg width={50} height={50}>
+                      <use href="/sprite.svg#icon-instagram" />
+                    </svg>
                   </a>
                 </li>
                 <li className={css.socialFooter}>
                   <a href="https://x.com/">
-                    <img src="/x.svg" alt="X" />
+                    <svg width={50} height={50}>
+                      <use href="/sprite.svg#icon-x" />
+                    </svg>
                   </a>
                 </li>
                 <li className={css.socialFooter}>
                   <a href="https://www.youtube.com/">
-                    <img src="/youtube.svg" alt="Youtube" />
+                    <svg width={50} height={50}>
+                      <use href="/sprite.svg#icon-youtube" />
+                    </svg>
                   </a>
                 </li>
               </ul>

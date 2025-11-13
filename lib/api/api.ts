@@ -1,12 +1,7 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 export const nextServer = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL + '/api',
-  withCredentials: false, 
-});
-
-export const localApi = axios.create({
-  baseURL: '/api',
   withCredentials: true,
 });
 
@@ -17,16 +12,18 @@ let failedQueue: Array<{
 }> = [];
 
 const processQueue = (error: any) => {
-  failedQueue.forEach(prom => error ? prom.reject(error) : prom.resolve());
+  failedQueue.forEach(prom =>
+    error ? prom.reject(error) : prom.resolve()
+  );
   failedQueue = [];
 };
 
-localApi.interceptors.response.use(
-  (response) => {
+nextServer.interceptors.response.use(
+  response => {
     console.log('✅ Response OK:', response.config.url);
     return response;
   },
-  async (error) => {
+  async error => {
     console.log('❌ Interceptor caught error:', {
       status: error.response?.status,
       url: error.config?.url,
@@ -34,22 +31,36 @@ localApi.interceptors.response.use(
     });
 
     const originalRequest = error.config;
-    const isAuthEndpoint = ['/auth/refresh', '/auth/login', '/auth/register']
-      .some(endpoint => originalRequest.url?.includes(endpoint));
+    const isAuthEndpoint = [
+      '/auth/refresh',
+      '/auth/login',
+      '/auth/register',
+    ].some(endpoint =>
+      originalRequest.url?.includes(endpoint)
+    );
 
     console.log('🔍 Check conditions:', {
       is401: error.response?.status === 401,
       notRetry: !originalRequest._retry,
       notAuthEndpoint: !isAuthEndpoint,
-      shouldRefresh: error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint
+      shouldRefresh:
+        error.response?.status === 401 &&
+        !originalRequest._retry &&
+        !isAuthEndpoint,
     });
 
-    if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isAuthEndpoint
+    ) {
       if (isRefreshing) {
-        console.log('⏳ Already refreshing, adding to queue');
+        console.log(
+          '⏳ Already refreshing, adding to queue'
+        );
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        }).then(() => localApi(originalRequest));
+        }).then(() => nextServer(originalRequest));
       }
 
       console.log('🔄 Starting refresh process...');
@@ -58,27 +69,38 @@ localApi.interceptors.response.use(
 
       try {
         console.log('📡 Calling POST /auth/refresh');
-        const refreshResponse = await localApi.post('/auth/refresh');
-        console.log('✅ Refresh successful:', refreshResponse.data);
-        
+        const refreshResponse =
+          await nextServer.post('/auth/refresh');
+        console.log(
+          '✅ Refresh successful:',
+          refreshResponse.data
+        );
+
         processQueue(null);
-        
-        console.log('🔁 Retrying original request:', originalRequest.url);
-        return localApi(originalRequest);
+
+        console.log(
+          '🔁 Retrying original request:',
+          originalRequest.url
+        );
+        return nextServer(originalRequest);
       } catch (refreshError) {
         console.log('❌ Refresh FAILED:', refreshError);
         processQueue(refreshError);
-        
+
         if (typeof window !== 'undefined') {
-          const { useAuthStore } = await import('@/lib/store/authStore');
+          const { useAuthStore } = await import(
+            '@/lib/store/authStore'
+          );
           useAuthStore.getState().clearAuth();
-          
-          if (!window.location.pathname.startsWith('/auth')) {
+
+          if (
+            !window.location.pathname.startsWith('/auth')
+          ) {
             console.log('🔄 Redirecting to /auth/login');
             window.location.href = '/auth/login';
           }
         }
-        
+
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
@@ -89,5 +111,3 @@ localApi.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export type ApiError = AxiosError<{ error: string }>;

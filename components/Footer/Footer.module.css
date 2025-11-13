@@ -1,12 +1,11 @@
-.footer {
-  background: #c5e1a5;
-}
+s.footer {}
 
 .container {
   width: 100%;
-  max-width: 1440px;
   padding: 48px 20px;
   margin: 0 auto;
+  background: #c5e1a5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .containerFooter {
@@ -17,17 +16,13 @@
   align-items: center;
 }
 
-/* containerFooterFirst */
 
 .containerFooterFirst {
   display: flex;
   flex-direction: column;
-  /* gap: 77px; */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   padding-bottom: 32px;
 }
 
-/* footerFirstPartFirst */
 
 .footerFirstPartFirst {
   display: flex;
@@ -83,7 +78,6 @@
   color: #9db484;
 }
 
-/* footerFirstPartSecond */
 
 .footerFirstPartSecond {
   display: flex;
@@ -207,7 +201,7 @@
     transform 0.3s ease;
 }
 
-.socialFooter a img {
+.socialFooter a svg {
   width: 24px;
   height: 24px;
   transition: transform 0.3s ease;
@@ -227,18 +221,19 @@
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 100px;
   background: rgba(0, 0, 0, 0.15);
-  outline: none; /* прибирає синє обведення браузера */
+  outline: none;
 }
 
-@media (max-width: 374px) {
+@media (min-width: 375px) {
   .container {
-    min-width: 320px;
+    max-width: 375px;
   }
 }
 
 @media (min-width: 768px) {
   .container {
     margin: 0px auto;
+    max-width: 768px;
     padding-left: 32px;
     padding-right: 32px;
   }
@@ -325,6 +320,7 @@
 
 @media (min-width: 1440px) {
   .container {
+    max-width: 1440px;
     padding: 80px 64px;
     margin: 0 auto;
   }
