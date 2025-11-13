@@ -1,14 +1,15 @@
 'use client';
 
 import { getGoodById } from '@/lib/api/clientApi';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import css from './GoodDetails.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { Good } from '@/types/goods';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useCartStore } from './useCartStore';
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -51,44 +52,52 @@ export default function GoodsDetailsClient() {
     refetchOnMount: false,
   });
 
-  //   const [selectedSize, setSelectedSize] = useState<string>(
-  //     good.size?.[4] || ''
-  //   );
+  const router = useRouter();
+  const addToCart = useCartStore(state => state.addToCart);
+  const clearCart = useCartStore(state => state.clearCart);
+  const buyNow = useCartStore(state => state.buyNow);
+
+  const [selectedSize, setSelectedSize] = useState('');
+  const [quantity, setQuantity] = useState(1);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !good)
     return <div>Error loading note.</div>;
 
-  // if (!good || !good.size) return <p>Товар не знайдено.</p>;
-  // const [selectedSize, setSelectedSize] = useState(
-  //   good.size[3] || ''
-  // );
-  // const [quantity, setQuantity] = useState(1);
-  // // const addToCart = useCartStore(state => state.addToCart);
+  useEffect(() => {
+    if (good?.size && good.size.length > 0) {
+      setSelectedSize(good.size[0]);
+    }
+  }, [good]);
 
-  // const handleAddToCart = () => {
-  //   if (!selectedSize) {
-  //     alert('Оберіть доступний розмір!');
-  //     return;
-  //   }
-  //   addToCart(good, selectedSize, quantity);
-  //   alert(
-  //     `Додано ${quantity} шт. розмір ${selectedSize} в кошик`
-  //   );
-  // };
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert('Оберіть доступний розмір!');
+      return;
+    }
 
-  // const handleBuyNow = () => {
-  //   if (!selectedSize) {
-  //     alert('Оберіть доступний розмір!');
-  //     return;
-  //   }
-  //   addToCart(good, selectedSize, quantity);
-  //   <Link href="/checkout"></Link>;
-  // };
-  // if (quantity < 1) {
-  //   alert('Мінімальна кількість 1');
-  //   return;
-  // }
+    addToCart(good, selectedSize, quantity);
+    alert('Додано у кошик');
+    //   openCartModal();
+  };
+
+  const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert('Оберіть доступний розмір!');
+      return;
+    }
+    if (quantity < 1) {
+      alert('Мінімальна кількість 1');
+      return;
+    }
+    buyNow(good, selectedSize, quantity);
+      addToCart(good, selectedSize, quantity);
+    //   openCheckoutModal();
+    router.push('/order');
+  };
+
+  clearCart();
+
   if (!good || !good.size || good.size.length === 0) {
     return <p>Розміри товару недоступні.</p>;
   }
@@ -153,10 +162,10 @@ export default function GoodsDetailsClient() {
           <div className={css.formSizeDiv}>
             <select
               id="size-select"
-              defaultValue={good.size?.[3] || ''}
-              // onChange={e =>
-              //   setSelectedSize(e.target.value)
-              // }
+              value={selectedSize}
+              onChange={e =>
+                setSelectedSize(e.target.value)
+              }
               className={css.formSize}
             >
               {good.size?.map((size: string) => (
@@ -172,10 +181,10 @@ export default function GoodsDetailsClient() {
 
           <div className={css.formButtons}>
             <button
-              // disabled={!selectedSize}
+              disabled={!selectedSize}
               type="button"
               className={css.buttonBasket}
-              // onClick={handleAddToCart}
+              onClick={handleAddToCart}
             >
               Додати в кошик
             </button>
@@ -183,12 +192,11 @@ export default function GoodsDetailsClient() {
               <input
                 type="number"
                 id="quantity"
-                defaultValue="1"
-                // value={quantity}
+                value={quantity}
                 min={1}
-                // onChange={e =>
-                //   setQuantity(Number(e.target.value))
-                // }
+                onChange={e =>
+                  setQuantity(Number(e.target.value))
+                }
                 className={css.inputQuantity}
               />
             </div>
@@ -196,7 +204,7 @@ export default function GoodsDetailsClient() {
           <button
             type="button"
             className={css.buttonBuy}
-            // onClick={handleBuyNow}
+            onClick={handleBuyNow}
           >
             Купити зараз
           </button>
