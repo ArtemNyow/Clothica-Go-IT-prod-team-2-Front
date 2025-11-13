@@ -9,6 +9,7 @@ import Link from 'next/link';
 import css from './ReviewsList.module.css';
 import { Review } from '@/types/review';
 import { fetchReviews } from '@/lib/api/clientApi';
+import Loader from '../Loader/Loader';
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -75,7 +76,7 @@ const ReviewsList = () => {
   };
 
   if (isLoading) {
-    return <p>Завантаження...</p>;
+    <Loader />;
   }
   if (isError) {
     return <p>Помилка: {(error as Error).message}</p>;
