@@ -1,6 +1,8 @@
-import { Review } from "@/types/review";
+import { fetchReviewsResponse, Review } from "@/types/review";
 import { nextServer, localApi, ApiError } from "./api";
-import type { User, RegisterRequest, Category } from "@/types/user";
+import type { User, RegisterRequest } from "@/types/user";
+import { Category } from "@/types/category";
+import { GetGoodsParams, Good } from "@/types/goods";
 
 export const login = async (phone: string, password: string): Promise<User> => {
   const cleanPhone = phone.replaceAll(/[\s()\-+]/g, "");
@@ -13,7 +15,6 @@ export const login = async (phone: string, password: string): Promise<User> => {
     return res.data;
   } catch (err: any) {
     const serverMessage = err.response?.data?.error || err.response?.data?.message;
-    
     if (err.response?.status === 401) {
       throw new Error("Невірний номер телефону або пароль");
     } else if (serverMessage) {
@@ -32,7 +33,7 @@ export const register = async (payload: RegisterRequest): Promise<User> => {
   };
   
   try {
-    const res = await localApi.post('/auth/register', cleanPayload); // ← localApi!
+    const res = await localApi.post('/auth/register', cleanPayload); 
     return res.data;
   } catch (err: any) {
     throw new Error(
@@ -67,7 +68,7 @@ export const updateUserProfile = async (
   payload: Partial<User>
 ): Promise<User> => {
   try {
-    const { data } = await localApi.patch<User>('/user/me', payload); // ← localApi!
+    const { data } = await localApi.patch<User>('/user/me', payload); 
     return data;
   } catch (err) {
     const error = err as ApiError;
@@ -88,6 +89,8 @@ export const checkSession = async (): Promise<{ accessToken?: string }> => {
     );
   }
 };
+
+
 
 export const getCategories = async (
   page: number = 1,
@@ -118,13 +121,6 @@ export const sendSubscription = async (email: string) => {
   }
 };
 
-interface fetchReviewsResponse {
-  page: number;
-  perPage: number;
-  totalFeedbacks: number;
-  totalPages: number;
-  feedbacks: Review[];
-}
 
 export const fetchReviews = async (): Promise<Review[]> => {
   try {
@@ -133,5 +129,20 @@ export const fetchReviews = async (): Promise<Review[]> => {
   } catch (error) {
     console.error('Error fetching reviews:', error);
     throw error;
+  }
+};
+
+export const getGoodsbyFeedback = async (params: GetGoodsParams = {}): Promise<Good[]> => {
+  try {
+    const { data } = await nextServer.get<{ data: Good[] }>("/goods", { params });
+
+    const filteredGoods = data.data.filter((good) => (good.feedbackCount ?? 0) > 0);
+
+    return filteredGoods;
+  } catch (err) {
+    const error = err as ApiError;
+    throw new Error(
+      error.response?.data?.error || "Не вдалося завантажити товари"
+    );
   }
 };

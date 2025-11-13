@@ -4,7 +4,7 @@ import { getCategories } from '@/lib/api/clientApi';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import css from './CategoriesPage.module.css';
-import { Category } from '@/types/user';
+import { Category } from '@/types/category';
 import Link from 'next/link';
 import { useMediaQuery } from 'react-responsive';
 
@@ -29,28 +29,27 @@ const CategoriesList = () => {
   const [more, setMore] = useState(true);
   const perPage = 10;
 
-useEffect(() => {
-  const fetchCategories = async () => {
-    setLoading(true);
-    try {
-      const data = await getCategories(page, perPage);
-      setCategories(prev => {
-        const newItems = data.filter(
-          item => !prev.some(cat => cat._id === item._id)
-        );
-        return [...prev, ...newItems];
-      });
-      if (data.length < perPage) setMore(false);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const data = await getCategories(page, perPage);
+        setCategories(prev => {
+          const newItems = data.filter(
+            item => !prev.some(cat => cat._id === item._id)
+          );
+          return [...prev, ...newItems];
+        });
+        if (data.length < perPage) setMore(false);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchCategories();
-}, [page]);
-
+    fetchCategories();
+  }, [page]);
 
   useEffect(() => {
     setVisibleCount(isDesktop ? 6 : 4);

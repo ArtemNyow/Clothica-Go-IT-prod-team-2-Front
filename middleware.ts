@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get('accessToken');
   const authRoutes = ['/auth'];
-  const privateRoutes = ['/profile', '/order', '/basket'];
+  const privateRoutes = ['/profile'];
   const isPrivateRoute = privateRoutes.some(route => pathname.startsWith(route));
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
     
@@ -26,8 +26,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/profile/:path*',
-    '/order/:path*', 
-    '/basket/:path*',
     '/auth/:path*',
   ],
 };

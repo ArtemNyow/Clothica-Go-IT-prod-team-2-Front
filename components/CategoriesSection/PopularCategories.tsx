@@ -4,35 +4,30 @@ import Link from 'next/link';
 import Image from 'next/image';
 import css from './PopularCategories.module.css';
 
-import { useEffect, useState } from 'react';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Keyboard, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+
+import { useQuery } from '@tanstack/react-query';
 import { getCategories } from '@/lib/api/clientApi';
-import { Category } from '@/types/user';
+import { Category } from '@/types/category';
 
 const PopularCategories = () => {
-  const [categories, setCategories] = useState<Category[]>(
-    []
-  );
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: categories,
+    error,
+    isLoading,
+  } = useQuery<Category[], Error>({
+    queryKey: ['categories'],
+    queryFn: () => getCategories(1, 10),
+    staleTime: 1000 * 60 * 5,
+  });
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-        setCategories(data);
-      } catch (err) {
-        setError((err as Error).message);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
-  if (error) return <p className={css.error}>{error}</p>;
+  if (isLoading)
+    return <p className={css.loading}>Завантаження...</p>;
+  if (error)
+    return <p className={css.error}>{error.message}</p>;
 
   return (
     <section
@@ -66,7 +61,7 @@ const PopularCategories = () => {
             }}
             className={css.categoriesSwiper}
           >
-            {categories.map(category => (
+            {categories?.map(category => (
               <SwiperSlide key={category._id}>
                 <Link
                   href={`/categories/${category._id}`}
@@ -92,13 +87,12 @@ const PopularCategories = () => {
       </div>
 
       <div className={css.swiperButtons}>
-        <button className={` ${css.prevButton}`}>
-          {' '}
+        <button className={css.prevButton}>
           <svg>
             <use href="/sprite.svg#icon-arrow-back" />
           </svg>
         </button>
-        <button className={`${css.nextButton}`}>
+        <button className={css.nextButton}>
           <svg>
             <use href="/sprite.svg#icon-arrow-forward" />
           </svg>

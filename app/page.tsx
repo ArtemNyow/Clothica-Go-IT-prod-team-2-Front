@@ -1,12 +1,8 @@
-'use client';
-
-import Image from 'next/image';
-import styles from './page.module.css';
 import Hero from '@/components/Hero/Hero';
 import ReviewsList from '@/components/ReviewsList/ReviewsList';
 import PopularCategories from '@/components/CategoriesSection/PopularCategories';
-import Link from 'next/link';
 import StyleFeatures from '@/components/StyleFeatures/StyleFeatures';
+import PopularGoods from '@/components/PopularGoods/PopularGoods';
 
 export default function HomePage() {
   return (
@@ -14,6 +10,7 @@ export default function HomePage() {
       <Hero />
       <StyleFeatures />
       <PopularCategories />
+      <PopularGoods />
       <ReviewsList />
     </main>
   );

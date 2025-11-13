@@ -1,7 +1,6 @@
 .heroSection {
     width: 100%;
     margin: 0 auto;
-    background-color: #fff;
     padding: 64px 20px 64px 20px;
 }
 
@@ -25,42 +24,42 @@
 }
 
 .heroList {
-      list-style: none;
-      text-align: center;
-      margin-bottom: 32px;
+    list-style: none;
+    text-align: center;
+    margin-bottom: 32px;
 }
 
 .heroLinkPoducts {
-   font-weight: 500;
-   font-size: 16px;
-   line-height: 150%;
-   color: #191919;
-   background-color: #c5e1a5;
-   margin-bottom: 16px;
-   border-radius: 100px;
-   padding: 6px 12px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: #191919;
+    background-color: #c5e1a5;
+    margin-bottom: 16px;
+    border-radius: 100px;
+    padding: 6px 12px;
 }
 
 .heroLinkCategories {
-   font-weight: 500;
-   font-size: 16px;
-   line-height: 150%;
-   color: #191919;
-   background-color: #d8d8d8;
-   border-radius: 100px;
-   padding: 6px 12px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: #191919;
+    background-color: #d8d8d8;
+    border-radius: 100px;
+    padding: 6px 12px;
 }
 
 .heroLinkPoducts:hover,
 .heroLinkPoducts:focus {
-  background-color: #9db484;
-  border: 1px solid #191919;
+    background-color: #9db484;
+    border: 1px solid #191919;
 }
 
 .heroLinkCategories:hover,
 .heroLinkCategories:focus {
-  background-color: #b2b2b2;
-  border: 1px solid #191919;
+    background-color: #b2b2b2;
+    border: 1px solid #191919;
 }
 
 .heroImg {
@@ -70,58 +69,58 @@
 }
 
 @media screen and (min-width: 375px) {
-.heroSection {
-    width: 375px;
-    gap: 32px;
-}
+    .heroSection {
+        width: 375px;
+        gap: 32px;
+    }
 }
 
 @media screen and (min-width: 768px) {
-.heroImg {
-    width: 336px;
-    height: 425px;
-    border-radius: 16px;
-}
+    .heroImg {
+        width: 336px;
+        height: 425px;
+        border-radius: 16px;
+    }
 
-.heroSection {
-    width: 768px;
-    display: flex;
-    padding: 64px 32px 64px 32px;
-}
+    .heroSection {
+        width: 768px;
+        display: flex;
+        padding: 64px 32px 64px 32px;
+    }
 
-.heroLinkPoducts {
-    width: 110px;
-    height: 36px;
-}
+    .heroLinkPoducts {
+        width: 110px;
+        height: 36px;
+    }
 
-.heroLinkCategories {  
-   width: 181px;
-   height: 36px;
-}
+    .heroLinkCategories {
+        width: 181px;
+        height: 36px;
+    }
 
-.heroList {
-    display: flex;
-    gap: 16px;
-}
+    .heroList {
+        display: flex;
+        gap: 16px;
+    }
 
-.heroDesc {
-    margin-right: 32px;
-}
+    .heroDesc {
+        margin-right: 32px;
+    }
 }
 
 @media screen and (min-width: 1440px) {
-.heroSection {
-    width: 1440px;
-    padding: 112px 64px 112px 64px;
-}
+    .heroSection {
+        width: 1440px;
+        padding: 112px 64px 112px 64px;
+    }
 
-.heroImg {
-    width: 640px;
-    height: 394px;
-    border-radius: 16px;
-}
+    .heroImg {
+        width: 640px;
+        height: 394px;
+        border-radius: 16px;
+    }
 
-.heroTitle {
-    font-size: 56px;
-}
+    .heroTitle {
+        font-size: 56px;
+    }
 }
