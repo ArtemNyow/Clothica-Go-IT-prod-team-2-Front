@@ -1,133 +1,148 @@
-import {
-  fetchReviewsResponse,
-  Review,
-} from '@/types/review';
-import { nextServer } from './api';
-import type { User, RegisterRequest } from '@/types/user';
-import { Category } from '@/types/category';
-import { GetGoodsParams, Good } from '@/types/goods';
-import { log } from 'console';
+import { fetchReviewsResponse, Review } from "@/types/review";
+import { nextServer, localApi, ApiError } from "./api";
+import type { User, RegisterRequest } from "@/types/user";
+import { Category } from "@/types/category";
+import { GetGoodsParams, Good } from "@/types/goods";
 
-export const login = async (
-  phone: string,
-  password: string
-): Promise<User> => {
-  const cleanPhone = phone.replaceAll(/[\s()\-+]/g, '');
-
-  const res = await nextServer.post('/auth/login', {
-    phone: cleanPhone,
-    password,
-  });
-  return res.data;
+export const login = async (phone: string, password: string): Promise<User> => {
+  const cleanPhone = phone.replaceAll(/[\s()\-+]/g, "");
+  
+  try {
+    const res = await localApi.post("/auth/login", {
+      phone: cleanPhone, 
+      password 
+    });
+    return res.data;
+  } catch (err: any) {
+    const serverMessage = err.response?.data?.error || err.response?.data?.message;
+    if (err.response?.status === 401) {
+      throw new Error("Невірний номер телефону або пароль");
+    } else if (serverMessage) {
+      throw new Error(serverMessage);
+    } else {
+      throw new Error(err.message || "Помилка авторизації");
+    }
+  }
 };
 
-export const register = async (
-  payload: RegisterRequest
-): Promise<User> => {
+export const register = async (payload: RegisterRequest): Promise<User> => {
   const cleanPayload = {
     firstName: payload.firstName.trim(),
-    phone: payload.phone
-      .trim()
-      .replaceAll(/[\s()\-+]/g, ''),
+    phone: payload.phone.trim().replaceAll(/[\s()\-+]/g, ''),
     password: payload.password,
   };
-  const res = await nextServer.post(
-    '/auth/register',
-    cleanPayload
-  );
-  return res.data;
+  
+  try {
+    const res = await localApi.post('/auth/register', cleanPayload); 
+    return res.data;
+  } catch (err: any) {
+    throw new Error(
+      err.response?.data?.error ||
+      err.message ||
+      'Помилка реєстрації'
+    );
+  }
 };
 
 export const logout = async (): Promise<void> => {
-  await nextServer.post('/auth/logout');
+  try {
+    await localApi.post('/auth/logout');
+  } catch (err) {
+    const error = err as ApiError;
+    throw new Error(
+      error.response?.data?.error || 'Logout failed'
+    );
+  }
 };
 
 export const fetchUserProfile = async (): Promise<User> => {
-  const res = await nextServer.get('/user/me');
-  return res.data;
+  try {
+    const res = await localApi.get("/user/me");
+    return res.data;
+  } catch (err) {
+    throw new Error("Unauthorized");
+  }
 };
 
 export const updateUserProfile = async (
   payload: Partial<User>
 ): Promise<User> => {
-  const { data } = await nextServer.patch<User>(
-    '/user/me',
-    payload
-  );
-  return data;
+  try {
+    const { data } = await localApi.patch<User>('/user/me', payload); 
+    return data;
+  } catch (err) {
+    const error = err as ApiError;
+    throw new Error(
+      error.response?.data?.error || 'Update user failed'
+    );
+  }
 };
 
-export const checkSession = async (): Promise<{
-  accessToken?: string;
-}> => {
-  const res = await nextServer.get('/auth/session');
-  return res.data;
+export const checkSession = async (): Promise<{ accessToken?: string }> => {
+  try {
+    const res = await localApi.get('/auth/session');
+    return res.data;
+  } catch (err) {
+    const error = err as ApiError;
+    throw new Error(
+      error.response?.data?.error || 'Session check failed'
+    );
+  }
 };
+
+
 
 export const getCategories = async (
   page: number = 1,
   perPage: number = 10
 ): Promise<Category[]> => {
-  const { data } = await nextServer.get<{
-    data: Category[];
-  }>('/categories', {
-    params: { page, perPage },
-  });
-  return data.data || [];
-};
-
-export const sendSubscription = async (email: string) => {
   try {
-    const res = await nextServer.post('/subscriptions', {
-      email,
+    const { data } = await nextServer.get<{ data: Category[] }>('/categories', {
+      params: { page, perPage },
     });
-    return res.data.message;
-  } catch (err: any) {
+    return data.data || [];
+  } catch (err) {
+    const error = err as ApiError;
     throw new Error(
-      err.response?.data?.error ||
-        'Не вдалося створити підписку'
+      error.response?.data?.error || 'Не вдалося отримати категорії'
     );
   }
 };
 
-export const fetchReviews = async (): Promise<Review[]> => {
-  const response =
-    await nextServer.get<fetchReviewsResponse>(
-      '/feedbacks'
-    );
-  console.log(response.data.feedbacks);
-  return response.data.feedbacks || [];
-};
-
-export const getGoodsByFeedback = async (
-  params: GetGoodsParams = {}
-): Promise<Good[]> => {
-  const { data } = await nextServer.get<{ data: Good[] }>(
-    '/goods',
-    { params }
-  );
-
-  const filteredGoods = data.data.filter(
-    good => (good.feedbackCount ?? 0) > 0
-  );
-
-  return filteredGoods;
-};
-
-export const getGoods = async (
-  params: GetGoodsParams = {}
-): Promise<Good[]> => {
-  const { data } = await nextServer.get<{ data: Good[] }>(
-    '/goods',
-    {
-      params,
+export const sendSubscription = async (email: string) => {
+  try {
+    const res = await nextServer.post('/subscriptions', { email });
+    return res.data.message;
+  } catch (err: any) {
+    if (err.response?.status === 409) {
+      throw new Error('Цей email вже підписаний');
     }
-  );
-
-  return data.data;
+    throw new Error('Сталася помилка, спробуйте пізніше');
+  }
 };
 
-export const getGoodById = async (id: string) => {
-  const res = await nextServer.get(`/goods/${id}`);
-  return res.data;
+
+export const fetchReviews = async (): Promise<Review[]> => {
+  try {
+    const response = await nextServer.get<fetchReviewsResponse>("/feedbacks?perPage=10");
+    return response.data.feedbacks || [];
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    throw error;
+  }
+};
+
+export const getGoodsbyFeedback = async (params: GetGoodsParams = {}): Promise<Good[]> => {
+  try {
+    const { data } = await nextServer.get<{ data: Good[] }>("/goods", { params });
+
+    const filteredGoods = data.data.filter((good) => (good.feedbackCount ?? 0) > 0);
+
+    return filteredGoods;
+  } catch (err) {
+    const error = err as ApiError;
+    throw new Error(
+      error.response?.data?.error || "Не вдалося завантажити товари"
+    );
+  }
 };
