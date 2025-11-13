@@ -42,12 +42,9 @@ export default function AuthNavigation({
           >
             Кабінет
           </Link>
-          <span className={css.userName}>
-            Привіт, {user.firstName}!
-          </span>
           <button
             onClick={handleLogout}
-            className={css.logoutBtn}
+            className={css.link}
           >
             Вийти
           </button>

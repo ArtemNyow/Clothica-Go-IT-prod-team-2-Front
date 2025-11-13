@@ -101,25 +101,31 @@
 .navMobile {
   position: absolute;
   top: 72px;
-  left: 0;
-
-  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  width: 100%;
+  max-width: 375px;
   height: calc(100vh - 72px);
   background-color: #d6eac0;
   z-index: 999;
-
   opacity: 0;
-  transform: translateY(-10px);
   pointer-events: none;
   transition:
     opacity 300ms ease-out,
     transform 300ms ease-out;
+
 }
 
 .navMobile.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
   pointer-events: all;
+}
+
+.noScroll {
+  overflow: hidden;
+  touch-action: none;
+  height: 100%;
 }
 
 .listNavMobile {
@@ -142,14 +148,10 @@
 
 .link:hover,
 .link:focus {
-  color: #c5e1a5;
+  border-bottom: 1px solid #000;
 }
 
-.noScroll {
-  overflow: hidden;
-  height: 100vh;
-  position: fixed;
-}
+
 
 .userName {
   color: #000;
@@ -196,12 +198,10 @@
 .skeletonBox {
   width: 80px;
   height: 36px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.06) 25%,
-    rgba(0, 0, 0, 0.12) 50%,
-    rgba(0, 0, 0, 0.06) 75%
-  );
+  background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.06) 25%,
+      rgba(0, 0, 0, 0.12) 50%,
+      rgba(0, 0, 0, 0.06) 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
   border-radius: 20px;

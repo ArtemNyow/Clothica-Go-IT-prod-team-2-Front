@@ -154,7 +154,6 @@ export default function Header() {
           </li>
         </ul>
 
-        {/* 🔸 Передаємо onLinkClick, щоб кнопки у AuthNavigation теж закривали меню */}
         <AuthNavigation onLinkClick={closeMenu} />
       </nav>
     </header>
