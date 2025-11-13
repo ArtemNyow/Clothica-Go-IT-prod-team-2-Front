@@ -1,0 +1,35 @@
+.loaderWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* займає всю висоту вікна */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* напівпрозорий фон */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    /* світлий контур */
+    border-top: 6px solid #3498db;
+    /* колір обертання */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
