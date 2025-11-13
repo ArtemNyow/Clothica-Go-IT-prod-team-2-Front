@@ -10,13 +10,13 @@ export async function GET(req: Request) {
       url.searchParams.get('perPage') || 10
     );
 
-    const { data } = await api.get<{
+    const res = await api.get<{
       data: Category[];
     }>('/categories', {
       params: { page, perPage },
     });
 
-    return NextResponse.json(data.data || []);
+    return NextResponse.json(res.data || []);
   } catch (error) {
     console.error(error);
     return NextResponse.json(

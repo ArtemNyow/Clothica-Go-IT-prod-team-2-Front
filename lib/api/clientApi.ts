@@ -6,6 +6,7 @@ import { nextServer } from './api';
 import type { User, RegisterRequest } from '@/types/user';
 import { Category } from '@/types/category';
 import { GetGoodsParams, Good } from '@/types/goods';
+import { log } from 'console';
 
 export const login = async (
   phone: string,
@@ -76,21 +77,29 @@ export const getCategories = async (
 };
 
 export const sendSubscription = async (email: string) => {
-  const res = await nextServer.post('/subscriptions', {
-    email,
-  });
-  return res.data.message;
+  try {
+    const res = await nextServer.post('/subscriptions', {
+      email,
+    });
+    return res.data.message;
+  } catch (err: any) {
+    throw new Error(
+      err.response?.data?.error ||
+        'Не вдалося створити підписку'
+    );
+  }
 };
 
 export const fetchReviews = async (): Promise<Review[]> => {
   const response =
     await nextServer.get<fetchReviewsResponse>(
-      '/feedbacks?perPage=10'
+      '/feedbacks'
     );
+  console.log(response.data.feedbacks);
   return response.data.feedbacks || [];
 };
 
-export const getGoodsbyFeedback = async (
+export const getGoodsByFeedback = async (
   params: GetGoodsParams = {}
 ): Promise<Good[]> => {
   const { data } = await nextServer.get<{ data: Good[] }>(
@@ -103,4 +112,22 @@ export const getGoodsbyFeedback = async (
   );
 
   return filteredGoods;
+};
+
+export const getGoods = async (
+  params: GetGoodsParams = {}
+): Promise<Good[]> => {
+  const { data } = await nextServer.get<{ data: Good[] }>(
+    '/goods',
+    {
+      params,
+    }
+  );
+
+  return data.data;
+};
+
+export const getGoodById = async (id: string) => {
+  const res = await nextServer.get(`/goods/${id}`);
+  return res.data;
 };
