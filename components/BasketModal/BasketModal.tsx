@@ -11,7 +11,6 @@ export default function BasketModal() {
   const router = useRouter();
   const { items, clearBasket } = useBasketStore();
 
-  // Закриття по клавіші Escape
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') router.back();
@@ -28,14 +27,12 @@ export default function BasketModal() {
       );
   }, [handleKeyDown]);
 
-  // Закриття по кліку на бекдроп
   const handleBackdropClick = (
     e: React.MouseEvent<HTMLDivElement>
   ) => {
     if (e.target === e.currentTarget) router.back();
   };
 
-  // --- Оформлення замовлення ---
   const handleCheckout = async () => {
     if (items.length === 0) return;
 
@@ -47,29 +44,7 @@ export default function BasketModal() {
           price: item.price,
           size: item.size || 'M',
         })),
-        shippingInfo: {
-          firstName: 'Ім’я користувача',
-          lastName: 'Прізвище користувача',
-          phone: '+380XXXXXXXXX',
-          city: 'Київ',
-          postOffice: '№1',
-          comment: '',
-        },
       };
-
-      const response = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
-      });
-
-      if (!response.ok)
-        throw new Error('Помилка оформлення замовлення');
-      const result = await response.json();
-
-      console.log('✅ Замовлення створено:', result);
-      clearBasket();
-      router.push('/order');
     } catch (error) {
       console.error(
         '❌ Помилка при оформленні замовлення:',
@@ -88,14 +63,18 @@ export default function BasketModal() {
           className={styles.closeBtn}
           onClick={() => router.back()}
         >
-          <svg className={styles.icon}>
-            <use href="/icons/sprite.svg#icon-close"></use>
+          <svg
+            className={styles.icon}
+            width={24}
+            height={24}
+          >
+            <use href="/sprite.svg#icon-close"></use>
           </svg>
         </button>
 
         <div className={styles.header}>
           <svg className={styles.iconBasket}>
-            <use href="/icons/sprite.svg#icon-basket"></use>
+            <use href="/sprite.svg#icon-basket"></use>
           </svg>
           <h2 className={styles.title}>Ваш кошик</h2>
         </div>

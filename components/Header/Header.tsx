@@ -5,10 +5,12 @@ import css from './Header.module.css';
 import Link from 'next/link';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 import { usePathname } from 'next/navigation';
+import { useBasketStore } from '@/lib/store/basketStore';
 
 export default function Header() {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const pathname = usePathname();
+  const { totalQuantity, openBasket } = useBasketStore();
 
   const openMenu = () => setIsOpenMenu(true);
   const closeMenu = () => setIsOpenMenu(false);
@@ -110,7 +112,7 @@ export default function Header() {
             </button>
           )}
 
-          <Link href="/order" className={css.basket}>
+          <Link href="/basket" className={css.basket}>
             <svg
               className={css.iconBasket}
               width="20"
@@ -118,7 +120,9 @@ export default function Header() {
             >
               <use href="/sprite.svg/#icon-basket"></use>
             </svg>
-            <span className={css.count}>1</span>
+            <span className={css.count}>
+              {totalQuantity()}
+            </span>
           </Link>
         </div>
       </div>
