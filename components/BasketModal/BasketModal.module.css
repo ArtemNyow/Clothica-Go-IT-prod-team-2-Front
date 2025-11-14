@@ -27,13 +27,12 @@
   flex-direction: column;
   position: relative;
   gap: 24px;
-  padding: 40px 64px 16px 32px;
+  padding: 40px 20px;
   height: 100vh;
   background: #f9fcf6;
   overflow-y: auto;
   animation: slideIn 0.25s ease-in-out;
   background: #fff;
-  max-width: 600px;
   width: 100%;
 }
 
@@ -71,30 +70,24 @@
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 14px;
+  height: 14px;
   stroke: #000;
   fill: #000;
   pointer-events: none;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: 16px;
-  width: 493px;
-  height: 58px;
-}
+
 
 .title {
   font-weight: 400;
-  font-size: 48px;
+  font-size: 36px;
   line-height: 1.2;
   letter-spacing: -0.01em;
   text-align: center;
   color: #000;
+  margin: 0 auto;
+  margin-top: 24px;
 }
 
 .iconBasket {
@@ -114,11 +107,6 @@
   cursor: pointer;
 }
 
-.icon {
-  width: 28px;
-  height: 28px;
-  fill: #000;
-}
 
 .orderList {
   display: flex;
@@ -130,13 +118,13 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .listItem {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 12px 0;
 }
 
@@ -144,6 +132,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
+
 }
 
 .itemImage {
@@ -156,23 +145,49 @@
 .itemDetails {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .itemName {
-  font-weight: 500;
-  font-size: 16px;
-  color: #111;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.itemStar {
+  width: 16px;
+  height: 16px;
+  margin-bottom: 5px;
+}
+
+.itemfeetbacks {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
 }
 
 .itemSize {
   font-size: 14px;
   color: #666;
+  margin-top: 5px;
 }
 
-.itemPriceSingle {
+.ItemWrap {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  align-content: center;
+}
+
+.itemfeetbacks {
   font-size: 14px;
   color: #444;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .qtyControl {
@@ -180,23 +195,31 @@
 }
 
 .qtyInput {
-  width: 60px;
   padding: 4px 8px;
-  border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
-  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 8px;
+  width: 64px;
+  height: 40px;
+  background-color: #fff;
+  color: #000;
 }
 
 .itemRight {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
+  margin-top: auto;
 }
 
 .itemTotalPrice {
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
   color: #000;
 }
 
@@ -205,7 +228,17 @@
   border: none;
   cursor: pointer;
   padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  padding: 4px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .iconRemove {
   width: 20px;
@@ -214,15 +247,33 @@
   transition: fill 0.2s ease;
 }
 
+
+
 .iconRemove:hover {
   fill: #d22;
 }
 
 /* ======== SUMMARY ======== */
-.summary {
-  margin-top: 24px;
-  border-top: 1px solid #eee;
-  padding-top: 16px;
+
+
+.summaryRow {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6d6666;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.summaryTotal {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
 }
 
 .row {
@@ -243,31 +294,11 @@
 
 .buttons {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 24px;
+  margin: 0 auto;
+  gap: 16px;
   margin-top: 32px;
-}
-
-.empty :global(button) {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-direction: row !important;
-  gap: 8px !important;
-  border: 1px solid #c5e1a5 !important;
-  border-radius: 100px !important;
-  padding: 6px 12px !important;
-  width: 115px !important;
-  height: 36px !important;
-  background: #c5e1a5 !important;
-  color: #000 !important;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  transition: background 0.25s ease !important;
-}
-
-.empty :global(button:hover) {
-  background: #aed581 !important;
 }
 
 /* --- Кнопка "Оформити замовлення" --- */
@@ -280,7 +311,7 @@
   border: 1px solid #c5e1a5;
   border-radius: 100px;
   padding: 6px 12px;
-  width: 234px;
+  width: 302px;
   height: 36px;
   background: #c5e1a5;
   color: #000;
@@ -296,12 +327,11 @@
 
 /* --- Кнопка "Продовжити покупки" --- */
 .secondaryBtn {
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   background: rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 100px;
   padding: 6px 12px;
-  width: 234px;
+  width: 302px;
   height: 36px;
   color: #000;
   font-size: 16px;
@@ -323,8 +353,7 @@
   gap: 32px;
   border-radius: 16px;
   padding: 24px 0px;
-  width: 493px;
-  height: 127px;
+  width: 100%;
   background: #d6eac0;
   text-align: center;
 }
@@ -336,4 +365,113 @@
   justify-content: center;
   gap: 12px;
   width: 100%;
+}
+
+.messageNoInfo {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: center;
+  color: #000;
+}
+
+.messageNoInfoBtn {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  border: 1px solid #c5e1a5;
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 303px;
+  height: 36px;
+  background: #c5e1a5;
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 552px;
+    padding: 40px 32px;
+  }
+
+  .orderList {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: row;
+
+  }
+
+  .primaryBtn {
+    width: 232px;
+  }
+
+  .secondaryBtn {
+    width: 232px;
+  }
+
+  .itemDetails {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .itemTotalPrice {
+    margin-right: 20px;
+  }
+
+
+  .itemRight {
+    margin-top: 35px;
+  }
+
+  .itemName {
+    width: 190px;
+
+  }
+}
+
+
+@media screen and (min-width: 1440px) {
+  .modal {
+    width: 589px;
+
+  }
+
+  .orderList {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: row;
+
+  }
+
+  .primaryBtn {
+    width: 232px;
+  }
+
+  .secondaryBtn {
+    width: 232px;
+  }
+
+  .itemDetails {
+    flex-direction: row;
+    align-items: center;
+
+  }
+
+  .itemTotalPrice {
+    margin-right: 20px;
+
+  }
+
+
+  .itemRight {
+    margin-top: 35px;
+  }
+
+  .itemName {
+    width: 220px;
+  }
 }

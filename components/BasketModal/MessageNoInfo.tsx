@@ -1,5 +1,5 @@
 'use client';
-
+import styles from './BasketModal.module.css';
 type Props = {
   text: string;
   buttonText: string;
@@ -12,18 +12,11 @@ export default function MessageNoInfo({
   onClick,
 }: Props) {
   return (
-    <div style={{ textAlign: 'center' }}>
-      <p style={{ marginBottom: '16px' }}>{text}</p>
+    <div>
+      <p className={styles.messageNoInfo}>{text}</p>
       <button
         onClick={onClick}
-        style={{
-          backgroundColor: '#000',
-          color: '#fff',
-          border: 'none',
-          padding: '10px 16px',
-          borderRadius: '8px',
-          cursor: 'pointer',
-        }}
+        className={styles.messageNoInfoBtn}
       >
         {buttonText}
       </button>

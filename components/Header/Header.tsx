@@ -48,12 +48,7 @@ export default function Header() {
               <use href="/logo.svg"></use>
             </svg>
           </Link>
-          <button
-            className={css.addTestBtn}
-            onClick={() => addTestItems()}
-          >
-            Додати тестові товари
-          </button>
+
           <nav className={css.nav}>
             <ul className={css.listNav}>
               <li>
@@ -118,7 +113,12 @@ export default function Header() {
               </svg>
             </button>
           )}
-
+          <button
+            className={css.addTestBtn}
+            onClick={() => addTestItems()}
+          >
+            Додати
+          </button>
           <button
             onClick={() =>
               router.push('/basket', {

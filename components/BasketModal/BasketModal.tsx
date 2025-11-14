@@ -50,21 +50,12 @@ export default function BasketModal() {
           onClick={() => router.back()}
           aria-label="Закрити кошик"
         >
-          <svg
-            className={styles.icon}
-            width={24}
-            height={24}
-          >
+          <svg className={styles.icon}>
             <use href="/sprite.svg#icon-close"></use>
           </svg>
         </button>
 
-        <div className={styles.header}>
-          <svg className={styles.iconBasket}>
-            <use href="/sprite.svg#icon-basket"></use>
-          </svg>
-          <h2 className={styles.title}>Ваш кошик</h2>
-        </div>
+        <h2 className={styles.title}>Ваш кошик</h2>
 
         {items.length > 0 ? (
           <>

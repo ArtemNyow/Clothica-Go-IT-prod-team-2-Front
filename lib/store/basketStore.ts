@@ -7,7 +7,8 @@ export type BasketItem = {
   image?: string;
   size?: string;
   quantity: number;
-  description?: string;
+  feedbackCount?: number;
+  avgRating?: number;
 };
 
 type BasketState = {
@@ -70,26 +71,48 @@ export const useBasketStore = create<BasketState>(
       set({
         items: [
           {
-            _id: '6877b9f116ae59c7b60d0135',
-            name: "Сукня Office Chic Navy'",
-            price: { value: 2599, currency: 'грн' },
+            _id: '6877b9f116ae59c7b60d0110',
+            name: "Худі 'Active Motion Green'",
+            price: { value: 1599, currency: 'грн' },
             image:
-              'https://ftp.goit.study/img/goods/6877b9f116ae59c7b60d0135.webp',
+              'https://ftp.goit.study/img/goods/6877b9f116ae59c7b60d0110.webp',
             quantity: 1,
             size: 'M',
-            description:
-              'Office Chic Navy — елегантна офісна сукня...',
+            feedbackCount: 1,
+            avgRating: 5,
           },
           {
-            _id: '6877b9f116ae59c7b60d0136',
-            name: 'Сукня Evening Red',
+            _id: '6877b9f116ae59c7b60d0151',
+            name: "Піжама 'Soft Dream Pink'",
+            price: { value: 1599, currency: 'грн' },
+            image:
+              'https://ftp.goit.study/img/goods/6877b9f116ae59c7b60d0151.webp',
+            quantity: 1,
+            size: 'S',
+            feedbackCount: 1,
+            avgRating: 5,
+          },
+          {
+            _id: '6877b9f116ae59c7b60d0145',
+            name: "Куртка 'Softshell Active Grey'",
             price: { value: 3499, currency: 'грн' },
             image:
-              'https://ftp.goit.study/img/goods/6877b9f116ae59c7b60d0136.webp',
-            quantity: 2,
+              'https://ftp.goit.study/img/goods/6877b9f116ae59c7b60d0145.webp',
+            quantity: 1,
             size: 'L',
-            description:
-              'Evening Red — розкішна вечірня сукня...',
+            feedbackCount: 1,
+            avgRating: 5,
+          },
+          {
+            _id: '6877b9f116ae59c7b60d0188',
+            name: "Сукня 'Summer Bloom Yellow'",
+            price: { value: 2499, currency: 'грн' },
+            image:
+              'https://ftp.goit.study/img/goods/6877b9f116ae59c7b60d0188.webp',
+            quantity: 1,
+            size: 'M',
+            feedbackCount: 1,
+            avgRating: 5,
           },
         ],
       });
