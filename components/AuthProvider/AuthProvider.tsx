@@ -8,23 +8,31 @@ import { fetchUserProfile } from "@/lib/api/clientApi";
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+
   const { user, setUser, clearAuth } = useAuthStore();
 
   useEffect(() => {
-
+    
     if (pathname.startsWith("/auth")) return;
 
-    if (!user) {
-      fetchUserProfile()
+    if (user) return;
+
+    fetchUserProfile()
         .then(setUser)
         .catch(() => {
           clearAuth();
-          if (pathname.startsWith("/profile") || pathname.startsWith("/basket")) {
-            router.push("/auth/login");
+
+          const protectedRoutes = [
+            "/profile",
+            "/orders",
+            "/basket",
+          ];
+
+          if (protectedRoutes.some(route => pathname.startsWith(route))) {
+            router.push("/auth/login?needsAuth=1");
           }
         });
-    }
-  }, [pathname, user, setUser, clearAuth, router]);
+  }, [pathname]);
 
-  return <>{children}</>;
+  return children;
 }
