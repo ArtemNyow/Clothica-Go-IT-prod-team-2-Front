@@ -114,11 +114,17 @@ export const getGoodsByFeedback = async (
     { params }
   );
 
-  const filteredGoods = data.data.filter(
-    good => (good.feedbackCount ?? 0) > 0
-  );
+  const goods = data.data ?? [];
 
-  return filteredGoods;
+  return goods
+    .filter(good => (good.feedbackCount ?? 0) > 0)
+    .sort(
+      (a, b) =>
+        (b.feedbackCount ?? 0) - (a.feedbackCount ?? 0)
+    )
+    .sort(
+      (a, b) => (b.avgRating ?? 0) - (a.avgRating ?? 0)
+    );
 };
 
 export const getGoods = async (
