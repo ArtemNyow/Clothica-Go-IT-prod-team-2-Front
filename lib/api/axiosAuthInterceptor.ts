@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { printValue } from 'yup';
 
 let isRefreshing = false;
-let failedQueue: Array<(token?: any) => void> =[];
+let failedQueue: Array<(token?: any) => void> = [];
 
 const processQueue = (error: any, value?: any) => {
   failedQueue.forEach(prom => prom(error || value));
@@ -18,32 +18,42 @@ export const attachAuthInterceptor = (
     async error => {
       const originalRequest = error.config;
 
-      const pathname = originalRequest?.url?.split('?')[0] ?? '';
-      const publicPaths = ['/', '/goods', '/categories', '/feedbacks'];
-      const isPublic = publicPaths.some(path => pathname.startsWith(path));
+      const pathname =
+        originalRequest?.url?.split('?')[0] ?? '';
+      const publicPaths = [
+        '/',
+        '/goods',
+        '/categories',
+        '/orders',
+      ];
+      const isPublic = publicPaths.some(path =>
+        pathname.startsWith(path)
+      );
 
       const isAuthEndpoint = [
         '/auth/refresh',
         '/auth/login',
         '/auth/register',
-      ].some(endpoint =>
-        pathname.startsWith(endpoint)
-      );
+      ].some(endpoint => pathname.startsWith(endpoint));
 
       if (
-        error.response?.status !== 401 || isAuthEndpoint) {
+        error.response?.status !== 401 ||
+        isAuthEndpoint
+      ) {
         return Promise.reject(error);
       }
 
       if (isRefreshing) {
         return new Promise(resolve => {
-          failedQueue.push(() => resolve(axiosInstance(originalRequest)));
+          failedQueue.push(() =>
+            resolve(axiosInstance(originalRequest))
+          );
         });
       }
 
       originalRequest._retry = true;
       isRefreshing = true;
-      
+
       const { useAuthStore } = await import(
         '@/lib/store/authStore'
       );
@@ -55,17 +65,15 @@ export const attachAuthInterceptor = (
 
         processQueue(null);
         return axiosInstance(originalRequest);
-
       } catch (refreshError) {
         useAuthStore.getState().clearAuth();
 
         if (typeof window !== 'undefined' && !isPublic) {
           window.location.href = '/auth/login';
         }
-      
+
         processQueue(refreshError);
         return Promise.reject(refreshError);
-
       } finally {
         isRefreshing = false;
       }

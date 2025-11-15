@@ -18,19 +18,19 @@ const StarRating = ({ rating }: { rating: number }) => {
     if (i <= rating) {
       stars.push(
         <svg key={i} className={css.star}>
-          <use xlinkHref="sprite.svg#icon-icon-star-fill"></use>
+          <use href="/sprite.svg#icon-icon-star-fill"></use>
         </svg>
       );
     } else if (i - 0.5 <= rating) {
       stars.push(
         <svg key={i} className={css.star}>
-          <use xlinkHref="sprite.svg#icon-icon-star-half-fill"></use>
+          <use href="/sprite.svg#icon-icon-star-half-fill"></use>
         </svg>
       );
     } else {
       stars.push(
         <svg key={i} className={css.star}>
-          <use xlinkHref="sprite.svg#icon-star-no-fill"></use>
+          <use href="/sprite.svg#icon-star-no-fill"></use>
         </svg>
       );
     }
@@ -138,7 +138,7 @@ const ReviewsList = () => {
             disabled={isBeginning}
           >
             <svg>
-              <use xlinkHref="sprite.svg#icon-arrow-back"></use>
+              <use href="/sprite.svg#icon-arrow-back"></use>
             </svg>
           </button>
           <button
@@ -147,7 +147,7 @@ const ReviewsList = () => {
             disabled={isEnd}
           >
             <svg>
-              <use xlinkHref="sprite.svg#icon-arrow-forward"></use>
+              <use href="/sprite.svg#icon-arrow-forward"></use>
             </svg>
           </button>
         </div>

@@ -5,6 +5,7 @@ import { logout as apiLogout } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import css from './ProfilePage.module.css';
+import Loader from '@/components/Loader/Loader';
 
 export default function ProfilePage() {
   const { user, clearAuth } = useAuthStore();
@@ -20,11 +21,7 @@ export default function ProfilePage() {
   };
 
   if (!user) {
-    return (
-      <div className={css.loading}>
-        <p>Завантаження профілю...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
