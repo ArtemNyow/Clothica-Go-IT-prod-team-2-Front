@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { Good } from '@/types/goods';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useCartStore } from './useCartStore';
+import { useBasketStore } from '@/lib/store/basketStore';
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -53,9 +53,13 @@ export default function GoodsDetailsClient() {
   });
 
   const router = useRouter();
-  const addToCart = useCartStore(state => state.addToCart);
-  const clearCart = useCartStore(state => state.clearCart);
-  const buyNow = useCartStore(state => state.buyNow);
+  const addToBasket = useBasketStore(
+    state => state.addToBasket
+  );
+  const clearBasket = useBasketStore(
+    state => state.clearBasket
+  );
+  //   const buyNow = useBasketStore(state => state.buyNow);
 
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -70,15 +74,24 @@ export default function GoodsDetailsClient() {
     }
   }, [good]);
 
+  const basketItem = {
+    _id: good._id,
+    name: good.name,
+    price: good.price,
+    image: good.image,
+    size: selectedSize,
+    quantity,
+    feedbackCount: good.feedbackCount,
+    avgRating: good.avgRating,
+  };
+
   const handleAddToCart = () => {
     if (!selectedSize) {
       alert('Оберіть доступний розмір!');
       return;
     }
 
-    addToCart(good, selectedSize, quantity);
-    alert('Додано у кошик');
-    //   openCartModal();
+    addToBasket(basketItem);
   };
 
   const handleBuyNow = () => {
@@ -90,13 +103,13 @@ export default function GoodsDetailsClient() {
       alert('Мінімальна кількість 1');
       return;
     }
-    buyNow(good, selectedSize, quantity);
-      addToCart(good, selectedSize, quantity);
-    //   openCheckoutModal();
-    router.push('/order');
+    clearBasket();
+    addToBasket(basketItem);
+    router.push('/basket');
+    // router.push('/checkout');
   };
 
-  clearCart();
+  //   clearCart();
 
   if (!good || !good.size || good.size.length === 0) {
     return <p>Розміри товару недоступні.</p>;

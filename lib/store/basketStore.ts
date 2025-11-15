@@ -30,12 +30,12 @@ export const useBasketStore = create<BasketState>()(
       addToBasket: item => {
         set(state => {
           const exists = state.items.find(
-            i => i._id === item._id
+            i => i._id === item._id && i.size === item.size
           );
           if (exists) {
             return {
               items: state.items.map(i =>
-                i._id === item._id
+                i._id === item._id && i.size === item.size
                   ? {
                       ...i,
                       quantity: i.quantity + item.quantity,
