@@ -1,10 +1,10 @@
-const GoodsPreview = () => {
+const OrdersPage = () => {
   return (
     <div>
-      <h1> GoodsPreview</h1>
+      <h1> OrdersPage</h1>
       {/* Форма редагування */}
     </div>
   );
 };
 
-export default GoodsPreview;
+export default OrdersPage;

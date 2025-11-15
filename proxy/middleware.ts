@@ -10,15 +10,19 @@ export function middleware(request: NextRequest) {
   console.log('🛣️ Middleware check:', {
     pathname,
     hasAccessToken: !!accessToken,
-    hasRefreshToken: !!refreshToken
+    hasRefreshToken: !!refreshToken,
   });
 
   const authRoutes = ['/auth'];
-  const privateRoutes = ['/profile', '/basket'];
+  const privateRoutes = ['/profile'];
 
-  const isPrivateRoute = privateRoutes.some(route => pathname.startsWith(route));
-  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
-    
+  const isPrivateRoute = privateRoutes.some(route =>
+    pathname.startsWith(route)
+  );
+  const isAuthRoute = authRoutes.some(route =>
+    pathname.startsWith(route)
+  );
+
   if (isPrivateRoute && !accessToken && !refreshToken) {
     console.log('❌ No tokens, redirecting to login');
     const loginUrl = new URL('/auth/login', request.url);
@@ -27,21 +31,21 @@ export function middleware(request: NextRequest) {
   }
 
   if (isPrivateRoute && (accessToken || refreshToken)) {
-    console.log('✅ Has token, allowing access (interceptor will refresh if needed)');
+    console.log(
+      '✅ Has token, allowing access (interceptor will refresh if needed)'
+    );
   }
 
   if (isAuthRoute && (accessToken || refreshToken)) {
-    console.log('🔄 Already logged in, redirecting to home');
+    console.log(
+      '🔄 Already logged in, redirecting to home'
+    );
     return NextResponse.redirect(new URL('/', request.url));
   }
-  
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    '/profile/:path*',
-    '/auth/:path*',
-    '/basket/:path*'
-  ],
+  matcher: ['/profile/:path*', '/auth/:path*'],
 };

@@ -1,10 +1,10 @@
-const Basket = () => {
+const goodsPage = () => {
   return (
     <div>
-      <h1> Basket</h1>
+      <h1> goodsPage</h1>
       {/* Форма редагування */}
     </div>
   );
 };
 
-export default Basket;
+export default goodsPage;

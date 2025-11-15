@@ -12,6 +12,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { useRef, useEffect } from 'react';
+import Loader from '../Loader/Loader';
 
 const PopularGoods = () => {
   const {
@@ -61,7 +62,7 @@ const PopularGoods = () => {
       );
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (isError || goods.length === 0) return null;
 
   return (
