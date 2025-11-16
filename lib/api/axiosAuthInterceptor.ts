@@ -1,15 +1,11 @@
 import { AxiosInstance } from 'axios';
+import { printValue } from 'yup';
 
 let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value?: any) => void;
-  reject: (reason?: any) => void;
-}> = [];
+let failedQueue: Array<(token?: any) => void> = [];
 
-const processQueue = (error: any) => {
-  failedQueue.forEach(prom =>
-    error ? prom.reject(error) : prom.resolve()
-  );
+const processQueue = (error: any, value?: any) => {
+  failedQueue.forEach(prom => prom(error || value));
   failedQueue = [];
 };
 
@@ -18,58 +14,69 @@ export const attachAuthInterceptor = (
 ) => {
   axiosInstance.interceptors.response.use(
     response => response,
+
     async error => {
       const originalRequest = error.config;
+
+      const pathname =
+        originalRequest?.url?.split('?')[0] ?? '';
+      const publicPaths = [
+        '/',
+        '/goods',
+        '/categories',
+        '/orders',
+      ];
+      const isPublic = publicPaths.some(path =>
+        pathname.startsWith(path)
+      );
 
       const isAuthEndpoint = [
         '/auth/refresh',
         '/auth/login',
         '/auth/register',
-      ].some(endpoint =>
-        originalRequest.url?.includes(endpoint)
-      );
+      ].some(endpoint => pathname.startsWith(endpoint));
 
       if (
-        error.response?.status === 401 &&
-        !originalRequest._retry &&
-        !isAuthEndpoint
+        error.response?.status !== 401 ||
+        isAuthEndpoint
       ) {
-        if (isRefreshing) {
-          return new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject });
-          }).then(() => axiosInstance(originalRequest));
-        }
-
-        originalRequest._retry = true;
-        isRefreshing = true;
-
-        try {
-          await axiosInstance.post('/auth/refresh');
-          processQueue(null);
-          return axiosInstance(originalRequest);
-        } catch (refreshError) {
-          processQueue(refreshError);
-
-          if (typeof window !== 'undefined') {
-            const { useAuthStore } = await import(
-              '@/lib/store/authStore'
-            );
-            useAuthStore.getState().clearAuth();
-
-            if (
-              !window.location.pathname.startsWith('/auth')
-            ) {
-              window.location.href = '/auth/login';
-            }
-          }
-
-          return Promise.reject(refreshError);
-        } finally {
-          isRefreshing = false;
-        }
+        return Promise.reject(error);
       }
 
-      return Promise.reject(error);
+      if (isRefreshing) {
+        return new Promise(resolve => {
+          failedQueue.push(() =>
+            resolve(axiosInstance(originalRequest))
+          );
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      const { useAuthStore } = await import(
+        '@/lib/store/authStore'
+      );
+
+      try {
+        await axiosInstance.post('/auth/refresh', null, {
+          withCredentials: true,
+        });
+
+        processQueue(null);
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        useAuthStore.getState().clearAuth();
+
+        if (typeof window !== 'undefined' && !isPublic) {
+          window.location.href = '/auth/login';
+        }
+
+        processQueue(refreshError);
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
     }
   );
 };

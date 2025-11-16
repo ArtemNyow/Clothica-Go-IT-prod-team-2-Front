@@ -1,0 +1,477 @@
+/* ======== BACKDROP ======== */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  position: relative;
+  gap: 24px;
+  padding: 40px 20px;
+  height: 100vh;
+  background: #f9fcf6;
+  overflow-y: auto;
+  animation: slideIn 0.25s ease-in-out;
+  background: #fff;
+  width: 100%;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.closeBtn:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  stroke: #000;
+  fill: #000;
+  pointer-events: none;
+}
+
+
+
+.title {
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #000;
+  margin: 0 auto;
+  margin-top: 24px;
+}
+
+.iconBasket {
+  width: 40px;
+  height: 40px;
+  fill: #000;
+  margin-right: 12px;
+}
+
+/* ======== CLOSE BUTTON ======== */
+.closeBtn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+}
+
+.itemInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+}
+
+.itemImage {
+  border-radius: 16px;
+  width: 82px;
+  height: 101px;
+  object-fit: cover;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.itemName {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.itemStar {
+  width: 16px;
+  height: 16px;
+  margin-bottom: 5px;
+}
+
+.itemfeetbacks {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.itemSize {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.ItemWrap {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  align-content: center;
+}
+
+.itemfeetbacks {
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.qtyControl {
+  margin-top: 6px;
+}
+
+.qtyInput {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 8px;
+  width: 64px;
+  height: 40px;
+  background-color: #fff;
+  color: #000;
+}
+
+.itemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.itemTotalPrice {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.removeBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  padding: 4px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.iconRemove {
+  width: 20px;
+  height: 20px;
+  fill: #555;
+  transition: fill 0.2s ease;
+}
+
+
+
+.iconRemove:hover {
+  fill: #d22;
+}
+
+/* ======== SUMMARY ======== */
+
+
+.summaryRow {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6d6666;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.summaryTotal {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #333;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+/* --- Кнопка "Оформити замовлення" --- */
+.primaryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 8px;
+  border: 1px solid #c5e1a5;
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 302px;
+  height: 36px;
+  background: #c5e1a5;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.primaryBtn:hover {
+  background: #aed581;
+}
+
+/* --- Кнопка "Продовжити покупки" --- */
+.secondaryBtn {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 302px;
+  height: 36px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.secondaryBtn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* ======== EMPTY ======== */
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 32px;
+  border-radius: 16px;
+  padding: 24px 0px;
+  width: 100%;
+  background: #d6eac0;
+  text-align: center;
+}
+
+.empty> :global(div) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.messageNoInfo {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: center;
+  color: #000;
+}
+
+.messageNoInfoBtn {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  border: 1px solid #c5e1a5;
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 303px;
+  height: 36px;
+  background: #c5e1a5;
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 552px;
+    padding: 40px 32px;
+  }
+
+  .orderList {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: row;
+
+  }
+
+  .primaryBtn {
+    width: 232px;
+  }
+
+  .secondaryBtn {
+    width: 232px;
+  }
+
+  .itemDetails {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .itemTotalPrice {
+    margin-right: 20px;
+  }
+
+
+  .itemRight {
+    margin-top: 35px;
+  }
+
+  .itemName {
+    width: 190px;
+
+  }
+}
+
+
+@media screen and (min-width: 1440px) {
+  .modal {
+    width: 589px;
+
+  }
+
+  .orderList {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: row;
+
+  }
+
+  .primaryBtn {
+    width: 232px;
+  }
+
+  .secondaryBtn {
+    width: 232px;
+  }
+
+  .itemDetails {
+    flex-direction: row;
+    align-items: center;
+
+  }
+
+  .itemTotalPrice {
+    margin-right: 20px;
+
+  }
+
+
+  .itemRight {
+    margin-top: 35px;
+  }
+
+  .itemName {
+    width: 220px;
+  }
+}

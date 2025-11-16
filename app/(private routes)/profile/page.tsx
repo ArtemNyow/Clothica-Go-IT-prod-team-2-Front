@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import toast from 'react-hot-toast';
 import css from './ProfilePage.module.css';
+import Loader from '@/components/Loader/Loader';
 
 const ProfilePage = () => {
   const [firstName, setFirstName] = useState<string>();
@@ -28,11 +29,7 @@ const ProfilePage = () => {
   };
 
   if (!user) {
-    return (
-      <div className={css.loading}>
-        <p>Завантаження профілю...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

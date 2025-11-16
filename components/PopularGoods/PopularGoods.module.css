@@ -4,7 +4,6 @@
   height: 866px;
   margin: 0 auto;
   padding: 48px 20px;
-
   border-radius: 20px;
   box-sizing: border-box;
   position: relative;
@@ -117,7 +116,6 @@
   gap: 4px;
 }
 
-
 .icon {
   width: 16px;
   height: 16px;
@@ -141,53 +139,52 @@
   color: #fff;
 }
 
-
 .paginationWrapper {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+
+.pagination {
   display: flex;
   justify-content: flex-start;
   gap: 8px;
-  margin-top: 16px;
-}
-
-.paginationWrapper .swiper-pagination {
-  display: flex;
-  justify-content: flex-start !important;
-  gap: 6px;
-  width: auto;
-  position: static;
-  transform: none;
-  left: 20px !important;
-}
-
-:global(.swiper-pagination) {
-  justify-content: flex-start !important;
-  left: 40px !important;
-  bottom: 86px !important;
+  position: static !important;
   transform: none !important;
   width: auto !important;
 }
 
-:global(.swiper-pagination-bullet) {
+.bullet {
   width: 8px;
   height: 8px;
   background: rgba(0, 0, 0, 0.05);
   opacity: 1;
   border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-:global(.swiper-pagination-bullet-active) {
+.bullet:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.bulletActive {
   background: #000 !important;
   opacity: 1;
 }
 
 .navButtons {
   position: absolute;
-  bottom: 66px;
-  right: 25px;
+  bottom: 16px;
+  right: 20px;
   display: flex;
   gap: 16px;
   z-index: 10;
-
 }
 
 .navPrev,
@@ -203,13 +200,13 @@
   align-items: center;
   cursor: pointer;
   color: #000;
-
+  transition: all 0.3s ease;
 }
 
 /* Hover */
 .navPrev:hover,
 .navNext:hover {
-  background-color: #BEE196;
+  background-color: #a8d177;
   color: #000;
 }
 
@@ -218,9 +215,8 @@
 .navNext:focus {
   background-color: #BEE196;
   color: #000;
-  outline: 2px solid #E6F0D9
+  outline: 2px solid #E6F0D9;
 }
-
 
 /* Disabled */
 .navPrev:disabled,
@@ -231,14 +227,11 @@
   box-shadow: none;
 }
 
-
-
 .iconArrow {
   width: 16px;
   height: 16px;
   color: inherit;
 }
-
 
 /* #endregion mobile */
 
@@ -259,18 +252,10 @@
     max-width: 100%;
   }
 
-  :global(.swiper-pagination) {
-    justify-content: center !important;
-    left: 320px !important;
-    bottom: 60px !important;
-    transform: none !important;
-    width: auto !important;
-  }
-
   .navPrev {
     position: absolute;
     top: 50%;
-    left: 0;
+    left: 32px;
     transform: translateY(-50%);
     z-index: 10;
   }
@@ -278,18 +263,15 @@
   .navNext {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: 32px;
     transform: translateY(-50%);
     z-index: 10;
   }
-
-
 
   .navButtons {
     position: static;
     gap: 16px;
   }
-
 
   .paginationWrapper {
     position: static;
@@ -299,13 +281,11 @@
     padding-left: 0;
   }
 
-
-  .paginationWrapper .swiper-pagination {
+  .pagination {
     justify-content: center;
-    left: auto;
-    transform: none;
+    position: static !important;
+    transform: none !important;
   }
-
 }
 
 /* #endregion tablet */
@@ -316,14 +296,6 @@
     max-width: 1440px;
     height: 848px;
     padding: 80px 64px;
-  }
-
-  :global(.swiper-pagination) {
-    justify-content: center !important;
-    left: 670px !important;
-    bottom: 100px !important;
-    transform: none !important;
-    width: auto !important;
   }
 
   .imageBox {
@@ -341,23 +313,19 @@
 
   .moreBtn:hover {
     cursor: pointer;
-
   }
 
   .navPrev {
     left: 29px;
-
   }
 
   .navNext {
     right: 29px;
-
   }
 
   .navButtons {
     gap: 20px;
   }
-
 
   .paginationWrapper {
     margin-top: 32px;
