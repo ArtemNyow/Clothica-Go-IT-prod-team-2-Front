@@ -2,6 +2,7 @@ import {
   fetchReviewsResponse,
   Review,
 } from '@/types/review';
+
 import { nextServer } from './api';
 import type { User, RegisterRequest } from '@/types/user';
 import { Category } from '@/types/category';
@@ -31,6 +32,7 @@ export const register = async (
       .replaceAll(/[\s()\-+]/g, ''),
     password: payload.password,
   };
+
   const res = await nextServer.post(
     '/auth/register',
     cleanPayload

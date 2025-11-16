@@ -1,0 +1,104 @@
+.customSelectOption::marker {
+  content: '';
+}
+
+.option {
+  list-style: none;
+}
+
+.option::marker {
+  display: none;
+}
+
+.customSelectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.customSelectTrigger {
+  width: 100%;
+  padding: 8px 8px;
+  border-radius: 12px;
+  background: #f3f9ed;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+
+  /* line-height: 24px; */
+  line-height: 1.5;
+  color: #000;
+}
+
+.selectArrow {
+  width: 12px;
+  height: 7px;
+
+  fill: black;
+  fill-opacity: 0.6;
+}
+
+.customSelectDropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  max-height: 160px;
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  background: #f3f9ed;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.customSelectOption {
+  list-style: none;
+  padding: 8px 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.customSelectOption:hover {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+/* СКРОЛБАР */
+.customSelectDropdown::-webkit-scrollbar {
+  width: 14px;
+}
+
+.customSelectDropdown::-webkit-scrollbar-track {
+  background: #c5e1a5;
+  transform: rotate(-180deg);
+  border-radius: 8px;
+
+  border: 3px solid #f9fcf6;
+}
+
+.customSelectDropdown::-webkit-scrollbar-thumb {
+  background: #4e5a42;
+  transform: rotate(-180deg);
+  border-radius: 8px;
+  width: 8px;
+  min-height: 60px;
+  max-height: 64px;
+}
+
+.selectArrow {
+  width: 12px;
+  height: 7px;
+  fill: black;
+  fill-opacity: 0.6;
+  transition: transform 0.3s ease; /* плавний поворот */
+}
+.customSelectTrigger.open .selectArrow {
+  transform: rotate(180deg);
+}
