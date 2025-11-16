@@ -60,7 +60,6 @@ export default function GoodsDetailsClient() {
   const clearBasket = useBasketStore(
     state => state.clearBasket
   );
-  //   const buyNow = useBasketStore(state => state.buyNow);
 
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -106,8 +105,8 @@ export default function GoodsDetailsClient() {
     }
     clearBasket();
     addToBasket(basketItem);
-    router.push('/basket');
-    // router.push('/checkout');
+    // router.push('/basket');
+    router.push('/orders');
   };
 
   if (!good || !good.size || good.size.length === 0) {
