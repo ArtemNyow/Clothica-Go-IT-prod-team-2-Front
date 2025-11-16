@@ -3,21 +3,81 @@
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout as apiLogout } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import {fetchUserProfile, updateUserProfile, fetchMyOrders} from '@/lib/api/clientApi'
 import toast from 'react-hot-toast';
 import css from './ProfilePage.module.css';
-import Loader from '@/components/Loader/Loader';
+import Loading from "@/app/loading";
+import { User } from '@/types/user'
+import { Order } from '@/types/order';
 
 const ProfilePage = () => {
-  const [firstName, setFirstName] = useState<string>();
-  const [lastName, setLastName] = useState<string>();
-  const [phone, setPhone] = useState<number>();
+  const { user, setUser, clearAuth } = useAuthStore();
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [phone, setPhone] = useState<string>("");
   const [city, setCity] = useState<string>();
-  const [post, setPost] = useState<number>();
-  const [comment, setComment] = useState<string>();
+  const [post, setPost] = useState<number | "">("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
 
-  const { user, clearAuth } = useAuthStore();
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchProfile() {
+      if (user) {
+        setFirstName(user.firstName || "");
+        setLastName(user.lastName || "");
+        setPhone(user.phone !== undefined ? String(user.phone) : "");
+        setCity(user.city || "");
+        setPost(user.postOffice !== undefined ? Number(user.postOffice) : "");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const currentUser = await fetchUserProfile();
+        setFirstName(currentUser?.firstName || "");
+        setLastName(currentUser?.lastName || "");
+        setPhone(currentUser.phone !== undefined ? String(currentUser.phone) : "");
+        setCity(currentUser?.city || "");
+        setPost(currentUser.postOffice !== undefined ? Number(currentUser.postOffice) : "")
+        setUser(currentUser);
+
+        const userOrders = await fetchMyOrders();
+        setOrders(userOrders);
+
+      } catch (err) {
+        console.error(err);
+        setError("Unable to load profile");
+      } finally {
+        setLoading(false);
+      }
+    } fetchProfile();
+  }, [user, setUser]);
+
+  const handleSave = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const payload: Partial<User> = {
+    firstName,
+    lastName,
+    phone: Number(phone),
+    city,
+    postOffice: post !== "" ? String(post) : undefined,
+  };
+
+  try {
+    const updatedUser = await updateUserProfile(payload);
+    setUser(updatedUser);
+    router.push("/profile");
+  } catch (err) {
+    console.error(err);
+    setError("Failed to update profile");
+  }
+};
 
   const handleLogout = async () => {
     try {
@@ -28,8 +88,14 @@ const ProfilePage = () => {
     router.push('/');
   };
 
+  if (loading) return <Loading />;
+
   if (!user) {
-    return <Loader />;
+    return (
+      <div className={css.loading}>
+        <p>Завантаження профілю...</p>
+      </div>
+    );
   }
 
   return (
@@ -50,7 +116,8 @@ const ProfilePage = () => {
               type="text"
               className={css.inputForm}
                   value={firstName}
-                  placeholder='Ваше імʼя'
+                        placeholder='Ваше імʼя'
+                        onChange={(e) => setFirstName(e.target.value)}
                 required
                   />
                 </div>
@@ -62,6 +129,7 @@ const ProfilePage = () => {
               className={css.inputForm}
                   value={lastName}
                   placeholder='Ваше прізвище'
+                  onChange={(e) => setLastName(e.target.value)}
                 required
                   />
                   </div>
@@ -73,9 +141,10 @@ const ProfilePage = () => {
                       id="phone"
                       type="tel"
                       className={`${css.inputForm} ${css.inputPhone}`}
-                  value={phone}
-                  placeholder='+38 (0__) ___-__-__'
-                required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder='+38 (0__) ___-__-__'
+                      required
                   />
                   </div>
               </div>
@@ -86,7 +155,8 @@ const ProfilePage = () => {
               id="city"
               type="text"
               className={css.inputForm}
-                  value={city}
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
                   placeholder='Ваше місто'
                 required
                   />
@@ -95,32 +165,26 @@ const ProfilePage = () => {
               <label className={css.labelForm} htmlFor="post">Номер відділення Нової Пошти*:</label>
               <input
               id="post"
-              type="number"
-              className={css.inputForm}
-                  value={post}
+              type="string"
+                        className={css.inputForm}
+                        value={post}
+                      onChange={(e) => setPost(e.target.value ? Number(e.target.value) : "")}
                   placeholder='1'
                 required
                 />
                 </div>
                 </div>
-                <label className={`${css.labelForm} ${css.labelTextArea}`} htmlFor="comment">Коментар:</label>
-              <textarea
-              id="comment"
-              className={css.inputTextArea}
-                value={comment}
-                placeholder='Введіть ваш коментар'
-              required
-              />
             </div>
-            <button type="submit" className={css.saveInputButton}>
+            <button type="submit" className={css.saveInputButton} onClick={handleSave}>
               Зберегти зміни
             </button>
         </form>
       </section>
         <section className={css.containerPageProfileSecond}>
           <h2 className={css.titleForm}>Мої замовлення</h2>
-          <div className={css.containerMessageTransactionList}>
-        {false ? (<div className={css.messageNoInfo}>
+              <div className={css.containerMessageTransactionList}>
+                
+        {/* {false ? (<div className={css.messageNoInfo}>
           <p className={css.textMessageNoInfo}>У вас ще не було жодних замовлень! Мерщій до покупок!</p>
           <button onClick={() => router.push('/goods')} className={css.linkMessageNoInfo}>До покупок</button>
         </div>) : (<ul className={css.transactionList}>
@@ -136,7 +200,33 @@ const ProfilePage = () => {
                 <p className={css.transactionItemText}>Статус</p>
                 <span className={css.transactionItemSpan}>У процесі</span>
               </li>
-            </ul>)}
+            </ul>)} */}
+                
+                {orders.length === 0 ? (
+                <div className={css.messageNoInfo}>
+                  <p className={css.textMessageNoInfo}>
+                    У вас ще не було жодних замовлень! Мерщій до покупок!
+                  </p>
+                  <button onClick={() => router.push('/goods')} className={css.linkMessageNoInfo}>
+                    До покупок
+                  </button>
+                </div>
+              ) : (
+                <ul className={css.transactionList}>
+                  {orders.map(order => (
+                    <li key={order._id} className={css.transactionItem}>
+                      <p className={css.transactionItemTextUnStrong}>
+                        {new Date(order.createdAt!).toLocaleDateString()}
+                      </p>
+                      <span className={css.transactionItemSpanStrong}>{order.orderNumber}</span>
+                      <p className={css.transactionItemText}>Сума</p>
+                      <span className={css.transactionItemSpan}>{order.totals.total} грн.</span>
+                      <p className={css.transactionItemText}>Статус</p>
+                      <span className={css.transactionItemSpan}>{order.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             </section>
           </div>

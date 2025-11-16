@@ -5,6 +5,7 @@ import {
 import { nextServer } from './api';
 import type { User, RegisterRequest } from '@/types/user';
 import { Category } from '@/types/category';
+import { Order } from '@/types/order'
 import { GetGoodsParams, Good } from '@/types/goods';
 import { log } from 'console';
 
@@ -51,7 +52,7 @@ export const updateUserProfile = async (
   payload: Partial<User>
 ): Promise<User> => {
   const { data } = await nextServer.patch<User>(
-    '/user/me',
+    '/user/edit',
     payload
   );
   return data;
@@ -137,4 +138,11 @@ export const getGoods = async (
 export const getGoodById = async (id: string) => {
   const res = await nextServer.get(`/goods/${id}`);
   return res.data;
+};
+
+export const fetchMyOrders = async (): Promise<Order[]> => {
+  const { data } = await nextServer.get<{ data: Order[] }>(
+    '/orders/my'
+  );
+  return data.data || [];
 };
