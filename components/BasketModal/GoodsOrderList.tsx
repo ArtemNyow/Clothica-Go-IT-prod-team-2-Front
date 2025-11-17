@@ -125,7 +125,6 @@ export default function GoodsOrderList({
         ))}
       </ul>
 
-      {/* Підсумок під списком товарів */}
       <div className={styles.summary}>
         <div className={styles.summaryRow}>
           <span>Проміжний підсумок</span>

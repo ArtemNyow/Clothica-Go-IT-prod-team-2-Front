@@ -5,7 +5,7 @@
 }
 
 .container {
-    max-width: 1440px;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -24,6 +24,8 @@
     display: flex;
     flex-direction: column;
     gap: 48px;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
 .orderProducts {
@@ -178,6 +180,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+
 }
 
 .form {
@@ -258,7 +261,18 @@
     background-color: #58794a;
 }
 
+@media (min-width: 375px) {
+    .orderForm {
+        width: 375px;
+        margin: 0 auto;
+    }
+}
+
 @media (min-width: 768px) {
+    .orderForm {
+        width: 768px;
+    }
+
     .productCard {
         gap: 16px;
     }
@@ -344,6 +358,7 @@
 }
 
 @media (min-width: 1440px) {
+
     .pageTitle {
         font-size: 48px;
     }
@@ -357,10 +372,15 @@
         display: flex;
         flex-direction: row;
         gap: 32px;
+
     }
 
     .orderProducts,
     .orderForm {
         width: 640px;
+    }
+
+    .orderForm {
+        width: 1440px;
     }
 }

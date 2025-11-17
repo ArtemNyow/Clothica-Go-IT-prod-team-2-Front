@@ -8,6 +8,9 @@
   align-items: center;
   z-index: 100;
   animation: fadeIn 0.25s ease-in-out;
+
+
+
 }
 
 @keyframes fadeIn {
@@ -22,7 +25,6 @@
 
 .modal {
   display: flex;
-  align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
   position: relative;
@@ -33,7 +35,7 @@
   overflow-y: auto;
   animation: slideIn 0.25s ease-in-out;
   background: #fff;
-  width: 100%;
+  align-items: center;
 }
 
 @keyframes slideInLeft {
@@ -146,6 +148,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+
 }
 
 .itemName {
@@ -388,10 +391,24 @@
   background: #c5e1a5;
 }
 
+
+
+@media screen and (min-width: 375px) {
+  .orderList {
+    width: 375px;
+    margin: 0 auto;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .modal {
     width: 552px;
     padding: 40px 32px;
+  }
+
+  .list {
+    width: 704px;
+    margin: 0 auto;
   }
 
   .orderList {
@@ -429,6 +446,11 @@
     width: 190px;
 
   }
+
+  .summary {
+    width: 704px;
+    margin: 0 auto;
+  }
 }
 
 
@@ -438,9 +460,15 @@
 
   }
 
+  .list {
+    width: 604px;
+    margin: 0 auto;
+  }
+
   .orderList {
     width: 100%;
   }
+
 
   .buttons {
     flex-direction: row;
@@ -474,4 +502,9 @@
   .itemName {
     width: 220px;
   }
+
+  .summary {
+    width: 604px;
+  }
+
 }
