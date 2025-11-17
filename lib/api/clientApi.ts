@@ -2,12 +2,14 @@ import {
   fetchReviewsResponse,
   Review,
 } from '@/types/review';
+
 import { nextServer } from './api';
 import type { User, RegisterRequest } from '@/types/user';
 import { Category } from '@/types/category';
 import { Order } from '@/types/order'
 import { GetGoodsParams, Good } from '@/types/goods';
 import { log } from 'console';
+import { param } from 'framer-motion/client';
 
 export const login = async (
   phone: string,
@@ -32,6 +34,7 @@ export const register = async (
       .replaceAll(/[\s()\-+]/g, ''),
     password: payload.password,
   };
+
   const res = await nextServer.post(
     '/auth/register',
     cleanPayload
@@ -98,10 +101,15 @@ export const sendSubscription = async (email: string) => {
   }
 };
 
-export const fetchReviews = async (): Promise<Review[]> => {
+export const fetchReviews = async (
+  id?: string
+): Promise<Review[]> => {
   const response =
     await nextServer.get<fetchReviewsResponse>(
-      '/feedbacks'
+      '/feedbacks',
+      {
+        params: id ? { goodId: id } : {},
+      }
     );
   console.log(response.data.feedbacks);
   return response.data.feedbacks || [];
@@ -115,11 +123,17 @@ export const getGoodsByFeedback = async (
     { params }
   );
 
-  const filteredGoods = data.data.filter(
-    good => (good.feedbackCount ?? 0) > 0
-  );
+  const goods = data.data ?? [];
 
-  return filteredGoods;
+  return goods
+    .filter(good => (good.feedbackCount ?? 0) > 0)
+    .sort(
+      (a, b) =>
+        (b.feedbackCount ?? 0) - (a.feedbackCount ?? 0)
+    )
+    .sort(
+      (a, b) => (b.avgRating ?? 0) - (a.avgRating ?? 0)
+    );
 };
 
 export const getGoods = async (
