@@ -11,7 +11,6 @@ export default function Header() {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { addTestItems } = useBasketStore();
   const items = useBasketStore(state => state.items);
 
   const openMenu = () => setIsOpenMenu(true);
@@ -113,12 +112,7 @@ export default function Header() {
               </svg>
             </button>
           )}
-          <button
-            className={css.addTestBtn}
-            onClick={() => addTestItems()}
-          >
-            Додати
-          </button>
+
           <button
             onClick={() => router.push('/basket?from=ui')}
             className={css.basket}

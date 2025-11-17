@@ -40,14 +40,14 @@ export default function BasketModal() {
     if (e.target === e.currentTarget) handleClose();
   };
 
-  const handleClose = () => {
-    router.back();
-  };
-
   const handleNavigate = (path: string) => {
     document.body.style.overflow = 'unset';
     router.push(path);
     window.location.href = path;
+  };
+
+  const handleClose = () => {
+    router.back();
   };
 
   return (
