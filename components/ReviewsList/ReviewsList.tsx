@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -13,7 +13,6 @@ import Loader from '../Loader/Loader';
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
-
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
       stars.push(
@@ -35,24 +34,37 @@ const StarRating = ({ rating }: { rating: number }) => {
       );
     }
   }
-
   return <div className={css.rating}>{stars}</div>;
 };
 
-const ReviewsList = () => {
+type ReviewsListProps = {
+  id?: string;
+  title?: string;
+  showAddButton?: boolean;
+};
+
+const ReviewsList = ({
+  id,
+  title = 'Останні відгуки',
+  showAddButton = false,
+}: ReviewsListProps) => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const {
     data = [],
     error,
     isLoading,
     isError,
   } = useQuery<Review[]>({
-    queryKey: ['reviews'],
-    queryFn: fetchReviews,
+    queryKey: id ? ['reviews', id] : ['reviews'],
+    queryFn: () => fetchReviews(id),
   });
 
   const reviews = Array.isArray(data) ? data : [];
-  const swiperRef = useRef<any>(null);
+  const totalReviews = reviews.length;
 
+  const swiperRef = useRef<any>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
@@ -64,73 +76,96 @@ const ReviewsList = () => {
   };
 
   const handlePrevClick = () => {
-    if (swiperRef.current && !isBeginning) {
+    if (swiperRef.current && !isBeginning)
       swiperRef.current.slidePrev();
-    }
   };
-
   const handleNextClick = () => {
-    if (swiperRef.current && !isEnd) {
+    if (swiperRef.current && !isEnd)
       swiperRef.current.slideNext();
-    }
   };
 
-  if (isLoading) {
-    <Loader />;
-  }
-  if (isError) {
+  if (isLoading) return <Loader />;
+  if (isError)
     return <p>Помилка: {(error as Error).message}</p>;
+  if (!mounted) return null;
+
+  if (totalReviews === 0) {
+    return (
+      <div className={css.container}>
+        <h2 className={css.title}>{title}</h2>
+        {showAddButton && !id && (
+          <button className={css.addButton}>
+            Додати відгук
+          </button>
+        )}
+        <p>Відгуків поки немає</p>
+      </div>
+    );
   }
+
+  const showNavigation = totalReviews >= 4;
+  const swiperSlidesPerView = Math.min(totalReviews, 3);
 
   return (
-    <>
-      <div className={css.container}>
-        <h2 className={css.title}>Останні відгуки</h2>
-        <div className={css.list}>
-          <Swiper
-            modules={[Keyboard, A11y]}
-            slidesPerView={1}
-            breakpoints={{
-              375: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
-              1440: { slidesPerView: 3 },
-            }}
-            spaceBetween={32}
-            keyboard={{ enabled: true }}
-            onSwiper={swiper => {
-              swiperRef.current = swiper;
-              updateNavigationState();
-            }}
-            onSlideChange={swiper => {
-              updateNavigationState();
-            }}
-            a11y={{ enabled: true }}
-          >
-            {reviews.map(review => (
-              <SwiperSlide key={review._id}>
-                <li className={css.listItem}>
-                  <div className={css.descContainer}>
-                    <StarRating rating={review.rate} />
-                    <p className={css.text}>
-                      {review.description}
-                    </p>
-                  </div>
-                  <div className={css.authorContainer}>
-                    <h3 className={css.author}>
-                      {review.author}
-                    </h3>
-                    <Link
-                      href={`/categories/${review.category}`}
-                      className={css.link}
-                    >
-                      {review.category}
-                    </Link>
-                  </div>
-                </li>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+    <div className={css.container}>
+      <h2 className={css.title}>{title}</h2>
+      {showAddButton && !id && (
+        <button className={css.addButton}>
+          Додати відгук
+        </button>
+      )}
+
+      <div className={css.list}>
+        <Swiper
+          modules={[Keyboard, A11y]}
+          slidesPerView={1}
+          breakpoints={{
+            375: { slidesPerView: 1 },
+            768: {
+              slidesPerView: Math.min(
+                swiperSlidesPerView,
+                2
+              ),
+            },
+            1440: { slidesPerView: swiperSlidesPerView },
+          }}
+          spaceBetween={32}
+          keyboard={{ enabled: true }}
+          onSwiper={swiper => {
+            swiperRef.current = swiper;
+            updateNavigationState();
+          }}
+          onSlideChange={updateNavigationState}
+          a11y={{ enabled: true }}
+          allowTouchMove={showNavigation}
+        >
+          {reviews.map(review => (
+            <SwiperSlide key={review._id}>
+              <li className={css.listItem}>
+                <div className={css.descContainer}>
+                  <StarRating rating={review.rate} />
+                  <p className={css.text}>
+                    {review.description}
+                  </p>
+                </div>
+                <div className={css.authorContainer}>
+                  <h3 className={css.author}>
+                    {review.author}
+                  </h3>
+                  <Link
+                    href={`/categories/${review.category}`}
+                    className={css.link}
+                  >
+                    {review.category}
+                  </Link>
+                </div>
+              </li>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      {showNavigation && (
         <div className={css.btnContainer}>
           <button
             className={`${css.navBtn} ${isBeginning ? css.disabled : ''}`}
@@ -151,8 +186,8 @@ const ReviewsList = () => {
             </svg>
           </button>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
