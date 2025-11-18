@@ -113,7 +113,6 @@
   transition:
     opacity 300ms ease-out,
     transform 300ms ease-out;
-
 }
 
 .navMobile.show {
@@ -143,7 +142,7 @@
   font-size: 14px;
   line-height: 1.5;
   color: #000;
-  transition: color 0.2s;
+  transition: all 0.3s ease;
 }
 
 .link:hover,
@@ -151,7 +150,10 @@
   border-bottom: 1px solid #000;
 }
 
-
+.link:active {
+  color: #9db484;
+  border-bottom: 1px solid #4e5a42;
+}
 
 .userName {
   color: #000;
@@ -198,10 +200,12 @@
 .skeletonBox {
   width: 80px;
   height: 36px;
-  background: linear-gradient(90deg,
-      rgba(0, 0, 0, 0.06) 25%,
-      rgba(0, 0, 0, 0.12) 50%,
-      rgba(0, 0, 0, 0.06) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.12) 50%,
+    rgba(0, 0, 0, 0.06) 75%
+  );
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
   border-radius: 20px;

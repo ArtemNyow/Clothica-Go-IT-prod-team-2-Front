@@ -53,7 +53,7 @@ export default function AuthNavigation({
         <>
           <Link
             href="/auth/login"
-            className={css.link}
+            className={css.linklogin}
             onClick={onLinkClick}
           >
             Вхід

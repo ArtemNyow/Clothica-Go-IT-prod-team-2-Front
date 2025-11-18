@@ -29,20 +29,29 @@
   align-items: center;
   justify-content: center;
   border-radius: 100px;
-  width: 108px;
+  width: 100%;
+  max-width: 108px;
   height: 36px;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 150%;
+  font-size: 16px;
+  line-height: 1.5;
   background-color: rgba(0, 0, 0, 0.05);
   color: #000;
   text-decoration: none;
-  padding: 0;
+  padding: 5px 12px;
+  transition: all 0.3s ease;
 }
 
-.viewAll:hover {
-  background-color: #BEE196;
+.viewAll:hover,
+.viewAll:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.viewAll:active {
   color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .slider {
@@ -132,11 +141,19 @@
   border-radius: 100px;
   text-decoration: none;
   line-height: 40px;
+  transition: all 0.3s ease;
 }
 
-.moreBtn:hover {
-  background-color: #BEE196;
+.moreBtn:hover,
+.moreBtn:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.moreBtn:active {
   color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .paginationWrapper {
@@ -192,39 +209,59 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #BEE196;
-  border: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  background-color: #c5e1a5;
+  border: 1px solid #f9fcf6;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: #000;
+  z-index: 10;
   transition: all 0.3s ease;
 }
 
-/* Hover */
-.navPrev:hover,
-.navNext:hover {
-  background-color: #a8d177;
-  color: #000;
+.navPrev svg,
+.navNext svg {
+  width: 16px;
+  height: 16px;
+  stroke: #000;
+  stroke-width: 2;
+  transition: fill 0.2s ease;
 }
 
-/* Focus */
+/* Hover/Focus */
+.navPrev:hover,
 .navPrev:focus,
+.navNext:hover,
 .navNext:focus {
-  background-color: #BEE196;
-  color: #000;
-  outline: 2px solid #E6F0D9;
+  background-color: #9db484;
+  border: 1px solid #4e5a42;
+}
+
+.navPrev:active,
+.navNext:active {
+  background: #3b4331;
+  border: 1px solid #c5e1a5;
+}
+
+.navPrev:active svg,
+.navNext:active svg {
+  stroke: #fff;
 }
 
 /* Disabled */
 .navPrev:disabled,
 .navNext:disabled {
-  background-color: #E6F0D9;
-  color: #A1A1A1;
+  background: #c5e1a5;
+  opacity: 0.3;
   cursor: not-allowed;
-  box-shadow: none;
+
+  border: 1px solid #f9fcf6;
+}
+
+.navPrev:disabled svg,
+.navNext:disabled svg {
+  stroke: #000;
+  opacity: 0.3;
 }
 
 .iconArrow {
@@ -252,25 +289,27 @@
     max-width: 100%;
   }
 
+  .navButtons {
+    position: static;
+    gap: 16px;
+  }
+
   .navPrev {
     position: absolute;
     top: 50%;
-    left: 32px;
+    left: 12px;
     transform: translateY(-50%);
     z-index: 10;
+    top: 345px;
   }
 
   .navNext {
     position: absolute;
     top: 50%;
-    right: 32px;
+    right: 12px;
     transform: translateY(-50%);
     z-index: 10;
-  }
-
-  .navButtons {
-    position: static;
-    gap: 16px;
+    top: 345px;
   }
 
   .paginationWrapper {
