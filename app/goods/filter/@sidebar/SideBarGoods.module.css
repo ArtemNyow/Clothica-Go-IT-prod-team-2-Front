@@ -1,0 +1,225 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.filtersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clearBtn {
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.showCount {
+  font-size: 14px;
+  color: #666;
+}
+
+.filterBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filterItem {
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.2s;
+  user-select: none;
+}
+
+.filterItem:hover {
+  background-color: #f0f0f0;
+}
+
+.selected {
+  background-color: #BEE196;
+  color: white;
+}
+
+.rangeValues {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.rangeTrack {
+  height: 6px;
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 3px;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.rangeThumb {
+  height: 16px;
+  width: 16px;
+  background-color: #000;
+  border-radius: 50%;
+  cursor: grab;
+}
+
+/* ===== Кастомные чекбоксы ===== */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.checkboxLabel input {
+  display: none;
+}
+
+.customCheckbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #666;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+}
+
+.checkboxLabel input:checked + .customCheckbox {
+  background-color: #000;
+  border-color: #000;
+}
+
+/* ===== Кастомные радиокнопки ===== */
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.radioLabel input {
+  display: none;
+}
+
+.customRadio {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #666;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  background-color: #fff;
+}
+
+.radioLabel input:checked + .customRadio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-color: #fff; /* белый внутренний круг */
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #000; /* черный внешний круг */
+}
+
+.radioLabel input:checked + .customRadio {
+  background-color: #000;
+  border-color: #000;
+}
+
+/* ===== Адаптив для десктоп 1440px ===== */
+@media (min-width: 1440px) {
+  .sidebar {
+    gap: 32px;
+   
+  }
+
+  .title {
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 120%;
+  }
+
+  .filtersHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .filterBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    }
+
+  .clearBtn {
+    font-size: 16px;
+  }
+
+  .showCount {
+    font-size: 16px;
+  }
+
+  .filterItem {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  .rangeValues {
+    font-size: 16px;
+  }
+
+  .rangeTrack {
+    height: 8px;
+  }
+
+  .rangeThumb {
+    height: 20px;
+    width: 20px;
+  }
+
+  .checkboxLabel,
+  .radioLabel {
+    font-size: 16px;
+    gap: 12px;
+  }
+
+  .customCheckbox,
+  .customRadio {
+    width: 20px;
+    height: 20px;
+  }
+
+  .radioLabel input:checked + .customRadio::after {
+    width: 10px;
+    height: 10px;
+  }
+
+  .checkboxLabel input:checked + .customCheckbox::after {
+    width: 10px;
+    height: 12px;
+  }
+}

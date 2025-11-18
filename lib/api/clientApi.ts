@@ -1,6 +1,7 @@
 import {
   fetchReviewsResponse,
   Review,
+  ReviewRequestBody,
 } from '@/types/review';
 
 import { nextServer } from './api';
@@ -9,12 +10,12 @@ import { Category } from '@/types/category';
 import { Order } from '@/types/order';
 import { GetGoodsParams, Good } from '@/types/goods';
 
+
 export const login = async (
   phone: string,
   password: string
 ): Promise<User> => {
   const cleanPhone = phone.replaceAll(/[\s()\-+]/g, '');
-
   const res = await nextServer.post('/auth/login', {
     phone: cleanPhone,
     password,
@@ -113,6 +114,16 @@ export const fetchReviews = async (
   return response.data.feedbacks || [];
 };
 
+export const createReview = async (
+  review: ReviewRequestBody
+): Promise<Review> => {
+  const res = await nextServer.post<Review>(
+    '/feedbacks',
+    review
+  );
+  return res.data;
+};
+
 export const getGoodsByFeedback = async (
   params: GetGoodsParams = {}
 ): Promise<Good[]> => {
@@ -134,18 +145,34 @@ export const getGoodsByFeedback = async (
     );
 };
 
-export const getGoods = async (
-  params: GetGoodsParams = {}
-): Promise<Good[]> => {
-  const { data } = await nextServer.get<{ data: Good[] }>(
-    '/goods',
-    {
-      params,
-    }
-  );
 
-  return data.data;
+export const getGoods = async (
+  params: GetGoodsParams = {},
+  page: number = 1,
+  perPage: number = 15
+) => {
+  const response = await nextServer.get('/goods', {
+    params: { ...params, page, perPage },
+    paramsSerializer: (params) => {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach(v => searchParams.append(key, v)); 
+        } else if (value !== undefined) {
+          searchParams.append(key, String(value));
+        }
+      });
+      return searchParams.toString();
+    },
+  });
+
+  return {
+    data: response.data.data,
+    totalGoods: response.data.totalGoods,
+  };
 };
+
+
 
 export const getGoodById = async (id: string) => {
   const res = await nextServer.get(`/goods/${id}`);

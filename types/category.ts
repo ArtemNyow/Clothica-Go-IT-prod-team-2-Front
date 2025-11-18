@@ -3,4 +3,5 @@
   name: string;
   image: string;
   goodsCount?: number;
+  availableSizes?: string[];
 };

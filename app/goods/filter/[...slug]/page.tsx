@@ -1,10 +1,11 @@
-const GoodsPage = () => {
+import GoodsPage from "@/components/GoodsPage/GoodsPage";
+
+const GoodsPagefunction = () => {
   return (
     <div>
-      <h1> GoodsPage</h1>
-      {/* Форма редагування */}
+      <GoodsPage/>
     </div>
   );
 };
 
-export default GoodsPage;
+export default GoodsPagefunction;

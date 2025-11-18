@@ -12,6 +12,7 @@ import { useBasketStore } from '@/lib/store/basketStore';
 import CustomSelect from '@/components/CustomSelect/CustomSelect';
 import Loader from '@/components/Loader/Loader';
 import ReviewsList from '@/components/ReviewsList/ReviewsList';
+import ReviewModal from '@/components/ReviewModal/ReviewModal';
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -54,6 +55,7 @@ export default function GoodsDetailsClient() {
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [isClient, setIsClient] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -120,6 +122,14 @@ export default function GoodsDetailsClient() {
     return <p>Розміри товару недоступні.</p>;
   }
 
+  function handleOpenModal() {
+    setIsOpen(true);
+  }
+
+  function handleCloseModal() {
+    setIsOpen(false);
+  }
+
   return (
     <>
       <section className={css.categoriesSection}>
@@ -144,7 +154,11 @@ export default function GoodsDetailsClient() {
               </svg>
             </li>
             <li className={css.link}>
-              <Link href="/categories">Категорія</Link>
+              <Link
+                href={`/goods?category=${good.category}`}
+              >
+                Категорія
+              </Link>
             </li>
             <li className={css.link}>
               <svg className={css.svg}>
@@ -268,7 +282,15 @@ export default function GoodsDetailsClient() {
         id={id}
         title="Відгуки клієнтів"
         showAddButton={true}
+        onOpenModal={handleOpenModal}
       />
+
+      {isOpen && (
+        <ReviewModal
+          onClose={handleCloseModal}
+          goodId={id}
+        />
+      )}
     </>
   );
 }
