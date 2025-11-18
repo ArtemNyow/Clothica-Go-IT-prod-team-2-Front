@@ -101,7 +101,7 @@ const ProfilePage = () => {
             <PersonalInfoForm
               formik={formik}
               showComment={false}
-              title="Особиста інформація"
+              textBtn="Зберегти зміни"
             />
             <section
               className={css.containerPageProfileSecond}

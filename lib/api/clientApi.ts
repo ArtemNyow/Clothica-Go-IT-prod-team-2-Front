@@ -10,7 +10,6 @@ import { Category } from '@/types/category';
 import { Order } from '@/types/order';
 import { GetGoodsParams, Good } from '@/types/goods';
 
-
 export const login = async (
   phone: string,
   password: string
@@ -145,7 +144,6 @@ export const getGoodsByFeedback = async (
     );
 };
 
-
 export const getGoods = async (
   params: GetGoodsParams = {},
   page: number = 1,
@@ -153,11 +151,11 @@ export const getGoods = async (
 ) => {
   const response = await nextServer.get('/goods', {
     params: { ...params, page, perPage },
-    paramsSerializer: (params) => {
+    paramsSerializer: params => {
       const searchParams = new URLSearchParams();
       Object.entries(params).forEach(([key, value]) => {
         if (Array.isArray(value)) {
-          value.forEach(v => searchParams.append(key, v)); 
+          value.forEach(v => searchParams.append(key, v));
         } else if (value !== undefined) {
           searchParams.append(key, String(value));
         }
@@ -171,8 +169,6 @@ export const getGoods = async (
     totalGoods: response.data.totalGoods,
   };
 };
-
-
 
 export const getGoodById = async (id: string) => {
   const res = await nextServer.get(`/goods/${id}`);

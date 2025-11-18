@@ -1,26 +1,40 @@
 'use client';
 
-import { ErrorMessage, FormikProps } from 'formik';
+import { FormikProps } from 'formik';
 import css from '@/app/(private routes)/profile/ProfilePage.module.css';
 import { UserFormValues } from '@/types/user';
 
 interface PersonalInfoFormProps {
   formik: FormikProps<UserFormValues>;
-  title?: string;
   showComment?: boolean;
+  textBtn: string;
 }
 
 const PersonalInfoForm = ({
   formik,
-  title,
   showComment,
+  textBtn,
 }: PersonalInfoFormProps) => {
+  const getInputClass = (field: keyof UserFormValues) =>
+    `${css.inputForm} ${
+      formik.touched[field] && formik.errors[field]
+        ? css.inputError
+        : ''
+    }`;
+
+  const getTextareaClass = (field: keyof UserFormValues) =>
+    `${css.inputTextArea} ${
+      formik.touched[field] && formik.errors[field]
+        ? css.textareaError
+        : ''
+    }`;
+
   return (
     <form
       className={css.profileInfo}
       onSubmit={formik.handleSubmit}
     >
-      <h2 className={css.titleForm}>{title}</h2>
+      <h2 className={css.titleForm}>Особиста інформація</h2>
 
       <div className={css.containerProfileInfo}>
         <div className={css.profileInfoItems}>
@@ -35,7 +49,7 @@ const PersonalInfoForm = ({
               id="firstName"
               name="firstName"
               type="text"
-              className={css.inputForm}
+              className={getInputClass('firstName')}
               value={formik.values.firstName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -44,7 +58,7 @@ const PersonalInfoForm = ({
             />
             {formik.touched.firstName &&
               formik.errors.firstName && (
-                <div className={css.textMessageNoInfo}>
+                <div className={css.error}>
                   {formik.errors.firstName}
                 </div>
               )}
@@ -61,7 +75,7 @@ const PersonalInfoForm = ({
               id="lastName"
               name="lastName"
               type="text"
-              className={css.inputForm}
+              className={getInputClass('lastName')}
               value={formik.values.lastName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -70,7 +84,7 @@ const PersonalInfoForm = ({
             />
             {formik.touched.lastName &&
               formik.errors.lastName && (
-                <div className={css.textMessageNoInfo}>
+                <div className={css.error}>
                   {formik.errors.lastName}
                 </div>
               )}
@@ -89,7 +103,7 @@ const PersonalInfoForm = ({
               id="phone"
               name="phone"
               type="tel"
-              className={`${css.inputForm} ${css.inputPhone}`}
+              className={`${getInputClass('phone')} ${css.inputPhone}`}
               value={formik.values.phone}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -98,7 +112,7 @@ const PersonalInfoForm = ({
             />
             {formik.touched.phone &&
               formik.errors.phone && (
-                <div className={css.textMessageNoInfo}>
+                <div className={css.error}>
                   {formik.errors.phone}
                 </div>
               )}
@@ -114,13 +128,18 @@ const PersonalInfoForm = ({
               id="city"
               name="city"
               type="text"
-              className={css.inputForm}
+              className={getInputClass('city')}
               value={formik.values.city}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Ваше місто"
               required
             />
+            {formik.touched.city && formik.errors.city && (
+              <div className={css.error}>
+                {formik.errors.city}
+              </div>
+            )}
           </div>
 
           <div className={css.profileInfoItemsGroup}>
@@ -134,17 +153,22 @@ const PersonalInfoForm = ({
               id="postOffice"
               name="postOffice"
               type="text"
-              className={css.inputForm}
+              className={getInputClass('postOffice')}
               value={formik.values.postOffice}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="1"
               required
             />
+            {formik.touched.postOffice &&
+              formik.errors.postOffice && (
+                <div className={css.error}>
+                  {formik.errors.postOffice}
+                </div>
+              )}
           </div>
         </div>
 
-        {/* === Додатковий textarea для коментаря === */}
         {showComment && (
           <div className={css.formRow}>
             <label htmlFor="comment">Коментар</label>
@@ -155,7 +179,7 @@ const PersonalInfoForm = ({
               value={formik.values.comment || ''}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={css.inputTextArea}
+              className={getTextareaClass('comment')}
             />
             {formik.touched.comment &&
               formik.errors.comment && (
@@ -168,7 +192,7 @@ const PersonalInfoForm = ({
       </div>
 
       <button type="submit" className={css.saveInputButton}>
-        Зберегти зміни
+        {textBtn}
       </button>
     </form>
   );

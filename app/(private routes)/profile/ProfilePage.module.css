@@ -200,6 +200,23 @@
   transition: all 0.3s ease;
 }
 
+.error {
+  color: #d33;
+  font-size: 14px;
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+.inputError {
+  border: 1px solid #d33 !important;
+  background-color: #ffe8e8;
+}
+
+.textareaError {
+  border: 1px solid #d33 !important;
+  background-color: #ffe8e8;
+}
+
 .logoutButton:hover {
   border: 1px solid rgba(0, 0, 0, 0.5);
   background: rgba(0, 0, 0, 0.15);
@@ -314,7 +331,7 @@
 
 
   .saveInputButton {
-    width: 147px;
+    width: 247px;
   }
 
   .containerMessageTransactionList {
