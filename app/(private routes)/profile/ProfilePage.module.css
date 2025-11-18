@@ -84,7 +84,10 @@
   padding: 8px;
   width: 335px;
   height: 40px;
-  background: rgba(255, 255, 255, 0);
+  background: #fff;
+  /* змінив з прозорого на білий */
+  color: #000;
+  /* додав для гарантії, що текст чорний */
   transition: transform 0.3s ease;
 }
 
@@ -100,13 +103,13 @@
   padding: 12px;
   width: 335px;
   height: 180px;
+  color: #000;
 }
 
 .saveInputButton {
   font-family: 'Inter', sans-serif;
   border: 1px solid #c5e1a5;
   border-radius: 100px;
-  padding: 6px 12px;
   width: 335px;
   height: 36px;
   background: #c5e1a5;
@@ -210,7 +213,11 @@
   align-items: center;
   justify-content: space-between;
   list-style: none;
+
   margin-bottom: 48px;
+
+
+
 }
 
 .transactionItemTextUnStrong {
@@ -219,6 +226,7 @@
   font-size: 14px;
   line-height: 1.5;
   color: #000;
+
 }
 
 .transactionItemSpanStrong {
@@ -243,6 +251,19 @@
   font-size: 16px;
   line-height: 1.5;
   color: #000;
+}
+
+.transactionItem {
+  display: flex;
+  justify-items: space-between;
+  align-items: center;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.orderLeft {
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 768px) {
@@ -294,11 +315,19 @@
 
   .transactionItemLi {
     display: list-item;
+
   }
+
+  .transactionItem {
+    gap: 200px;
+  }
+
   .transactionList {
     justify-content: flex-start;
     gap: 171px;
   }
+
+
 }
 
 @media (min-width: 1440px) {
@@ -321,6 +350,10 @@
 
   .inputPhone {
     width: 640px;
+  }
+
+  .transactionItem {
+    gap: 150px;
   }
 
   .containerMessageTransactionList {
