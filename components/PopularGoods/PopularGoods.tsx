@@ -34,7 +34,7 @@ const PopularGoods = () => {
   const [isPrevDisabled, setPrevDisabled] = useState(true);
   const [isNextDisabled, setNextDisabled] = useState(false);
 
-  // FIX: слідкуємо за позицією слайдера
+  
   const updateNavState = (swiper: any) => {
     setPrevDisabled(swiper.isBeginning);
     setNextDisabled(swiper.isEnd);
@@ -95,7 +95,7 @@ const PopularGoods = () => {
         }}
         onSwiper={swiper => {
           swiperRef.current = swiper;
-          updateNavState(swiper); // <<< ВІДРАЗУ ВИКЛИКАЄМО
+          updateNavState(swiper); 
         }}
         onSlideChange={swiper => updateNavState(swiper)}
         navigation={{
