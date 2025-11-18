@@ -1,152 +1,362 @@
 .main {
-  min-height: calc(100vh - 80px);
-  padding: 40px 20px;
-  background: var(--background);
+  background: #f3f9ed;
 }
 
 .container {
-  max-width: 800px;
+  padding: 64px 20px;
+  width: 100%;
   margin: 0 auto;
 }
 
-.title {
-  font-size: 32px;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 40px;
+.cabinetContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.containerCabinetWithoutTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.titleProfilePage {
   text-align: center;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #000;
 }
 
-.section {
-  background-color: #FFF;
-  border-radius: 12px;
-  padding: 32px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.sectionTitle {
+.titleForm {
+  font-family: 'Nunito Sans', sans-serif;
+  text-align: center;
+  font-weight: 400;
   font-size: 20px;
-  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  text-align: center;
   color: #000;
   margin-bottom: 24px;
 }
 
-.emptyState {
-  text-align: center;
-  padding: 40px 20px;
-  color: #666;
+.containerProfileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+  align-items: center;
 }
 
-.emptyState p {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.shopButton {
-  padding: 12px 32px;
-  background-color: #C5E1A5;
-  color: #000;
-  border: none;
-  border-radius: 24px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.shopButton:hover {
-  background-color: #B5D095;
-  transform: translateY(-1px);
-}
-
-.userInfo {
+.profileInfoItems {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.infoRow {
+.profileInfo {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.infoRow:last-child {
-  border-bottom: none;
+.profileInfoItemsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.label {
-  font-size: 14px;
-  color: #666;
-  font-weight: 500;
-}
-
-.value {
-  font-size: 16px;
-  color: #000;
+.labelForm {
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.inputForm {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 8px;
+  width: 335px;
+  height: 40px;
+  background: #fff;
+  /* змінив з прозорого на білий */
+  color: #000;
+  /* додав для гарантії, що текст чорний */
+  transition: transform 0.3s ease;
+}
+
+.inputForm:focus {
+  border-color: #c5e1a5;
+  outline: none;
+  box-shadow: 0 0 0 3px #c5e1a51a;
+}
+
+.inputTextArea {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 12px;
+  width: 335px;
+  height: 180px;
+  color: #000;
+}
+
+.saveInputButton {
+  font-family: 'Inter', sans-serif;
+  border: 1px solid #c5e1a5;
+  border-radius: 100px;
+  width: 335px;
+  height: 36px;
+  background: #c5e1a5;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.saveInputButton:hover {
+  background: #9db484;
+  color: #000;
+  border: 1px solid #4e5a42;
+}
+
+.saveInputButton:focus {
+  background: rgba(0, 0, 0, 0.15);
+  color: #000;
+  border: 1px solid #4e5a42;
+}
+
+.messageNoInfo {
+  border-radius: 16px;
+  padding: 24px 16px;
+  background: #d6eac0;
+  margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textMessageNoInfo {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: center;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.linkMessageNoInfo {
+  border: 1px solid #c5e1a5;
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 303px;
+  background: #c5e1a5;
+}
+
+.linkMessageNoInfo:hover {
+  background: #9db484;
+  color: #000;
+  border: 1px solid #4e5a42;
+}
+
+.linkMessageNoInfo:focus {
+  background: rgba(0, 0, 0, 0.15);
+  color: #000;
+  border: 1px solid #4e5a42;
 }
 
 .logoutButton {
-  display: block;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  padding: 6px 12px;
   width: 100%;
-  max-width: 300px;
-  margin: 40px auto 0;
-  padding: 14px 32px;
-  background-color: #EF4444;
-  color: #FFF;
-  border: none;
-  border-radius: 24px;
-  font-size: 16px;
+  background: rgba(0, 0, 0, 0.05);
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  width: 335px;
+  height: 36px;
+  transition: all 0.3s ease;
 }
 
 .logoutButton:hover {
-  background-color: #DC2626;
-  transform: translateY(-1px);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.15);
 }
 
-.loading {
-  min-height: 60vh;
+.logoutButton:focus {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.transactionItemLi {
+  display: none;
+}
+
+.containerMessageTransactionList {
+  width: 335px;
+  margin: 0 auto;
+}
+
+.transactionList {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  color: #666;
+  justify-content: space-between;
+  list-style: none;
+
+  margin-bottom: 48px;
+
+
+
 }
 
-/* Tablet */
-@media (max-width: 768px) {
-  .section {
-    padding: 24px;
+.transactionItemTextUnStrong {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+
+}
+
+.transactionItemSpanStrong {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.transactionItemText {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.transactionItemSpan {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.transactionItem {
+  display: flex;
+  justify-items: space-between;
+  align-items: center;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.orderLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 64px 32px 48px;
   }
 
-  .title {
-    font-size: 28px;
-  }
-
-  .infoRow {
-    flex-direction: column;
+  .containerProfileInfo {
+    margin-bottom: 24px;
     align-items: flex-start;
-    gap: 4px;
   }
+
+  .profileInfoItems {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .profileInfoItems {
+    gap: 32px;
+  }
+
+  .inputPhone {
+    width: 704px;
+  }
+
+  .labelTextArea {
+    display: none;
+  }
+
+  .inputTextArea {
+    display: none;
+  }
+
+  .saveInputButton {
+    width: 147px;
+  }
+
+  .containerMessageTransactionList {
+    width: 704px;
+  }
+
+  .messageNoInfo {
+    padding: 24px 0px;
+  }
+
+  .linkMessageNoInfo {
+    width: 115px;
+  }
+
+  .transactionItemLi {
+    display: list-item;
+
+  }
+
+  .transactionItem {
+    gap: 200px;
+  }
+
+  .transactionList {
+    justify-content: flex-start;
+    gap: 171px;
+  }
+
+
 }
 
-/* Mobile */
-@media (max-width: 375px) {
-  .main {
-    padding: 24px 16px;
+@media (min-width: 1440px) {
+  .container {
+    padding: 112px 64px 80px;
   }
 
-  .section {
-    padding: 20px;
+  .titleProfilePage {
+    font-size: 48px;
   }
 
-  .title {
-    font-size: 24px;
+  .containerCabinetWithoutTitle {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+  }
+
+  .inputForm {
+    width: 304px;
+  }
+
+  .inputPhone {
+    width: 640px;
+  }
+
+  .transactionItem {
+    gap: 150px;
+  }
+
+  .containerMessageTransactionList {
+    width: 640px;
   }
 }

@@ -1,9 +1,11 @@
 export interface User {
   _id: string;
-  firstName: string;
+  firstName?: string;
   lastName?: string;
-  phone: string;
-  email: string;
+  phone: number;
+  email?: string;
+  city?: string;
+  postOffice?: string;
   avatar?: string;
   createdAt?: string;
   updatedAt?: string;
