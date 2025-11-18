@@ -69,12 +69,14 @@ s.footer {
   transition: all 0.3s ease;
 }
 
-.footerNavItem:hover {
-  color: #9db484;
+.footerNavItem:hover,
+.footerNavItem:focus {
+  border-bottom: 1px solid #000;
 }
 
 .footerNavItem:active {
   color: #9db484;
+  border-bottom: 1px solid #4e5a42;
 }
 
 .footerFirstPartSecond {

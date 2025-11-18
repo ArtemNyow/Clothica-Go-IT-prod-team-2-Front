@@ -8,31 +8,8 @@
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: #000;
-  font-size: 36px;
-}
-
-.addButton {
-  background-color: #c5e1a5;
-  border: transparent;
-  border-radius: 100px;
-  padding: 6px 12px;
-  max-height: 36px;
-  font-weight: 500;
-  line-height: 150%;
-  color: #000000;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
-  outline: none;
-  cursor: pointer;
-  width: 156px;
-}
-
-.buttonWrapper {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  gap: 24px;
   margin-bottom: 40px;
+  font-size: 36px;
 }
 
 .list {
@@ -101,6 +78,12 @@
   color: #000;
 }
 
+.disabled {
+  background: #c5e1a5;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .btnContainer {
   display: flex;
   justify-content: flex-end;
@@ -110,7 +93,7 @@
 
 .navBtn {
   border: 1px solid #f9fcf6;
-  border-radius: 100px;
+  border-radius: 50%;
   padding: 12px;
   width: 48px;
   height: 48px;
@@ -121,13 +104,42 @@
   flex-direction: row;
   gap: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.disabled {
+.navBtn svg {
+  width: 16px;
+  height: 16px;
+  stroke: #000;
+  stroke-width: 2;
+  transition: fill 0.2s ease;
+}
+
+.navBtn:hover {
+  background: #9db484;
+  border: 1px solid #4e5a42;
+}
+
+.navBtn:active {
+  background: #3b4331;
+  border: 1px solid #c5e1a5;
+}
+
+.navBtn:active svg {
+  stroke: #fff;
+}
+
+.navBtn:disabled {
   background: #c5e1a5;
   opacity: 0.3;
   cursor: not-allowed;
-  pointer-events: none;
+
+  border: 1px solid #f9fcf6;
+}
+
+.navBtn:disabled svg {
+  stroke: #000;
+  opacity: 0.3;
 }
 
 @media screen and (min-width: 375px) {
@@ -142,9 +154,13 @@
     max-width: 768px;
   }
 
-  .buttonWrapper {
-    flex-direction: row;
+  .headerWrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between
   }
+
+
 }
 
 @media screen and (min-width: 1440px) {
