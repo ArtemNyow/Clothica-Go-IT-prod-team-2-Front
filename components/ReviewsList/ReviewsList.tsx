@@ -10,6 +10,7 @@ import css from './ReviewsList.module.css';
 import { Review } from '@/types/review';
 import { fetchReviews } from '@/lib/api/clientApi';
 import Loader from '../Loader/Loader';
+import { useRouter } from 'next/navigation';
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -45,8 +46,8 @@ type ReviewsListProps = {
 
 const ReviewsList = ({
   id,
-  title = 'Останні відгуки',
-  showAddButton = false,
+  title,
+  showAddButton,
 }: ReviewsListProps) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -63,7 +64,7 @@ const ReviewsList = ({
 
   const reviews = Array.isArray(data) ? data : [];
   const totalReviews = reviews.length;
-
+  const router = useRouter();
   const swiperRef = useRef<any>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -93,11 +94,12 @@ const ReviewsList = ({
     return (
       <div className={css.container}>
         <h2 className={css.title}>{title}</h2>
-        {showAddButton && !id && (
+        {showAddButton && id && (
           <button className={css.addButton}>
-            Додати відгук
+            Залишити відгук
           </button>
         )}
+
         <p>Відгуків поки немає</p>
       </div>
     );
@@ -108,12 +110,17 @@ const ReviewsList = ({
 
   return (
     <div className={css.container}>
-      <h2 className={css.title}>{title}</h2>
-      {showAddButton && !id && (
-        <button className={css.addButton}>
-          Додати відгук
-        </button>
-      )}
+      <div className={css.headerWrap}>
+        <h2 className={css.title}>{title}</h2>
+        {showAddButton && id && (
+          <button
+            onClick={() => router.push('/basket?from=ui')}
+            className={css.addButton}
+          >
+            Залишити відгук
+          </button>
+        )}
+      </div>
 
       <div className={css.list}>
         <Swiper

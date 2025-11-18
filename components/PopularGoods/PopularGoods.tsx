@@ -11,7 +11,7 @@ import styles from './PopularGoods.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
 
 const PopularGoods = () => {
@@ -30,6 +30,15 @@ const PopularGoods = () => {
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const paginationRef = useRef<HTMLDivElement | null>(null);
   const swiperRef = useRef<any>(null);
+
+  const [isPrevDisabled, setPrevDisabled] = useState(true);
+  const [isNextDisabled, setNextDisabled] = useState(false);
+
+  // FIX: слідкуємо за позицією слайдера
+  const updateNavState = (swiper: any) => {
+    setPrevDisabled(swiper.isBeginning);
+    setNextDisabled(swiper.isEnd);
+  };
 
   useEffect(() => {
     const updatePaginationPosition = () => {
@@ -54,7 +63,6 @@ const PopularGoods = () => {
       updatePaginationPosition
     );
     updatePaginationPosition();
-
     return () =>
       window.removeEventListener(
         'resize',
@@ -87,7 +95,9 @@ const PopularGoods = () => {
         }}
         onSwiper={swiper => {
           swiperRef.current = swiper;
+          updateNavState(swiper); // <<< ВІДРАЗУ ВИКЛИКАЄМО
         }}
+        onSlideChange={swiper => updateNavState(swiper)}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
@@ -119,6 +129,7 @@ const PopularGoods = () => {
                 <h3 className={styles.title}>
                   {item.name}
                 </h3>
+
                 <div className={styles.row}>
                   <div className={styles.leftMeta}>
                     <span className={styles.metaItem}>
@@ -134,10 +145,12 @@ const PopularGoods = () => {
                       {item.feedbackCount ?? 0}
                     </span>
                   </div>
+
                   <span className={styles.price}>
                     {item.price.value} грн
                   </span>
                 </div>
+
                 <Link
                   href={`/goods/${item._id}`}
                   className={styles.moreBtn}
@@ -161,18 +174,21 @@ const PopularGoods = () => {
       <div className={styles.navButtons}>
         <button
           ref={prevRef}
-          className={styles.navPrev}
+          className={`${styles.navPrev} ${isPrevDisabled ? styles.disabled : ''}`}
           aria-label="Назад"
+          disabled={isPrevDisabled}
           onClick={() => swiperRef.current?.slidePrev()}
         >
           <svg className={styles.iconArrow}>
             <use href="/sprite.svg#icon-arrow-back" />
           </svg>
         </button>
+
         <button
           ref={nextRef}
-          className={styles.navNext}
+          className={`${styles.navNext} ${isNextDisabled ? styles.disabled : ''}`}
           aria-label="Вперед"
+          disabled={isNextDisabled}
           onClick={() => swiperRef.current?.slideNext()}
         >
           <svg className={styles.iconArrow}>

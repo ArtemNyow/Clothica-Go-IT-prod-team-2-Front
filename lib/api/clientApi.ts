@@ -6,9 +6,8 @@ import {
 import { nextServer } from './api';
 import type { User, RegisterRequest } from '@/types/user';
 import { Category } from '@/types/category';
+import { Order } from '@/types/order';
 import { GetGoodsParams, Good } from '@/types/goods';
-import { log } from 'console';
-import { param } from 'framer-motion/client';
 
 export const login = async (
   phone: string,
@@ -54,7 +53,7 @@ export const updateUserProfile = async (
   payload: Partial<User>
 ): Promise<User> => {
   const { data } = await nextServer.patch<User>(
-    '/user/me',
+    '/user/edit',
     payload
   );
   return data;
@@ -154,11 +153,31 @@ export const getGoodById = async (id: string) => {
 };
 
 export const createOrder = async (payload: any) => {
-  const { data } = await nextServer.post("/orders", payload);
+  const { data } = await nextServer.post(
+    '/orders',
+    payload
+  );
   return data;
 };
 
 export const getMyOrders = async () => {
-  const { data } = await nextServer.get("/orders");
+  const { data } = await nextServer.get('/orders');
   return data;
+};
+
+export const fetchMyOrders = async (): Promise<Order[]> => {
+  try {
+    const { data } = await nextServer.get<{
+      message: string;
+      page: number;
+      perPage: number;
+      totalOrders: number;
+      totalPages: number;
+      data: Order[];
+    }>('/orders/my');
+    return data.data || [];
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    return [];
+  }
 };
