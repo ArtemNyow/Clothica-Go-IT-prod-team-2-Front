@@ -15,6 +15,7 @@
   cursor: pointer;
   transition: all 0.2s;
   border: 1px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .link:hover,
@@ -37,6 +38,7 @@
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 100px;
   padding: 6px 12px;
+  transition: all 0.3s ease;
 }
 
 .linklogin:hover,
@@ -58,7 +60,6 @@
   background-color: rgba(197, 225, 165, 0.2);
   border-radius: 20px;
 }
-
 
 /* Mobile */
 @media (max-width: 768px) {

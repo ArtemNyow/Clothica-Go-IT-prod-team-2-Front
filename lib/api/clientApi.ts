@@ -6,8 +6,8 @@ import {
 import { nextServer } from './api';
 import type { User, RegisterRequest } from '@/types/user';
 import { Category } from '@/types/category';
+import { Order } from '@/types/order';
 import { GetGoodsParams, Good } from '@/types/goods';
-import { log } from 'console';
 
 export const login = async (
   phone: string,
@@ -53,7 +53,7 @@ export const updateUserProfile = async (
   payload: Partial<User>
 ): Promise<User> => {
   const { data } = await nextServer.patch<User>(
-    '/user/me',
+    '/user/edit',
     payload
   );
   return data;
@@ -99,10 +99,15 @@ export const sendSubscription = async (email: string) => {
   }
 };
 
-export const fetchReviews = async (): Promise<Review[]> => {
+export const fetchReviews = async (
+  id?: string
+): Promise<Review[]> => {
   const response =
     await nextServer.get<fetchReviewsResponse>(
-      '/feedbacks'
+      '/feedbacks',
+      {
+        params: id ? { goodId: id } : {},
+      }
     );
   console.log(response.data.feedbacks);
   return response.data.feedbacks || [];
@@ -147,12 +152,19 @@ export const getGoodById = async (id: string) => {
   return res.data;
 };
 
-export const createOrder = async (payload: any) => {
-  const { data } = await nextServer.post("/orders", payload);
-  return data;
-};
-
-export const getMyOrders = async () => {
-  const { data } = await nextServer.get("/orders");
-  return data;
+export const fetchMyOrders = async (): Promise<Order[]> => {
+  try {
+    const { data } = await nextServer.get<{
+      message: string;
+      page: number;
+      perPage: number;
+      totalOrders: number;
+      totalPages: number;
+      data: Order[];
+    }>('/orders/my');
+    return data.data || [];
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    return [];
+  }
 };

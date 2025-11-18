@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
       page,
       perPage,
     };
+
     if (goodId) params.goodId = goodId;
 
     const { data } = await api.get('/feedbacks', {

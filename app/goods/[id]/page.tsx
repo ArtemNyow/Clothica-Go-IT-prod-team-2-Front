@@ -7,9 +7,9 @@ import {
 import { getGoodById } from '@/lib/api/clientApi';
 import GoodsDetailsClient from './GoodDetailsClient';
 
-interface PageDetailsPageProps {
+type PageDetailsPageProps = {
   params: Promise<{ id: string }>;
-}
+};
 export default async function GoodByIdPage({
   params,
 }: PageDetailsPageProps) {

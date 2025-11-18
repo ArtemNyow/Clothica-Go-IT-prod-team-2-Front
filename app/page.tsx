@@ -8,10 +8,11 @@ export default function HomePage() {
   return (
     <main className="min-h-screen flex items-center justify-center">
       <Hero />
+
       <StyleFeatures />
       <PopularCategories />
       <PopularGoods />
-      <ReviewsList />
+      <ReviewsList title="Останні відгуки" />
     </main>
   );
 }
