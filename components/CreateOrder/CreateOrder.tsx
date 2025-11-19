@@ -121,7 +121,12 @@ const CreateOrder = () => {
         <div className={styles.sectionsWrapper}>
           {items.length > 0 ? (
             <>
-              <GoodsOrderList items={items} />
+              <div className={styles.modalContent}>
+                <GoodsOrderList
+                  items={items}
+                  title="Товари"
+                />
+              </div>
               <PersonalInfoForm
                 formik={formik}
                 showComment={true}

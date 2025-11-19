@@ -70,8 +70,9 @@ export default function BasketModal() {
 
         {items.length > 0 ? (
           <>
-            <GoodsOrderList items={items} />
-
+            <div className={styles.modalContent}>
+              <GoodsOrderList items={items} />
+            </div>
             <div className={styles.buttons}>
               <button
                 className={styles.secondaryBtn}
@@ -89,13 +90,11 @@ export default function BasketModal() {
             </div>
           </>
         ) : (
-          <div className={styles.empty}>
-            <MessageNoInfo
-              text="Ваш кошик порожній, мерщій до покупок!"
-              buttonText="До покупок"
-              onClick={() => handleNavigate('/goods')}
-            />
-          </div>
+          <MessageNoInfo
+            text="Ваш кошик порожній, мерщій до покупок!"
+            buttonText="До покупок"
+            onClick={() => handleNavigate('/goods')}
+          />
         )}
       </div>
     </div>

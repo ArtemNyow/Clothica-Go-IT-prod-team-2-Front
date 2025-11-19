@@ -17,6 +17,7 @@
     letter-spacing: -0.01em;
     text-align: center;
     color: #000;
+    margin: 0 auto;
     margin-bottom: 48px;
 }
 
@@ -261,16 +262,38 @@
     background-color: #58794a;
 }
 
+.modalContent {
+    margin: 0 auto;
+    width: 100%;
+}
+
 @media (min-width: 375px) {
     .orderForm {
         width: 375px;
         margin: 0 auto;
     }
+
+    .modalContent {
+        max-width: 335px;
+    }
+
+    .pageTitle {
+        width: 335px;
+    }
 }
 
 @media (min-width: 768px) {
+    .pageTitle {
+        width: 100%;
+    }
+
+
     .orderForm {
         width: 768px;
+    }
+
+    .modalContent {
+        max-width: 704px;
     }
 
     .productCard {
@@ -361,6 +384,10 @@
 
     .pageTitle {
         font-size: 48px;
+    }
+
+    .modalContent {
+        max-width: 640px;
     }
 
     .orderPage {
