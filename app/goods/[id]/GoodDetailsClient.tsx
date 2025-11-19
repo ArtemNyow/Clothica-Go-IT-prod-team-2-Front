@@ -264,7 +264,6 @@ export default function GoodsDetailsClient() {
               <div className={css.formCount}>
                 <input
                   id="quantity"
-                  type="number"
                   value={quantity}
                   min={1}
                   onChange={e =>
