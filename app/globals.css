@@ -27,6 +27,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .ButtonGreen:hover,
