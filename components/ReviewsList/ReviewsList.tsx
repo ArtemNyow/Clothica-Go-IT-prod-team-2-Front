@@ -10,6 +10,7 @@ import css from './ReviewsList.module.css';
 import { Review } from '@/types/review';
 import { fetchReviews } from '@/lib/api/clientApi';
 import Loader from '../Loader/Loader';
+import NoGoodReviews from '../GoodReviews/NoGoodReviews';
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -93,17 +94,8 @@ const ReviewsList = ({
 
   if (totalReviews === 0) {
     return (
-      <div className={css.container}>
-        <h2 className={css.title}>{title}</h2>
-        {showAddButton && (
-          <button
-            className={css.ButtonGreen}
-            onClick={onOpenModal}
-          >
-            Залишити відгук
-          </button>
-        )}
-        <p>Відгуків поки немає</p>
+      <div className={css.NoContextWrap}>
+        <NoGoodReviews onOpenModal={onOpenModal} />
       </div>
     );
   }

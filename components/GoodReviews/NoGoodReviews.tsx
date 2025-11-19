@@ -1,16 +1,16 @@
-import css from './GoodReviews.module.css';
+import css from './NoGoodReviews.module.css';
 
-export default function GoodReviews() {
+interface Props {
+  onOpenModal?: () => void;
+}
+
+export default function NoGoodReviews({
+  onOpenModal,
+}: Props) {
   return (
     <div className={css.container}>
       <div className={css.containerSend}>
         <h2 className={css.title}>Відгуки клієнтів</h2>
-        <button
-          className={`${css.btnSend} ${css.btnFeedback}`}
-          type="button"
-        >
-          Залишити відгук
-        </button>
       </div>
       <div className={css.containerBtnSend}>
         <p className={css.notFeedback}>
@@ -19,6 +19,7 @@ export default function GoodReviews() {
         <button
           className={`${css.btnSend} ${css.btnFeedback}`}
           type="button"
+          onClick={onOpenModal}
         >
           Залишити відгук
         </button>
