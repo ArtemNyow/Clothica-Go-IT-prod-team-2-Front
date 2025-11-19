@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getCategories } from '@/lib/api/clientApi';
 import { useMediaQuery } from 'react-responsive';
@@ -31,10 +31,13 @@ export default function CategoriesListClient({}: Props) {
   });
   const isDesktop = useMediaQuery({ minWidth: 1440 });
 
-  const defaultVisibleCount = isDesktop ? 6 : 4;
-  const [visibleCount, setVisibleCount] = useState(
-    defaultVisibleCount
-  );
+  const [visibleCount, setVisibleCount] = useState(4);
+
+  useEffect(() => {
+    if (isDesktop) setVisibleCount(6);
+    else if (isTablet) setVisibleCount(4);
+    else setVisibleCount(4);
+  }, [isMobile, isTablet, isDesktop]);
 
   const handleLoadMore = () => {
     if (isMobile) setVisibleCount(p => p + 1);
