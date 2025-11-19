@@ -80,8 +80,11 @@ export default function ReviewModal({
     try {
       await createReview(payload);
       toast.success('Ваш відгук відправлено!');
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ['reviews', goodId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['product', goodId],
       });
       onClose();
     } catch (err: any) {
@@ -92,10 +95,6 @@ export default function ReviewModal({
         'Щось пішло не так';
 
       toast.error(message);
-      console.error(
-        'Failed to create feedback:',
-        err.response?.data || err
-      );
     } finally {
       setLoading(false);
     }

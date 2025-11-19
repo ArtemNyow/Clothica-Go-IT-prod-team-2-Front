@@ -1,9 +1,9 @@
-import GoodsPage from "@/components/GoodsPage/GoodsPage";
-
+import GoodsPage from '@/components/GoodsPage/GoodsPage';
+import styles from './GoodsPage.module.css';
 const GoodsPagefunction = () => {
   return (
     <div>
-      <GoodsPage/>
+      <GoodsPage />
     </div>
   );
 };

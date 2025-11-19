@@ -1,6 +1,5 @@
 'use client';
-import React from 'react';
-
+import React, { useState } from 'react';
 import { Range } from 'react-range';
 import styles from './SideBarGoods.module.css';
 import {
@@ -72,7 +71,13 @@ export default function SideBarGoods({
 
   return (
     <div className={styles.sidebar}>
-      <h3 className={styles.title}>Всі товари</h3>
+      <h3 className={styles.title}>
+        {selectedFilters.category
+          ? filters.categories.find(
+              c => c._id === selectedFilters.category
+            )?.name
+          : 'Всі товари'}
+      </h3>
 
       <div className={styles.filtersHeader}>
         <span>Фільтри</span>
@@ -88,7 +93,6 @@ export default function SideBarGoods({
         Показано {goodsLength} з {totalGoods}
       </div>
 
-      {/* Категории */}
       <div className={styles.filterBlock}>
         <h4>Категорії</h4>
         <div
@@ -108,7 +112,6 @@ export default function SideBarGoods({
         ))}
       </div>
 
-      {/* Размеры */}
       <div className={styles.filterBlock}>
         <div className={styles.filterHeader}>
           <h4>Розмір</h4>
@@ -124,27 +127,53 @@ export default function SideBarGoods({
             Очистити
           </button>
         </div>
-        {filters.sizes.map(size => {
-          const checked =
-            selectedFilters.size.includes(size);
-          return (
-            <label
-              key={size}
-              className={styles.checkboxLabel}
-            >
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={() => handleSizeClick(size)}
-              />
-              <span className={styles.customCheckbox} />
-              {size}
-            </label>
-          );
-        })}
+        <div className={styles.checkboxList}>
+          {filters.sizes.map(size => {
+            const checked =
+              selectedFilters.size.includes(size);
+            return (
+              <label
+                key={size}
+                className={styles.checkboxLabel}
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => handleSizeClick(size)}
+                  className={styles.hiddenInput}
+                />
+
+                <span
+                  className={`${styles.customCheckbox} ${checked ? styles.checked : ''}`}
+                >
+                  {checked && (
+                    <svg
+                      width="12"
+                      height="10"
+                      viewBox="0 0 12 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.5 5L4.5 8L10.5 2"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </span>
+
+                <span className={styles.labelText}>
+                  {size}
+                </span>
+              </label>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Диапазон цены */}
       <div className={styles.filterBlock}>
         <div className={styles.filterHeader}>
           <h4>Ціна</h4>
@@ -187,7 +216,7 @@ export default function SideBarGoods({
         />
       </div>
 
-      {/* Пол */}
+      {/* Стать (Радіокнопки) */}
       <div className={styles.filterBlock}>
         <div className={styles.filterHeader}>
           <h4>Стать</h4>
@@ -203,24 +232,33 @@ export default function SideBarGoods({
             Очистити
           </button>
         </div>
-        {filters.genders.map(g => {
-          const checked =
-            selectedFilters.gender === g.value;
-          return (
-            <label
-              key={g.value || 'all'}
-              className={styles.radioLabel}
-            >
-              <input
-                type="radio"
-                checked={checked}
-                onChange={() => handleGenderClick(g.value)}
-              />
-              <span className={styles.customRadio} />
-              {g.label}
-            </label>
-          );
-        })}
+        <div className={styles.radioList}>
+          {filters.genders.map(g => {
+            const checked =
+              selectedFilters.gender === g.value;
+            return (
+              <label
+                key={g.value || 'all'}
+                className={styles.radioLabel}
+              >
+                <input
+                  type="radio"
+                  checked={checked}
+                  onChange={() =>
+                    handleGenderClick(g.value)
+                  }
+                  className={styles.hiddenInput}
+                />
+                <span
+                  className={`${styles.customRadio} ${checked ? styles.radioChecked : ''}`}
+                />
+                <span className={styles.labelText}>
+                  {g.label}
+                </span>
+              </label>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

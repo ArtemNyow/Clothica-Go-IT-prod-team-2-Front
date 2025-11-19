@@ -232,17 +232,19 @@
 }
 
 .containerMessageTransactionList {
+
   width: 335px;
   margin: 0 auto;
 }
 
 .transactionList {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+
   align-items: center;
   justify-content: space-between;
   list-style: none;
-
+  gap: 21px;
   margin-bottom: 48px;
 
 
@@ -357,7 +359,7 @@
 
   .transactionList {
     justify-content: flex-start;
-    gap: 171px;
+
   }
 
 

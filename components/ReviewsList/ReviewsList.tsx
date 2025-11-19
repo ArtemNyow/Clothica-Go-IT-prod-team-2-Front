@@ -2,9 +2,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
+// Імпортуйте стилі Swiper, якщо вони ще не підключені глобально
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Keyboard, A11y } from 'swiper/modules';
+import { Keyboard, A11y, Navigation } from 'swiper/modules'; // Додав Navigation модуль явно
 import Link from 'next/link';
 import css from './ReviewsList.module.css';
 import { Review } from '@/types/review';
@@ -70,11 +71,13 @@ const ReviewsList = ({
   const swiperRef = useRef<any>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const [isLocked, setIsLocked] = useState(true);
 
-  const updateNavigationState = () => {
-    if (swiperRef.current) {
-      setIsBeginning(swiperRef.current.isBeginning);
-      setIsEnd(swiperRef.current.isEnd);
+  const updateNavigationState = (swiper: any) => {
+    if (swiper) {
+      setIsBeginning(swiper.isBeginning);
+      setIsEnd(swiper.isEnd);
+      setIsLocked(swiper.isLocked);
     }
   };
 
@@ -100,8 +103,12 @@ const ReviewsList = ({
     );
   }
 
-  const showNavigation = totalReviews >= 4;
-  const swiperSlidesPerView = Math.min(totalReviews, 3);
+  // Використовуємо цей стиль, щоб переконатися, що контейнер слайдера має правильну ширину
+  // Це часто вирішує проблему "одне на одному"
+  const swiperContainerStyle = {
+    width: '100%',
+    position: 'relative' as const,
+  };
 
   return (
     <div className={css.container}>
@@ -117,33 +124,56 @@ const ReviewsList = ({
         )}
       </div>
 
-      <div className={css.list}>
+      {/* Важливо: прибрати className={css.list} якщо там є display: flex */}
+      <div style={swiperContainerStyle}>
         <Swiper
-          modules={[Keyboard, A11y]}
-          slidesPerView={1}
-          breakpoints={{
-            375: { slidesPerView: 1 },
-            768: {
-              slidesPerView: Math.min(
-                swiperSlidesPerView,
-                2
-              ),
-            },
-            1440: { slidesPerView: swiperSlidesPerView },
-          }}
+          modules={[Keyboard, A11y, Navigation]}
+          // observer та observeParents критичні, коли контент завантажується асинхронно
+          // це змушує swiper перерахувати розміри і прибирає накладання
+          observer={true}
+          observeParents={true}
+          watchOverflow={true}
           spaceBetween={32}
           keyboard={{ enabled: true }}
+          a11y={{ enabled: true }}
           onSwiper={swiper => {
             swiperRef.current = swiper;
-            updateNavigationState();
+            updateNavigationState(swiper);
           }}
-          onSlideChange={updateNavigationState}
-          a11y={{ enabled: true }}
-          allowTouchMove={showNavigation}
+          onSlideChange={swiper =>
+            updateNavigationState(swiper)
+          }
+          onResize={swiper => updateNavigationState(swiper)}
+          onLock={swiper => updateNavigationState(swiper)}
+          onUnlock={swiper => updateNavigationState(swiper)}
+          // Логіка відображення:
+          breakpoints={{
+            // Мобільні (до 768px): завжди 1 слайд
+            320: {
+              slidesPerView: 1,
+            },
+            // Планшет (від 768px):
+            // Якщо відгуків >= 2, показуємо 2. Якщо лише 1, показуємо 1 (на всю ширину або як налаштовано)
+            768: {
+              slidesPerView: Math.min(totalReviews, 2),
+            },
+            // Десктоп (від 1440px):
+            // Максимум 3. Але якщо відгуків 2, покаже 2 (широких).
+            1440: {
+              slidesPerView: Math.min(totalReviews, 3),
+            },
+          }}
         >
           {reviews.map(review => (
-            <SwiperSlide key={review._id}>
-              <li className={css.listItem}>
+            <SwiperSlide
+              key={review._id}
+              style={{ height: 'auto' }}
+            >
+              {/* li замінено на div або переконайтеся, що css.listItem має width: 100% */}
+              <div
+                className={css.listItem}
+                style={{ height: '100%' }}
+              >
                 <div className={css.descContainer}>
                   <StarRating rating={review.rate} />
                   <p className={css.text}>
@@ -163,13 +193,13 @@ const ReviewsList = ({
                     </Link>
                   )}
                 </div>
-              </li>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
 
-      {showNavigation && (
+      {!isLocked && (
         <div className={css.btnContainer}>
           <button
             className={`${css.navBtn} ${isBeginning ? css.disabled : ''}`}

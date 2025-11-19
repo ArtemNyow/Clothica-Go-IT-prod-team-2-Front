@@ -25,6 +25,7 @@ import {
   SelectedFilters,
 } from '@/types/filters';
 import GoodsLoader from '../GoodsLoader/GoodsLoader';
+import { useDebounce } from 'use-debounce';
 
 export default function GoodsPage() {
   const router = useRouter();
@@ -59,6 +60,24 @@ export default function GoodsPage() {
       minPrice: undefined,
       maxPrice: undefined,
     });
+
+  const [debouncedMinPrice] = useDebounce(
+    selectedFilters.minPrice,
+    500
+  );
+  const [debouncedMaxPrice] = useDebounce(
+    selectedFilters.maxPrice,
+    500
+  );
+
+  const filtersForQuery = useMemo(
+    () => ({
+      ...selectedFilters,
+      minPrice: debouncedMinPrice,
+      maxPrice: debouncedMaxPrice,
+    }),
+    [selectedFilters, debouncedMinPrice, debouncedMaxPrice]
+  );
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -109,18 +128,18 @@ export default function GoodsPage() {
     data: Good[];
     totalGoods: number;
   }>({
-    queryKey: ['goods', selectedFilters, page],
+    queryKey: ['goods', filtersForQuery, page],
     queryFn: async () => {
       const params: GetGoodsParams = {
         page,
         perPage,
-        category: selectedFilters.category,
-        size: selectedFilters.size.length
-          ? selectedFilters.size
+        category: filtersForQuery.category,
+        size: filtersForQuery.size.length
+          ? filtersForQuery.size
           : undefined,
-        gender: selectedFilters.gender,
-        minPrice: selectedFilters.minPrice,
-        maxPrice: selectedFilters.maxPrice,
+        gender: filtersForQuery.gender,
+        minPrice: filtersForQuery.minPrice,
+        maxPrice: filtersForQuery.maxPrice,
       };
       return await getGoods(params, page, perPage);
     },
@@ -143,26 +162,26 @@ export default function GoodsPage() {
     }
   }, [goodsQuery.data, page]);
 
-  useEffect(() => setPage(1), [selectedFilters]);
+  useEffect(() => setPage(1), [filtersForQuery]);
 
   useEffect(() => {
     const params = new URLSearchParams();
-    if (selectedFilters.category)
-      params.set('category', selectedFilters.category);
-    selectedFilters.size.forEach(s =>
+    if (filtersForQuery.category)
+      params.set('category', filtersForQuery.category);
+    filtersForQuery.size.forEach(s =>
       params.append('size', s)
     );
-    if (selectedFilters.gender)
-      params.set('gender', selectedFilters.gender);
-    if (selectedFilters.minPrice)
+    if (filtersForQuery.gender)
+      params.set('gender', filtersForQuery.gender);
+    if (filtersForQuery.minPrice)
       params.set(
         'minPrice',
-        String(selectedFilters.minPrice)
+        String(filtersForQuery.minPrice)
       );
-    if (selectedFilters.maxPrice)
+    if (filtersForQuery.maxPrice)
       params.set(
         'maxPrice',
-        String(selectedFilters.maxPrice)
+        String(filtersForQuery.maxPrice)
       );
 
     const newUrl = `/goods?${params.toString()}`;
@@ -172,7 +191,7 @@ export default function GoodsPage() {
     if (newUrl !== currentUrl) {
       router.replace(newUrl);
     }
-  }, [selectedFilters, router]);
+  }, [filtersForQuery, router]);
 
   const handleShowMore = () => {
     if (allGoods.length < totalGoods)
@@ -221,9 +240,13 @@ export default function GoodsPage() {
       <main className={styles.mainContent}>
         {isMobile && (
           <div className={styles.mobileFilters}>
-            <h2 className={styles.mobileTitle}>
-              Всі товари
-            </h2>
+            <h3 className={styles.mobileTitle}>
+              {selectedFilters.category
+                ? filters.categories.find(
+                    c => c._id === selectedFilters.category
+                  )?.name
+                : 'Всі товари'}
+            </h3>
             <div className={styles.filtersHeader}>
               <span className={styles.filtersLabel}>
                 Фільтри
@@ -254,7 +277,6 @@ export default function GoodsPage() {
               </div>
               {dropdownOpen && (
                 <div className={styles.dropdownContent}>
-                  {/* Категорії */}
                   <div className={styles.filterBlock}>
                     <div className={styles.filterValues}>
                       <div
@@ -278,7 +300,6 @@ export default function GoodsPage() {
                       ))}
                     </div>
                   </div>
-                  {/* Розміри */}
                   <div className={styles.filterBlock}>
                     <div className={styles.filterHeader}>
                       <strong>Розмір</strong>
@@ -318,7 +339,6 @@ export default function GoodsPage() {
                       })}
                     </div>
                   </div>
-                  {/* Стать */}
                   <div className={styles.filterBlock}>
                     <div className={styles.filterHeader}>
                       <strong>Стать</strong>

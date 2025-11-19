@@ -64,8 +64,7 @@ const CreateOrder = () => {
     onSuccess: () => {
       toast.success('Замовлення створено успішно');
       clearBasket();
-      if (user) router.push('/profile');
-      router.push('/');
+      router.push(user ? '/profile' : '/');
     },
     onError: () => {
       toast.error('Помилка при створенні замовлення');

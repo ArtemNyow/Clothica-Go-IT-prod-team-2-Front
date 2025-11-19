@@ -159,7 +159,7 @@ export default function GoodsDetailsClient() {
       alert('Мінімальна кількість 1');
       return;
     }
-    clearBasket();
+
     addToBasket(basketItem);
     router.push('/orders');
   };
