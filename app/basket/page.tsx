@@ -13,9 +13,7 @@ export default function BasketPage() {
   const openedFromUI = searchParams.get('from') === 'ui';
 
   useEffect(() => {
-    if (!openedFromUI) {
-      router.replace('/goods');
-    }
+    router.replace('/orders');
   }, [openedFromUI, router]);
 
   return openedFromUI ? <BasketModal /> : null;
