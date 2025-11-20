@@ -66,13 +66,6 @@ export const refreshAccessToken = async (): Promise<{
   return res.data;
 };
 
-export const checkSession = async (): Promise<{
-  accessToken?: string;
-}> => {
-  const res = await nextServer.get('/auth/session');
-  return res.data;
-};
-
 export const getCategories = async (
   page: number = 1,
   perPage: number = 10

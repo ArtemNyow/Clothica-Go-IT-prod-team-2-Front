@@ -1,17 +1,37 @@
-import { create } from "zustand";
-import { User } from "@/types/user";
+// authStore.ts
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import type { User } from '@/types/user';
 
-type AuthStore = {
+interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
-  setUser: (user: User | null) => void;
+  hasHydrated: boolean; // тут явно додаємо
+  setUser: (user: User) => void;
   clearAuth: () => void;
-};
+  setHasHydrated: (hasHydrated: boolean) => void;
+}
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  user: null,
-  isAuthenticated: false,
-
-  setUser: (user: User | null) => set({ user, isAuthenticated: true }),
-  clearAuth: () => set({ user: null, isAuthenticated: false }),
-}));
+export const useAuthStore = create<AuthState>()(
+  persist(
+    set => ({
+      user: null,
+      isAuthenticated: false,
+      hasHydrated: false,
+      setUser: user => set({ user, isAuthenticated: true }),
+      clearAuth: () =>
+        set({ user: null, isAuthenticated: false }),
+      setHasHydrated: hasHydrated => set({ hasHydrated }),
+    }),
+    {
+      name: 'auth-store',
+      partialize: state => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
+      onRehydrateStorage: () => state => {
+        state?.setHasHydrated(true);
+      },
+    }
+  )
+);
