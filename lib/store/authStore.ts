@@ -7,6 +7,7 @@ type AuthStore = {
   setUser: (user: User | null) => void;
   clearAuth: () => void;
   setInitialized: (value: boolean) => void;
+  isInitialized: boolean;
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
