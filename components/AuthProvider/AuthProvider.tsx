@@ -18,10 +18,8 @@ export default function AuthProvider({
   const { user, setUser, clearAuth } = useAuthStore();
 
   useEffect(() => {
-    // Пропускаємо сторінки auth
     if (pathname.startsWith('/auth')) return;
 
-    // Якщо немає користувача — нічого не робимо
     if (!user) return;
 
     const silentlyFetchProfile = async () => {
@@ -29,14 +27,12 @@ export default function AuthProvider({
         const profile = await fetchUserProfile();
         setUser(profile);
       } catch (err: any) {
-        // Якщо 401 — пробуємо тихий рефреш
         if (err?.response?.status === 401) {
           try {
-            await refreshAccessToken(); // тихий рефреш
-            const profile = await fetchUserProfile(); // повторно отримуємо профіль
+            await refreshAccessToken();
+            const profile = await fetchUserProfile();
             setUser(profile);
           } catch {
-            // якщо рефреш не пройшов — чистимо auth і редірект
             clearAuth();
             const protectedRoutes = ['/profile'];
             if (
@@ -48,7 +44,6 @@ export default function AuthProvider({
             }
           }
         } else {
-          // інші помилки тихо чистимо auth
           clearAuth();
         }
       }
