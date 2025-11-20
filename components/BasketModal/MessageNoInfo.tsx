@@ -12,7 +12,7 @@ export default function MessageNoInfo({
   onClick,
 }: Props) {
   return (
-    <div>
+    <div className={styles.empty}>
       <p className={styles.messageNoInfo}>{text}</p>
       <button
         onClick={onClick}

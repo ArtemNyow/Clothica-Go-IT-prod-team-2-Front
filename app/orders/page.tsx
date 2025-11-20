@@ -1,10 +1,5 @@
-const OrdersPage = () => {
-  return (
-    <div>
-      <h1> OrdersPage</h1>
-      {/* Форма редагування */}
-    </div>
-  );
-};
+import CreateOrder from "@/components/CreateOrder/CreateOrder";
 
-export default OrdersPage;
+export default function Page() {
+  return <CreateOrder />;
+}

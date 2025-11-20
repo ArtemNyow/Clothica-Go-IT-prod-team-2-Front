@@ -7,8 +7,7 @@
   box-sizing: border-box;
   padding-bottom: 64px;
   padding-top: 64px;
-  background: #f3f9ed;
-
+  background: #f2f8e9;
 }
 
 .imageWrapper {
@@ -323,7 +322,6 @@
   padding-top: 16px;
   padding-bottom: 32px;
 }
-
 
 .descriptionTitle {
   font-family: 'Inter', sans-serif;

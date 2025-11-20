@@ -11,8 +11,9 @@ import styles from './PopularGoods.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import { useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Loader from '../Loader/Loader';
+import type { Swiper as SwiperType } from 'swiper';
 
 const PopularGoods = () => {
   const {
@@ -26,41 +27,22 @@ const PopularGoods = () => {
 
   const goods = Array.isArray(data) ? data : [];
 
-  const prevRef = useRef<HTMLButtonElement | null>(null);
-  const nextRef = useRef<HTMLButtonElement | null>(null);
-  const paginationRef = useRef<HTMLDivElement | null>(null);
-  const swiperRef = useRef<any>(null);
+  const [prevEl, setPrevEl] =
+    useState<HTMLButtonElement | null>(null);
+  const [nextEl, setNextEl] =
+    useState<HTMLButtonElement | null>(null);
+  const [paginationEl, setPaginationEl] =
+    useState<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const updatePaginationPosition = () => {
-      if (!paginationRef.current) return;
-      if (window.innerWidth < 768) {
-        paginationRef.current.style.display = 'flex';
-        paginationRef.current.style.justifyContent =
-          'flex-start';
-        paginationRef.current.style.left = '20px';
-        paginationRef.current.style.transform = 'none';
-      } else {
-        paginationRef.current.style.justifyContent =
-          'center';
-        paginationRef.current.style.left = '50%';
-        paginationRef.current.style.transform =
-          'translateX(-50%)';
-      }
-    };
+  const swiperRef = useRef<SwiperType | null>(null);
 
-    window.addEventListener(
-      'resize',
-      updatePaginationPosition
-    );
-    updatePaginationPosition();
+  const [isPrevDisabled, setPrevDisabled] = useState(true);
+  const [isNextDisabled, setNextDisabled] = useState(false);
 
-    return () =>
-      window.removeEventListener(
-        'resize',
-        updatePaginationPosition
-      );
-  }, []);
+  const updateNavState = (swiper: SwiperType) => {
+    setPrevDisabled(swiper.isBeginning);
+    setNextDisabled(swiper.isEnd);
+  };
 
   if (isLoading) return <Loader />;
   if (isError || goods.length === 0) return null;
@@ -80,6 +62,7 @@ const PopularGoods = () => {
         modules={[Navigation, Pagination]}
         spaceBetween={16}
         slidesPerView={1}
+        className={styles.slider}
         breakpoints={{
           375: { slidesPerView: 1 },
           768: { slidesPerView: 2 },
@@ -87,18 +70,21 @@ const PopularGoods = () => {
         }}
         onSwiper={swiper => {
           swiperRef.current = swiper;
+          updateNavState(swiper);
         }}
+        onSlideChange={swiper => updateNavState(swiper)}
         navigation={{
-          prevEl: prevRef.current,
-          nextEl: nextRef.current,
+          prevEl,
+          nextEl,
         }}
         pagination={{
+          el: paginationEl,
           clickable: true,
-          el: paginationRef.current,
-          bulletClass: styles.bullet,
-          bulletActiveClass: styles.bulletActive,
+          dynamicBullets: true,
+          renderBullet: (index, className) => {
+            return `<span class="${className}"></span>`;
+          },
         }}
-        className={styles.slider}
       >
         {goods.map(item => (
           <SwiperSlide
@@ -150,35 +136,34 @@ const PopularGoods = () => {
         ))}
       </Swiper>
 
-      <div className={styles.paginationWrapper}>
+      <div className={styles.controlsContainer}>
         <div
-          ref={paginationRef}
-          className={`swiper-pagination ${styles.pagination}`}
-          suppressHydrationWarning
-        ></div>
-      </div>
+          className={styles.paginationContainer}
+          ref={node => setPaginationEl(node)}
+        />
 
-      <div className={styles.navButtons}>
-        <button
-          ref={prevRef}
-          className={styles.navPrev}
-          aria-label="Назад"
-          onClick={() => swiperRef.current?.slidePrev()}
-        >
-          <svg className={styles.iconArrow}>
-            <use href="/sprite.svg#icon-arrow-back" />
-          </svg>
-        </button>
-        <button
-          ref={nextRef}
-          className={styles.navNext}
-          aria-label="Вперед"
-          onClick={() => swiperRef.current?.slideNext()}
-        >
-          <svg className={styles.iconArrow}>
-            <use href="/sprite.svg#icon-arrow-forward" />
-          </svg>
-        </button>
+        <div className={styles.navButtons}>
+          <button
+            ref={node => setPrevEl(node)}
+            className={`${styles.navPrev} ${isPrevDisabled ? styles.disabled : ''}`}
+            aria-label="Назад"
+            disabled={isPrevDisabled}
+          >
+            <svg className={styles.iconArrow}>
+              <use href="/sprite.svg#icon-arrow-back" />
+            </svg>
+          </button>
+          <button
+            ref={node => setNextEl(node)}
+            className={`${styles.navNext} ${isNextDisabled ? styles.disabled : ''}`}
+            aria-label="Вперед"
+            disabled={isNextDisabled}
+          >
+            <svg className={styles.iconArrow}>
+              <use href="/sprite.svg#icon-arrow-forward" />
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
   );

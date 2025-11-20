@@ -1,0 +1,198 @@
+.button,
+.input,
+.label,
+.textarea,
+.errorMessage {
+  font-family: 'Inter', sans-serif;
+}
+
+.title {
+  font-family: 'Nunito', sans-serif;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.container {
+  border-radius: 16px;
+  padding: 40px 20px;
+  max-width: 335px;
+  min-height: 587px;
+  background: #f9fcf6;
+  padding: 40px 20px;
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.closeBtn:focus,
+.closeBtn:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.closeIcon {
+  stroke: #000;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+.input {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 8px;
+  width: 295px;
+  height: 40px;
+  background-color: transparent;
+  outline: none;
+  color: #000000;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.input:focus-within,
+.textarea:focus-within {
+  border: 1px solid #c5e1a5;
+}
+
+.textarea {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 12px;
+  width: 295px;
+  height: 180px;
+  background-color: transparent;
+  outline: none;
+  color: #000000;
+  resize: none;
+}
+
+.errorMessage {
+  color: #9d0000;
+}
+
+.button {
+  background-color: #c5e1a5;
+  border: transparent;
+  border-radius: 100px;
+  padding: 6px 12px;
+  max-height: 36px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: #000000;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.button:hover:enabled,
+.button:focus:enabled {
+  background-color: #9db484;
+  border: 1px solid #4e5a42;
+}
+
+.button:active:enabled {
+  color: #fff;
+  background-color: #3b4331;
+  border: 1px solid #c5e1a5;
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 40px 64px;
+    min-width: 704px;
+    min-height: 587px;
+  }
+
+  .closeBtn {
+    right: 16px;
+  }
+
+  .input {
+    width: 576px;
+    height: 40px;
+  }
+
+  .textarea {
+    width: 576px;
+    height: 180px;
+  }
+
+  .button {
+    min-width: 105px;
+    height: 36px;
+    align-self: center;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    padding: 64px;
+    min-width: 768px;
+    min-height: 650px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .closeBtn {
+    top: 24px;
+    right: 24px;
+  }
+}

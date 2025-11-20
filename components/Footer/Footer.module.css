@@ -1,10 +1,12 @@
-s.footer {}
+.footer {
+  background: #c5e1a5;
+}
 
 .container {
   width: 100%;
   padding: 48px 20px;
   margin: 0 auto;
-  background: #c5e1a5;
+
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -16,13 +18,11 @@ s.footer {}
   align-items: center;
 }
 
-
 .containerFooterFirst {
   display: flex;
   flex-direction: column;
   padding-bottom: 32px;
 }
-
 
 .footerFirstPartFirst {
   display: flex;
@@ -70,14 +70,15 @@ s.footer {}
   transition: all 0.3s ease;
 }
 
-.footerNavItem:hover {
-  color: #9db484;
+.footerNavItem:hover,
+.footerNavItem:focus {
+  border-bottom: 1px solid #000;
 }
 
 .footerNavItem:active {
   color: #9db484;
+  border-bottom: 1px solid #4e5a42;
 }
-
 
 .footerFirstPartSecond {
   display: flex;
@@ -124,6 +125,7 @@ s.footer {}
   width: 193px;
   height: 40px;
   background: rgba(255, 255, 255, 0);
+  color: #000;
 }
 
 .fieldInput::placeholder {

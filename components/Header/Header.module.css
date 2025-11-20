@@ -1,6 +1,8 @@
 .header {
   font-family: 'Inter', sans-serif;
   position: relative;
+  background-color: #d6eac0;
+  border-bottom: 1px solid #9db484;
 }
 
 .container {
@@ -8,9 +10,6 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 375px;
-  background-color: #d6eac0;
-  border-bottom: 1px solid #9db484;
   padding: 18px 20px;
   margin: 0 auto;
 }
@@ -113,7 +112,6 @@
   transition:
     opacity 300ms ease-out,
     transform 300ms ease-out;
-
 }
 
 .navMobile.show {
@@ -143,7 +141,7 @@
   font-size: 14px;
   line-height: 1.5;
   color: #000;
-  transition: color 0.2s;
+  transition: all 0.3s ease;
 }
 
 .link:hover,
@@ -151,7 +149,10 @@
   border-bottom: 1px solid #000;
 }
 
-
+.link:active {
+  color: #9db484;
+  border-bottom: 1px solid #4e5a42;
+}
 
 .userName {
   color: #000;
@@ -214,6 +215,12 @@
 
   100% {
     background-position: -200% 0;
+  }
+}
+
+@media screen and (min-width: 375px) {
+  .container {
+    max-width: 375px;
   }
 }
 

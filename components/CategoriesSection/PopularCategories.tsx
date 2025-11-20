@@ -66,7 +66,7 @@ function PopularCategories() {
             {categories.map(category => (
               <SwiperSlide key={category._id}>
                 <Link
-                  href={`/categories/${category._id}`}
+                  href={`/goods?category=${category._id}`}
                   className={css.CategoriesLink}
                 >
                   <div className={css.imageWrapper}>

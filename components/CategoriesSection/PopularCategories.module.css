@@ -40,17 +40,25 @@
   background: rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 100px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   width: 122px;
   height: 36px;
+  transition: all 0.3s ease;
 }
 
-.button:hover {
+.button:hover,
+.button:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
   background: rgba(0, 0, 0, 0.15);
+}
+
+.button:active {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .CategoriesList {
@@ -123,8 +131,7 @@
 .prevButton,
 .nextButton {
   border: 1px solid #f9fcf6;
-  border-radius: 100px;
-
+  border-radius: 50%;
   width: 48px;
   height: 48px;
   background: #c5e1a5;
@@ -134,6 +141,7 @@
   justify-content: center;
   cursor: pointer;
   z-index: 10;
+  transition: all 0.3s ease;
 }
 
 .prevButton svg,
@@ -146,7 +154,9 @@
 }
 
 .prevButton:hover,
-.nextButton:hover {
+.prevButton:focus,
+.nextButton:hover,
+.nextButton:focus {
   background: #9db484;
   border: 1px solid #4e5a42;
 }
@@ -179,7 +189,6 @@
 
 @media (min-width: 768px) {
   .categories {
-
     max-width: 768px;
   }
 

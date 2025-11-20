@@ -1,10 +1,2 @@
-const goodsPage = () => {
-  return (
-    <div>
-      <h1> goodsPage</h1>
-      {/* Форма редагування */}
-    </div>
-  );
-};
-
-export default goodsPage;
+import GoodsPage from './filter/[...slug]/page';
+export default GoodsPage;

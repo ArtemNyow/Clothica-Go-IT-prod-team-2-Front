@@ -1,9 +1,11 @@
 export interface User {
   _id: string;
-  firstName: string;
+  firstName?: string;
   lastName?: string;
-  phone: string;
-  email: string;
+  phone: number;
+  email?: string;
+  city?: string;
+  postOffice?: string;
   avatar?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -19,4 +21,18 @@ export interface RegisterRequest {
 export interface LoginRequest {
   phone: string;
   password: string;
+}
+
+export interface UserFormValues {
+  _id?: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  city: string;
+  postOffice: string;
+  avatar?: string;
+  comment?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

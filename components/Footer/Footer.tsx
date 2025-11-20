@@ -5,6 +5,7 @@ import css from './Footer.module.css';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
+import Link from 'next/link';
 
 const subscriptionSchema = Yup.object().shape({
   email: Yup.string()
@@ -33,24 +34,26 @@ export default function Footer() {
         <div className={css.containerFooter}>
           <div className={css.containerFooterFirst}>
             <div className={css.footerFirstPartFirst}>
-              <a className={css.logoFooter} href="/">
+              <Link className={css.logoFooter} href="/">
                 <img
                   className={css.imgLogoFooter}
                   src="/logo.svg"
                   alt="logo"
                 />
-              </a>
+              </Link>
               <div className={css.footerItemsNavList}>
                 <p className={css.footerItemsTitle}>Меню</p>
                 <ul className={css.footerNavList}>
                   <li className={css.footerNavItem}>
-                    <a href="/">Головна</a>
+                    <Link href="/">Головна</Link>
                   </li>
                   <li className={css.footerNavItem}>
-                    <a href="/">Товари</a>
+                    <Link href="/goods">Товари</Link>
                   </li>
                   <li className={css.footerNavItem}>
-                    <a href="/">Категорії</a>
+                    <Link href="/categories">
+                      Категорії
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -100,32 +103,32 @@ export default function Footer() {
             <div className={css.footerSocial}>
               <ul className={css.socialListFooter}>
                 <li className={css.socialFooter}>
-                  <a href="https://www.facebook.com/">
+                  <Link href="https://www.facebook.com/">
                     <svg width={50} height={50}>
                       <use href="/sprite.svg#icon-facebook" />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className={css.socialFooter}>
-                  <a href="https://www.instagram.com/">
+                  <Link href="https://www.instagram.com/">
                     <svg width={50} height={50}>
                       <use href="/sprite.svg#icon-instagram" />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className={css.socialFooter}>
-                  <a href="https://x.com/">
+                  <Link href="https://x.com/">
                     <svg width={50} height={50}>
                       <use href="/sprite.svg#icon-x" />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className={css.socialFooter}>
-                  <a href="https://www.youtube.com/">
+                  <Link href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
                     <svg width={50} height={50}>
                       <use href="/sprite.svg#icon-youtube" />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

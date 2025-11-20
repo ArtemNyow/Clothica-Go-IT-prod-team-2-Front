@@ -12,6 +12,53 @@ import { useBasketStore } from '@/lib/store/basketStore';
 import CustomSelect from '@/components/CustomSelect/CustomSelect';
 import Loader from '@/components/Loader/Loader';
 import ReviewsList from '@/components/ReviewsList/ReviewsList';
+import ReviewModal from '@/components/ReviewModal/ReviewModal';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const good = await getGoodById(params.id);
+
+  if (!good) {
+    return {
+      title: 'Товар не знайдено | Clothica',
+      description:
+        'Даний товар не знайдено у нашому каталозі.',
+    };
+  }
+
+  return {
+    title: `${good.name} | Clothica`,
+    description:
+      good.prevDescription ||
+      good.description ||
+      'Clothica – стильний одяг онлайн',
+    openGraph: {
+      title: `${good.name} | Clothica`,
+      description: good.prevDescription || good.description,
+      images: [
+        {
+          url: good.image,
+          width: 1200,
+          height: 630,
+          alt: good.name,
+        },
+      ],
+      type: 'website',
+      locale: 'uk_UA',
+      url: `https://clothica-go-it-prod-team-2-front.vercel.app/goods/${params.id}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${good.name} | Clothica`,
+      description: good.prevDescription || good.description,
+      images: [good.image],
+    },
+  };
+}
 
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -54,6 +101,7 @@ export default function GoodsDetailsClient() {
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [isClient, setIsClient] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -111,13 +159,21 @@ export default function GoodsDetailsClient() {
       alert('Мінімальна кількість 1');
       return;
     }
-    clearBasket();
+
     addToBasket(basketItem);
     router.push('/orders');
   };
 
   if (!good.size || good.size.length === 0) {
     return <p>Розміри товару недоступні.</p>;
+  }
+
+  function handleOpenModal() {
+    setIsOpen(true);
+  }
+
+  function handleCloseModal() {
+    setIsOpen(false);
   }
 
   return (
@@ -144,7 +200,11 @@ export default function GoodsDetailsClient() {
               </svg>
             </li>
             <li className={css.link}>
-              <Link href="/categories">Категорія</Link>
+              <Link
+                href={`/goods?category=${good.category}`}
+              >
+                Категорія
+              </Link>
             </li>
             <li className={css.link}>
               <svg className={css.svg}>
@@ -204,7 +264,6 @@ export default function GoodsDetailsClient() {
               <div className={css.formCount}>
                 <input
                   id="quantity"
-                  type="number"
                   value={quantity}
                   min={1}
                   onChange={e =>
@@ -268,7 +327,15 @@ export default function GoodsDetailsClient() {
         id={id}
         title="Відгуки клієнтів"
         showAddButton={true}
+        onOpenModal={handleOpenModal}
       />
+
+      {isOpen && (
+        <ReviewModal
+          onClose={handleCloseModal}
+          goodId={id}
+        />
+      )}
     </>
   );
 }

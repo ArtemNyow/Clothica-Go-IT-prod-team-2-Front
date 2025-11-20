@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 import { api } from '../api';
 
 export async function GET(req: NextRequest) {
@@ -21,20 +20,25 @@ export async function GET(req: NextRequest) {
       req.nextUrl.searchParams.get('gender') ?? undefined;
 
     const params: Record<string, any> = { page, perPage };
-    if (category) params.category = category;
+
+    if (category && category !== 'Всі товари')
+      params.category = category;
     if (minPrice) params.minPrice = minPrice;
     if (maxPrice) params.maxPrice = maxPrice;
-    if (size.length > 0) params.size = size;
+    if (size.length) params.size = size;
     if (gender) params.gender = gender;
 
     const { data } = await api.get('/goods', { params });
 
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error('Failed to fetch goods:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch goods' },
-      { status: 500 }
+    return NextResponse.json({
+      data: data?.data ?? [],
+      totalGoods: data?.totalGoods ?? 0,
+    });
+  } catch (error: any) {
+    console.error(
+      'Failed to fetch goods:',
+      error.response?.data || error
     );
+    return NextResponse.json({ data: [], totalGoods: 0 });
   }
 }
